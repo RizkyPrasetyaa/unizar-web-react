@@ -58,9 +58,8 @@ export const CAMPUS_STATS = [
   { value: '13', label: 'Program studi', labelEn: 'Study programmes' },
 ]
 
-// SK Rektor tentang Diferensiasi Misi — dipakai tombol download di popup fokus.
-export const SK_DIFERENSIASI_MISI_URL = '/download/sk-rektor-diferensiasi-misi.pdf'
-
+// Tombol aksi per kartu fokus (dipakai footer popup detail):
+// kind 'download' → unduh dokumen; kind 'link' → navigasi internal via toHref.
 export const FOCUS_AREAS = [
   {
     key: 'pendidikan',
@@ -85,6 +84,11 @@ export const FOCUS_AREAS = [
         'MBKM dan rekognisi pembelajaran lampau (RPL)',
         'Tracer study dan survei kepuasan pengguna lulusan',
       ],
+    },
+    action: {
+      kind: 'download',
+      label: 'SK Rektor Tentang Diferensiasi Misi',
+      href: '/download/sk-rektor-diferensiasi-misi.pdf',
     },
   },
   {
@@ -111,6 +115,11 @@ export const FOCUS_AREAS = [
         'Kanal pelaporan rahasia (WBS)',
       ],
     },
+    action: {
+      kind: 'download',
+      label: 'SK YPLA Tentang KEUNIZARAN',
+      href: '/download/sk-ypla-keunizaran.pdf',
+    },
   },
   {
     key: 'pariwisata',
@@ -135,6 +144,11 @@ export const FOCUS_AREAS = [
         'Pendampingan UMKM halal dan desa wisata binaan',
         'Kemitraan dengan pemerintah daerah dan pelaku industri pariwisata',
       ],
+    },
+    action: {
+      kind: 'link',
+      label: 'Kurikulum OBE',
+      to: '/pendidikan#kurikulum',
     },
   },
 ]

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowRight, Download, X } from 'lucide-react'
-import { FOCUS_AREAS, SK_DIFERENSIASI_MISI_URL } from '../../data/content.js'
+import { FOCUS_AREAS } from '../../data/content.js'
 import Pill from '../ui/Pill.jsx'
 import PhotoSlot from '../ui/PhotoSlot.jsx'
 import { toHref } from '../../lib/router.js'
@@ -120,14 +120,25 @@ export default function FocusSection() {
             </div>
 
             <footer className="pop-ft">
-              <a
-                href={SK_DIFERENSIASI_MISI_URL}
-                download
-                className="btn btn-dark w-full justify-center"
-              >
-                <Download size={18} strokeWidth={2} />
-                SK Rektor Tentang Diferensiasi Misi
-              </a>
+              {active.action.kind === 'download' ? (
+                <a
+                  href={active.action.href}
+                  download
+                  className="btn btn-dark w-full justify-center"
+                >
+                  <Download size={18} strokeWidth={2} />
+                  {active.action.label}
+                </a>
+              ) : (
+                <a
+                  href={toHref(active.action.to)}
+                  onClick={() => setActive(null)}
+                  className="btn btn-dark w-full justify-center"
+                >
+                  {active.action.label}
+                  <ArrowRight size={18} strokeWidth={1.9} />
+                </a>
+              )}
             </footer>
           </aside>
         </div>
