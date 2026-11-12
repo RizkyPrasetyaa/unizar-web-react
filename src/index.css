@@ -892,6 +892,13 @@
     font-size: 15px;
     line-height: 1.65;
   }
+  /* Foto placeholder di atas popup detail — tinggi dikunci via CSS
+     supaya tidak bergantung pada kelas Tailwind JIT (h-[230px]). */
+  .pop-bd > .ph {
+    height: 230px;
+    border-radius: 0;
+    flex-shrink: 0;
+  }
 
   .pop-meta {
     margin: 0;
