@@ -1,11 +1,32 @@
-import { ArrowRight } from 'lucide-react'
-import { FOCUS_AREAS } from '../../data/content.js'
+import { useEffect, useRef, useState } from 'react'
+import { ArrowRight, Download, X } from 'lucide-react'
+import { FOCUS_AREAS, SK_DIFERENSIASI_MISI_URL } from '../../data/content.js'
 import Pill from '../ui/Pill.jsx'
 import PhotoSlot from '../ui/PhotoSlot.jsx'
 import { toHref } from '../../lib/router.js'
 
-// FocusSection — 3 kartu fokus keunggulan UNIZAR
+// FocusSection — 3 kartu fokus keunggulan UNIZAR.
+// Klik kartu membuka panel detail di samping; panel hanya berisi
+// satu tombol download SK Rektor tentang Diferensiasi Misi.
 export default function FocusSection() {
+  const [active, setActive] = useState(null)
+  const closeRef = useRef(null)
+
+  // Esc menutup panel + kunci scroll body selama panel terbuka
+  useEffect(() => {
+    if (!active) return undefined
+    const onKey = (e) => {
+      if (e.key === 'Escape') setActive(null)
+    }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    closeRef.current?.focus()
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [active])
+
   return (
     <section className="sec">
       <div className="wrap">
@@ -25,7 +46,12 @@ export default function FocusSection() {
           {FOCUS_AREAS.map((f) => (
             <a
               key={f.key}
-              href={toHref(f.to)}
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                setActive(f)
+              }}
+              aria-haspopup="dialog"
               className="card p-0 overflow-hidden card-link"
             >
               <PhotoSlot
@@ -43,6 +69,69 @@ export default function FocusSection() {
           ))}
         </div>
       </div>
+
+      {active && (
+        <div className="pop-root">
+          <div className="pop-backdrop" onClick={() => setActive(null)} />
+          <aside className="pop" role="dialog" aria-modal="true" aria-label={active.title}>
+            <header className="pop-hd">
+              <span className="eyebrow">Fokus keunggulan</span>
+              <h3>{active.title}</h3>
+              <button
+                ref={closeRef}
+                type="button"
+                className="pop-x"
+                onClick={() => setActive(null)}
+                aria-label="Tutup panel detail"
+              >
+                <X size={18} strokeWidth={2} />
+              </button>
+            </header>
+
+            <div className="pop-bd">
+              <PhotoSlot
+                variant={active.photoVariant}
+                caption={active.photoCaption.replace(/^Foto: /, '')}
+                className="h-[210px] rounded-none"
+                aria-label={active.photoCaption}
+              />
+
+              <dl className="pop-meta">
+                {active.detail.meta.map(([label, value]) => (
+                  <div key={label} className="contents">
+                    <dt>{label}</dt>
+                    <dd>{value}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              {active.detail.paragraphs.map((p) => (
+                <p key={p.slice(0, 24)}>{p}</p>
+              ))}
+
+              <div className="pop-list">
+                <b>Wujud nyata</b>
+                <ul className="clean">
+                  {active.detail.wujudNyata.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <footer className="pop-ft">
+              <a
+                href={SK_DIFERENSIASI_MISI_URL}
+                download
+                className="btn btn-dark w-full justify-center"
+              >
+                <Download size={18} strokeWidth={2} />
+                SK Rektor Tentang Diferensiasi Misi
+              </a>
+            </footer>
+          </aside>
+        </div>
+      )}
     </section>
   )
 }
