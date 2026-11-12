@@ -91,8 +91,8 @@ export default function FocusSection() {
             <div className="pop-bd">
               <PhotoSlot
                 variant={active.photoVariant}
-                caption={active.photoCaption.replace(/^Foto: /, '')}
-                className="h-[210px] rounded-none"
+                caption={active.photoCaption}
+                className="h-[230px] rounded-none"
                 aria-label={active.photoCaption}
               />
 
