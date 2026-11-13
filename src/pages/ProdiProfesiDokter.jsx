@@ -3,7 +3,6 @@ import Subnav from '../components/layout/Subnav.jsx'
 import Card from '../components/ui/Card.jsx'
 import Pill from '../components/ui/Pill.jsx'
 import Button from '../components/ui/Button.jsx'
-import ProdiSwitcher from '../components/ui/ProdiSwitcher.jsx'
 import SmartLink from '../components/ui/SmartLink.jsx'
 import { ExternalLink, ArrowRight } from 'lucide-react'
 
@@ -92,14 +91,6 @@ export default function ProdiProfesiDokter() {
               <span className="eyebrow">Tentang</span>
               <h2>Program studi Profesi Dokter</h2>
             </div>
-          </div>
-          <div style={{ marginBottom: '20px' }}>
-            <ProdiSwitcher
-              items={[
-                { label: 'Pendidikan Dokter', to: '/prodi/pendidikan-dokter' },
-                { label: 'Profesi Dokter', to: '/prodi/profesi-dokter' },
-              ]}
-            />
           </div>
           <div className="split">
             <div style={{ display: 'grid', gap: '14px', maxWidth: '64ch' }}>

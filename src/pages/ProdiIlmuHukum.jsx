@@ -3,7 +3,6 @@ import Subnav from '../components/layout/Subnav.jsx'
 import Card from '../components/ui/Card.jsx'
 import Pill from '../components/ui/Pill.jsx'
 import Button from '../components/ui/Button.jsx'
-import ProdiSwitcher from '../components/ui/ProdiSwitcher.jsx'
 import SmartLink from '../components/ui/SmartLink.jsx'
 import { ExternalLink, ArrowRight } from 'lucide-react'
 
@@ -69,13 +68,6 @@ export default function ProdiIlmuHukum() {
               <span className="eyebrow">Tentang</span>
               <h2>Program studi Ilmu Hukum</h2>
             </div>
-          </div>
-          <div style={{ marginBottom: '20px' }}>
-            <ProdiSwitcher
-              items={[
-                { label: 'Ilmu Hukum', to: '/prodi/ilmu-hukum' },
-              ]}
-            />
           </div>
           <div className="split">
             <div style={{ display: 'grid', gap: '14px', maxWidth: '64ch' }}>

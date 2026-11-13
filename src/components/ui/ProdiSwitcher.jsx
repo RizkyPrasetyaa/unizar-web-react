@@ -2,9 +2,10 @@ import Button from './Button.jsx'
 import { useHashRouter } from '../../lib/router.js'
 
 /**
- * ProdiSwitcher — deretan tombol prodi.
- * Tombol yang sesuai route saat ini = variant "dark" (hijau).
- * Jika tidak ada yang match (mis. di halaman fakultas), tombol pertama jadi dark.
+ * ProdiSwitcher
+ *
+ * - Di halaman prodi (ada yang match route): hanya tampilkan tombol prodi aktif (hijau).
+ * - Di halaman fakultas (tidak ada yang match): tampilkan semua tombol (switcher).
  *
  * items: [{ label: 'Pendidikan Dokter', to: '/prodi/pendidikan-dokter' }, ...]
  */
@@ -15,15 +16,22 @@ export default function ProdiSwitcher({ items = [], className }) {
   const activeIndex = items.findIndex(
     (item) => current === item.to || current.startsWith(item.to + '/')
   )
-  // Jika tidak ada yang aktif (halaman fakultas), highlight yang pertama
-  const resolvedActive = activeIndex >= 0 ? activeIndex : 0
+
+  // Di halaman prodi → hanya tampilkan tombol yang aktif
+  // Di halaman fakultas → tampilkan semua
+  const visibleItems =
+    activeIndex >= 0
+      ? [{ ...items[activeIndex], _active: true }]
+      : items.map((item, i) => ({ ...item, _active: i === 0 }))
+
+  if (visibleItems.length === 0) return null
 
   return (
     <div className={`btn-row ${className || ''}`} style={{ gap: '8px' }}>
-      {items.map((item, i) => (
+      {visibleItems.map((item) => (
         <Button
           key={item.to}
-          variant={i === resolvedActive ? 'dark' : 'line'}
+          variant={item._active ? 'dark' : 'line'}
           href={item.to}
         >
           {item.label}

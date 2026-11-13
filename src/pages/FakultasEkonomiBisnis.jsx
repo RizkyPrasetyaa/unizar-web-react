@@ -4,7 +4,6 @@ import Card from '../components/ui/Card.jsx'
 import Pill from '../components/ui/Pill.jsx'
 import PhotoSlot from '../components/ui/PhotoSlot.jsx'
 import Button from '../components/ui/Button.jsx'
-import ProdiSwitcher from '../components/ui/ProdiSwitcher.jsx'
 import { ExternalLink } from 'lucide-react'
 
 const PRODI_CARDS = [
@@ -72,12 +71,6 @@ export default function FakultasEkonomiBisnis() {
               <p className="muted">
                 Halaman fakultas memakai templat yang sama dengan universitas sehingga tim fakultas cukup mengisi teks, foto, dan berita.
               </p>
-              <ProdiSwitcher
-                items={[
-                  { label: 'Akuntansi', to: '/prodi/akuntansi' },
-                  { label: 'Ekonomi Pembangunan', to: '/prodi/ekonomi-pembangunan' },
-                ]}
-              />
             </div>
             <PhotoSlot
               caption="Foto: Dekan bersama mahasiswa"
