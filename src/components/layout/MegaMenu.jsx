@@ -42,7 +42,7 @@ export default function MegaMenu({ menu, onClose }) {
               key={i}
               href={toHref(l.to)}
               onClick={onClose}
-              className="block px-3.5 py-3 rounded-r no-underline text-ink hover:bg-em-50 transition-colors"
+              className="block px-3.5 py-3 rounded-card no-underline text-ink hover:bg-em-50 transition-colors"
             >
               <b className="flex items-center gap-1.5 text-[15px]">{l.title}</b>
               {l.desc && (
@@ -58,7 +58,7 @@ export default function MegaMenu({ menu, onClose }) {
         <a
           href={toHref(feat.to)}
           onClick={onClose}
-          className="mega-feat overflow-hidden rounded-r bg-em-50 no-underline text-ink flex flex-col"
+          className="mega-feat overflow-hidden rounded-card bg-em-50 no-underline text-ink flex flex-col"
         >
           <PhotoSlot className="h-[140px]" variant="default" caption="" />
           <div className="p-3.5">

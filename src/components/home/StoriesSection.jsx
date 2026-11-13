@@ -26,7 +26,7 @@ export default function StoriesSection() {
         <div className="stories">
           <a
             href={toHref(big.to)}
-            className="story flex flex-col bg-white border border-line rounded-r overflow-hidden no-underline text-ink hover:shadow-card transition-shadow card-link"
+            className="story flex flex-col bg-white border border-line rounded-card overflow-hidden no-underline text-ink hover:shadow-card transition-shadow card-link"
           >
             <PhotoSlot
               variant={big.photoVariant || 'default'}
@@ -47,7 +47,7 @@ export default function StoriesSection() {
               <a
                 key={s.key}
                 href={toHref(s.to)}
-                className="story sm flex flex-row bg-white border border-line rounded-r overflow-hidden no-underline text-ink hover:shadow-card transition-shadow card-link"
+                className="story sm flex flex-row bg-white border border-line rounded-card overflow-hidden no-underline text-ink hover:shadow-card transition-shadow card-link"
               >
                 <PhotoSlot
                   variant={s.photoVariant || 'default'}

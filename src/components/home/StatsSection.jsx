@@ -6,7 +6,7 @@ export default function StatsSection() {
   return (
     <section className="sec">
       <div className="wrap">
-        <div className="stats grid grid-cols-4 border border-line rounded-r-lg bg-white overflow-hidden">
+        <div className="stats grid grid-cols-4 border border-line rounded-panel bg-white overflow-hidden">
           {CAMPUS_STATS.map((s, i) => (
             <div
               key={i}

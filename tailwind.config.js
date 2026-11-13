@@ -39,13 +39,14 @@ export default {
         arab: ['Amiri', '"Traditional Arabic"', 'serif'],
       },
       // Sistem radius konsisten di seluruh situs:
-      //   rounded-r     (14px) — cards, buttons, inputs, chips, icon badges
-      //   rounded-r-lg  (22px) — panels, banners, modal search, big stat grid
+      //   rounded-card   (14px) — cards, buttons, inputs, chips, icon badges
+      //   rounded-panel  (22px) — panels, banners, modal search, big stat grid
       //   rounded-full         — pills / chip buttons (intentional pill shape)
-      // Hindari rounded-xl (12), rounded-[10px], rounded-[13px], dll.
+      // Token 'r' tidak dipakai karena bentrok dengan built-in Tailwind directional
+      // (rounded-r = "right side, 4px"), yang bikin button rounded kiri-kanan asimetris.
       borderRadius: {
-        r: '14px',
-        'r-lg': '22px',
+        card: '14px',
+        panel: '22px',
       },
       maxWidth: {
         wrap: '1200px',

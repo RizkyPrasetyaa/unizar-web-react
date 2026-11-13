@@ -155,7 +155,7 @@
 
   /* Tombol */
   .btn {
-    @apply inline-flex items-center gap-2 rounded-r font-extrabold leading-tight;
+    @apply inline-flex items-center gap-2 rounded-card font-extrabold leading-tight;
     padding: 13px 22px;
     font-size: 15px;
     text-decoration: none;
@@ -206,7 +206,7 @@
 
   /* Card */
   .card {
-    @apply flex flex-col gap-2.5 rounded-r border border-line bg-surface p-[22px];
+    @apply flex flex-col gap-2.5 rounded-card border border-line bg-surface p-[22px];
     min-width: 0;
   }
   .card h3 {
@@ -881,7 +881,7 @@
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
   .ppepp .step {
-    @apply rounded-r p-4 text-center;
+    @apply rounded-card p-4 text-center;
     background: #f1f7f3;
   }
   .ppepp .step b {
@@ -936,7 +936,7 @@
   }
   .toolbar .field input,
   .toolbar .field select {
-    @apply rounded-r border border-line px-3 py-2;
+    @apply rounded-card border border-line px-3 py-2;
     font-family: inherit;
     font-size: 14px;
     background: #fff;
@@ -1020,7 +1020,7 @@
 
   /* Slim banner */
   .slim {
-    @apply flex items-center justify-between gap-4 flex-wrap p-[18px] px-[22px] rounded-r bg-white border border-line;
+    @apply flex items-center justify-between gap-4 flex-wrap p-[18px] px-[22px] rounded-card bg-white border border-line;
   }
   .slim.jdih {
     background: #f1f7f3;
