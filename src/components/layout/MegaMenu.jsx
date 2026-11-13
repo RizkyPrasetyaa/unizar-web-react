@@ -42,7 +42,7 @@ export default function MegaMenu({ menu, onClose }) {
               key={i}
               href={toHref(l.to)}
               onClick={onClose}
-              className="block px-3.5 py-3 rounded-xl no-underline text-ink hover:bg-em-50 transition-colors"
+              className="block px-3.5 py-3 rounded-r no-underline text-ink hover:bg-em-50 transition-colors"
             >
               <b className="flex items-center gap-1.5 text-[15px]">{l.title}</b>
               {l.desc && (

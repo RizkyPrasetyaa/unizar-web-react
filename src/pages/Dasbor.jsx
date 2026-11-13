@@ -337,7 +337,7 @@ export default function Dasbor() {
                     style={{
                       border: '1px solid #dce6e0',
                       background: '#fff',
-                      borderRadius: '10px',
+                      borderRadius: '14px',
                       padding: '11px 14px',
                       fontSize: '15px',
                       width: '100%',
@@ -520,7 +520,7 @@ export default function Dasbor() {
                       padding: '12px 14px',
                       background: '#fff',
                       border: '1px solid #dce6e0',
-                      borderRadius: '12px',
+                      borderRadius: '14px',
                     }}
                   >
                     <span style={{ display: 'grid', placeItems: 'center' }}>

@@ -38,6 +38,11 @@ export default {
         sans: ['"Plus Jakarta Sans"', 'Segoe UI', 'system-ui', 'sans-serif'],
         arab: ['Amiri', '"Traditional Arabic"', 'serif'],
       },
+      // Sistem radius konsisten di seluruh situs:
+      //   rounded-r     (14px) — cards, buttons, inputs, chips, icon badges
+      //   rounded-r-lg  (22px) — panels, banners, modal search, big stat grid
+      //   rounded-full         — pills / chip buttons (intentional pill shape)
+      // Hindari rounded-xl (12), rounded-[10px], rounded-[13px], dll.
       borderRadius: {
         r: '14px',
         'r-lg': '22px',

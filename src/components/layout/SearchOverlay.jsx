@@ -79,7 +79,7 @@ export default function SearchOverlay({ open, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="border-0 bg-transparent w-11 h-11 rounded-xl grid place-items-center text-em-800 hover:bg-em-50"
+            className="border-0 bg-transparent w-11 h-11 rounded-r grid place-items-center text-em-800 hover:bg-em-50"
             aria-label="Tutup pencarian"
           >
             <X size={18} strokeWidth={1.9} />
@@ -106,8 +106,8 @@ export default function SearchOverlay({ open, onClose }) {
           ))}
         </ul>
         <div className="hint p-3.5 px-5 text-muted text-sm">
-          Tekan <kbd className="px-1.5 py-0.5 border border-line rounded">/</kbd> untuk mencari,{' '}
-          <kbd className="px-1.5 py-0.5 border border-line rounded">Esc</kbd> untuk menutup.
+          Tekan <kbd className="px-1.5 py-0.5 border border-line rounded-r">/</kbd> untuk mencari,{' '}
+          <kbd className="px-1.5 py-0.5 border border-line rounded-r">Esc</kbd> untuk menutup.
         </div>
       </div>
     </div>

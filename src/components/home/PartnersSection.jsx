@@ -26,7 +26,7 @@ export default function PartnersSection() {
             <a
               key={i}
               href={toHref(p.to)}
-              className="h-[70px] border border-dashed border-[#C4D6CC] rounded-xl grid place-items-center text-muted text-[12.5px] font-bold text-center p-1.5 bg-white no-underline hover:border-em-500 hover:text-em-700 transition-colors"
+              className="h-[70px] border border-dashed border-[#C4D6CC] rounded-r grid place-items-center text-muted text-[12.5px] font-bold text-center p-1.5 bg-white no-underline hover:border-em-500 hover:text-em-700 transition-colors"
             >
               {p.label}
             </a>

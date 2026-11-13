@@ -142,7 +142,7 @@ export default function Pendidikan() {
 
               <div style={{ display: 'grid', gap: '10px' }}>
                 {FAQ.map((f, i) => (
-                  <div key={i} className="faq" style={{ background: '#f1f7f3', borderRadius: '12px', padding: '14px 18px' }}>
+                  <div key={i} className="faq" style={{ background: '#f1f7f3', borderRadius: '14px', padding: '14px 18px' }}>
                     <button
                       type="button"
                       aria-expanded={openFaq === i}

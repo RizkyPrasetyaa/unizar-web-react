@@ -199,7 +199,7 @@ export default function Berita() {
                   style={{
                     border: '1px solid #dce6e0',
                     background: '#fff',
-                    borderRadius: '10px',
+                    borderRadius: '14px',
                     padding: '11px 14px 11px 34px',
                     fontSize: '15px',
                     width: '100%',
@@ -300,7 +300,7 @@ export default function Berita() {
                     placeItems: 'center',
                     background: '#e3f1ea',
                     color: '#064e3b',
-                    borderRadius: '12px',
+                    borderRadius: '14px',
                     padding: '10px 6px',
                     fontWeight: 800,
                     lineHeight: 1.1,

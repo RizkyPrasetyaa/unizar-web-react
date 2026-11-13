@@ -114,7 +114,7 @@ export default function MobileDrawer({ open, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="icon-btn border-0 bg-transparent w-11 h-11 rounded-xl grid place-items-center text-em-800 hover:bg-em-50"
+            className="icon-btn border-0 bg-transparent w-11 h-11 rounded-r grid place-items-center text-em-800 hover:bg-em-50"
             aria-label="Tutup menu"
           >
             <X size={20} strokeWidth={1.9} />
@@ -133,7 +133,7 @@ export default function MobileDrawer({ open, onClose }) {
               key={i}
               href={toHref(q.to)}
               onClick={onClose}
-              className="bg-em-50 rounded-xl p-3 font-bold text-sm no-underline text-em-800"
+              className="bg-em-50 rounded-r p-3 font-bold text-sm no-underline text-em-800"
             >
               {q.label}
             </a>

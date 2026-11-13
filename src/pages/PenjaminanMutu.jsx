@@ -520,7 +520,7 @@ export default function PenjaminanMutu() {
                     style={{
                       padding: '10px 12px',
                       border: '1px solid #DCE6E0',
-                      borderRadius: '10px',
+                      borderRadius: '14px',
                       fontSize: '15px',
                       background: '#fff',
                       color: '#13231c',
@@ -549,7 +549,7 @@ export default function PenjaminanMutu() {
                     style={{
                       padding: '10px 12px',
                       border: '1px solid #DCE6E0',
-                      borderRadius: '10px',
+                      borderRadius: '14px',
                       fontSize: '15px',
                       background: '#fff',
                       color: '#13231c',

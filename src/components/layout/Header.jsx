@@ -53,7 +53,7 @@ export default function Header({ onOpenDrawer, onOpenSearch, activeNav }) {
       aria-controls={`mega-${m.key}`}
       onClick={() => toggleMega(m.key)}
       className={cn(
-        'border-0 bg-transparent px-3 py-2.5 rounded-[10px] font-bold text-[15px] inline-flex items-center gap-1.5 whitespace-nowrap transition-colors',
+        'border-0 bg-transparent px-3 py-2.5 rounded-r font-bold text-[15px] inline-flex items-center gap-1.5 whitespace-nowrap transition-colors',
         'hover:bg-em-50 hover:text-em-800',
         openMenu === m.key && 'bg-em-50 text-em-800',
         activeNav === m.key && 'text-em-800',

@@ -21,7 +21,7 @@ export default function AgendaSection() {
                 className="grid items-center gap-4 py-3.5 border-b border-line"
                 style={{ gridTemplateColumns: '64px minmax(0,1fr)' }}
               >
-                <span className="d bg-em-50 rounded-xl text-center py-2 font-extrabold text-em-800 leading-[1.1]">
+                <span className="d bg-em-50 rounded-r text-center py-2 font-extrabold text-em-800 leading-[1.1]">
                   {a.day}
                   <small className="block text-[11px] tracking-[0.08em] text-em-700">
                     {a.month}

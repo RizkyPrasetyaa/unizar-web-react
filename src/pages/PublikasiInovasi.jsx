@@ -187,7 +187,7 @@ export default function PublikasiInovasi() {
                     placeholder="judul, penulis, atau kata kunci"
                     value={repoQuery}
                     onChange={(e) => setRepoQuery(e.target.value)}
-                    style={{ width: '100%', padding: '11px 14px', borderRadius: '10px', border: '1px solid var(--line)', fontSize: '15px' }}
+                    style={{ width: '100%', padding: '11px 14px', borderRadius: '14px', border: '1px solid var(--line)', fontSize: '15px' }}
                   />
                 </div>
                 <Button variant="dark" href="#">Cari <Search style={{ width: 16, height: 16 }} aria-hidden="true" /></Button>
@@ -197,7 +197,7 @@ export default function PublikasiInovasi() {
                   <li
                     key={d.id}
                     className="doc"
-                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', padding: '14px 16px', background: '#f1f7f3', borderRadius: '12px' }}
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', padding: '14px 16px', background: '#f1f7f3', borderRadius: '14px' }}
                   >
                     <div>
                       <b>{d.title}</b>

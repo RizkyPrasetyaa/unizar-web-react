@@ -62,7 +62,7 @@ const FIELD_STYLE = {
 const INPUT_STYLE = {
   border: '1px solid #dce6e0',
   background: '#fff',
-  borderRadius: '10px',
+  borderRadius: '14px',
   padding: '11px 14px',
   fontSize: '15px',
   color: '#13231c',
