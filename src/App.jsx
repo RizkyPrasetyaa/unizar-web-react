@@ -6,7 +6,24 @@ import Beranda from './pages/Beranda.jsx'
 import Profil from './pages/Profil.jsx'
 import Fakultas from './pages/Fakultas.jsx'
 import FakultasKedokteran from './pages/FakultasKedokteran.jsx'
+import FakultasTeknik from './pages/FakultasTeknik.jsx'
+import FakultasHukum from './pages/FakultasHukum.jsx'
+import FakultasEkonomiBisnis from './pages/FakultasEkonomiBisnis.jsx'
+import FakultasPertanian from './pages/FakultasPertanian.jsx'
+import FakultasMIPA from './pages/FakultasMIPA.jsx'
+import FakultasAgamaIslam from './pages/FakultasAgamaIslam.jsx'
 import ProdiPendidikanDokter from './pages/ProdiPendidikanDokter.jsx'
+import ProdiProfesiDokter from './pages/ProdiProfesiDokter.jsx'
+import ProdiTeknikSipil from './pages/ProdiTeknikSipil.jsx'
+import ProdiIlmuKomputer from './pages/ProdiIlmuKomputer.jsx'
+import ProdiIlmuHukum from './pages/ProdiIlmuHukum.jsx'
+import ProdiAkuntansi from './pages/ProdiAkuntansi.jsx'
+import ProdiEkonomiPembangunan from './pages/ProdiEkonomiPembangunan.jsx'
+import ProdiAgribisnis from './pages/ProdiAgribisnis.jsx'
+import ProdiAgroekoteknologi from './pages/ProdiAgroekoteknologi.jsx'
+import ProdiBiologi from './pages/ProdiBiologi.jsx'
+import ProdiEkonomiSyariah from './pages/ProdiEkonomiSyariah.jsx'
+import ProdiManajemenBisnisSyariah from './pages/ProdiManajemenBisnisSyariah.jsx'
 import Direktori from './pages/Direktori.jsx'
 import Pusdatin from './pages/Pusdatin.jsx'
 import TataKelola from './pages/TataKelola.jsx'
@@ -31,7 +48,24 @@ const PAGES = {
   '/profil': Profil,
   '/fakultas': Fakultas,
   '/fakultas/kedokteran': FakultasKedokteran,
+  '/fakultas/teknik': FakultasTeknik,
+  '/fakultas/hukum': FakultasHukum,
+  '/fakultas/ekonomi-bisnis': FakultasEkonomiBisnis,
+  '/fakultas/pertanian': FakultasPertanian,
+  '/fakultas/mipa': FakultasMIPA,
+  '/fakultas/agama-islam': FakultasAgamaIslam,
   '/prodi/pendidikan-dokter': ProdiPendidikanDokter,
+  '/prodi/profesi-dokter': ProdiProfesiDokter,
+  '/prodi/teknik-sipil': ProdiTeknikSipil,
+  '/prodi/ilmu-komputer': ProdiIlmuKomputer,
+  '/prodi/ilmu-hukum': ProdiIlmuHukum,
+  '/prodi/akuntansi': ProdiAkuntansi,
+  '/prodi/ekonomi-pembangunan': ProdiEkonomiPembangunan,
+  '/prodi/agribisnis': ProdiAgribisnis,
+  '/prodi/agroekoteknologi': ProdiAgroekoteknologi,
+  '/prodi/biologi': ProdiBiologi,
+  '/prodi/ekonomi-syariah': ProdiEkonomiSyariah,
+  '/prodi/manajemen-bisnis-syariah': ProdiManajemenBisnisSyariah,
   '/direktori': Direktori,
   '/pusdatin': Pusdatin,
   '/tata-kelola': TataKelola,

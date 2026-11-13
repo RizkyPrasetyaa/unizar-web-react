@@ -4,11 +4,12 @@ import Card from '../components/ui/Card.jsx'
 import Pill from '../components/ui/Pill.jsx'
 import PhotoSlot from '../components/ui/PhotoSlot.jsx'
 import Button from '../components/ui/Button.jsx'
+import ProdiSwitcher from '../components/ui/ProdiSwitcher.jsx'
 import { ExternalLink } from 'lucide-react'
 
 const PRODI_CARDS = [
   { pill: 'Sarjana', title: 'Pendidikan Dokter (S1)', desc: 'Tahap akademik 7 semester, berbasis blok dan OBE. Gelar S.Ked.', to: '/prodi/pendidikan-dokter' },
-  { pill: 'Profesi', title: 'Profesi Dokter', desc: 'Kepaniteraan klinik di rumah sakit pendidikan dan jejaring. Gelar dr.', to: '/prodi/pendidikan-dokter' },
+  { pill: 'Profesi', title: 'Profesi Dokter', desc: 'Kepaniteraan klinik di rumah sakit pendidikan dan jejaring. Gelar dr.', to: '/prodi/profesi-dokter' },
 ]
 
 const FASILITAS = [
@@ -72,10 +73,12 @@ export default function FakultasKedokteran() {
               <p className="muted">
                 Halaman fakultas memakai templat yang sama dengan universitas sehingga tim fakultas cukup mengisi teks, foto, dan berita.
               </p>
-              <div className="btn-row">
-                <Button variant="dark" href="/prodi/pendidikan-dokter">Pendidikan Dokter</Button>
-                <Button variant="line" href="/prodi/pendidikan-dokter">Profesi Dokter</Button>
-              </div>
+              <ProdiSwitcher
+                items={[
+                  { label: 'Pendidikan Dokter', to: '/prodi/pendidikan-dokter' },
+                  { label: 'Profesi Dokter', to: '/prodi/profesi-dokter' },
+                ]}
+              />
             </div>
             <PhotoSlot
               caption="Foto: Dekan bersama mahasiswa"
