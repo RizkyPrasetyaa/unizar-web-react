@@ -58,6 +58,8 @@ export const CAMPUS_STATS = [
   { value: '13', label: 'Program studi', labelEn: 'Study programmes' },
 ]
 
+// Tombol aksi per kartu fokus (dipakai footer popup detail):
+// kind 'download' → unduh dokumen; kind 'link' → navigasi internal via toHref.
 export const FOCUS_AREAS = [
   {
     key: 'pendidikan',
@@ -67,7 +69,27 @@ export const FOCUS_AREAS = [
     desc: 'Kurikulum berbasis luaran, pembelajaran berbasis kasus dan proyek, serta dosen yang terus bertumbuh. Setiap lulusan kami siapkan kompeten, beretika, dan siap bersaing.',
     photoCaption: 'Foto: mahasiswa berdiskusi di kelas',
     photoVariant: 'default',
-    to: '/profil#tentang',
+    detail: {
+      paragraphs: [
+        'Kurikulum berbasis luaran (OBE) di semua program studi, pembelajaran berbasis kasus dan proyek, serta dosen yang terus meningkatkan kualifikasi dan sertifikasinya.',
+        'Mutu dijaga melalui siklus SPMI, akreditasi program studi, dan umpan balik dari mahasiswa serta pengguna lulusan, sehingga setiap lulusan kompeten, beretika, dan siap bersaing.',
+      ],
+      meta: [
+        ['Diampu oleh', 'Wakil Rektor I bersama seluruh fakultas'],
+        ['Selaras dengan', 'SDG 4 · Pendidikan berkualitas'],
+      ],
+      wujudNyata: [
+        'Kurikulum OBE dan RPS berbasis capaian pembelajaran',
+        'Pembelajaran case method dan team-based project',
+        'MBKM dan rekognisi pembelajaran lampau (RPL)',
+        'Tracer study dan survei kepuasan pengguna lulusan',
+      ],
+    },
+    action: {
+      kind: 'download',
+      label: 'SK Rektor Tentang Diferensiasi Misi',
+      href: '/download/sk-rektor-diferensiasi-misi.pdf',
+    },
   },
   {
     key: 'rahmatan',
@@ -77,7 +99,27 @@ export const FOCUS_AREAS = [
     desc: 'Islam yang menebar rahmat bagi semua. Kampus yang aman, inklusif, dan berintegritas, terbuka bagi siapa pun tanpa memandang suku, agama, dan latar belakang.',
     photoCaption: 'Foto: sivitas lintas latar belakang di masjid kampus',
     photoVariant: 'warm',
-    to: '/profil#tentang',
+    detail: {
+      paragraphs: [
+        "Nilai Islam yang menebar rahmat bagi semua menjadi falsafah penyelenggaraan UNIZAR: kampus yang aman, inklusif, dan berintegritas.",
+        'Kampus terbuka bagi siapa pun tanpa memandang suku, agama, asal daerah, maupun disabilitas, dengan tata kelola yang bersih dan kode etik yang ditegakkan.',
+      ],
+      meta: [
+        ['Diampu oleh', 'Rektor dan seluruh pimpinan'],
+        ['Selaras dengan', 'SDG 16 · Kelembagaan yang tangguh'],
+      ],
+      wujudNyata: [
+        'Falsafah KEUNIZARAN dalam tata kelola',
+        'Kode etik dan Satgas PPKPT untuk kampus aman',
+        'Layanan disabilitas dan beasiswa afirmasi',
+        'Kanal pelaporan rahasia (WBS)',
+      ],
+    },
+    action: {
+      kind: 'download',
+      label: 'SK YPLA Tentang KEUNIZARAN',
+      href: '/download/sk-ypla-keunizaran.pdf',
+    },
   },
   {
     key: 'pariwisata',
@@ -87,7 +129,27 @@ export const FOCUS_AREAS = [
     desc: 'Lombok adalah rumah kami sekaligus destinasi dunia. Setiap prodi menghadirkan wawasan kepariwisataan, dari kesehatan wisata dan ekonomi halal sampai pelestarian alam dan budaya Sasak.',
     photoCaption: 'Foto: pantai dan desa wisata di Lombok',
     photoVariant: 'sky',
-    to: '/profil#tentang',
+    detail: {
+      paragraphs: [
+        'Lombok adalah rumah kami sekaligus destinasi dunia. Setiap program studi menghadirkan mata kuliah berwawasan kepariwisataan, sehingga lulusan dari bidang apa pun siap berkontribusi pada pariwisata yang berkelanjutan.',
+        'Riset dan pengabdian diarahkan pada kesehatan wisatawan dan pekerja pariwisata, ekonomi dan wisata halal, desa wisata binaan, serta pelestarian alam dan budaya Sasak.',
+      ],
+      meta: [
+        ['Diampu oleh', 'Seluruh fakultas, dikoordinasikan Wakil Rektor I dan III'],
+        ['Selaras dengan', 'SDG 8 · Pekerjaan layak dan pertumbuhan ekonomi'],
+      ],
+      wujudNyata: [
+        'Minimal 2 SKS mata kuliah berwawasan kepariwisataan di setiap prodi',
+        'Kesehatan pariwisata dan pariwisata kesehatan (Fakultas Kedokteran)',
+        'Pendampingan UMKM halal dan desa wisata binaan',
+        'Kemitraan dengan pemerintah daerah dan pelaku industri pariwisata',
+      ],
+    },
+    action: {
+      kind: 'link',
+      label: 'Kurikulum OBE',
+      to: '/pendidikan#kurikulum',
+    },
   },
 ]
 
