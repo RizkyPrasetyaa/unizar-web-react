@@ -6,7 +6,7 @@ import Pill from "../components/ui/Pill.jsx";
 import PhotoSlot from "../components/ui/PhotoSlot.jsx";
 import Button from "../components/ui/Button.jsx";
 import SmartLink from "../components/ui/SmartLink.jsx";
-import { ExternalLink, X } from "lucide-react";
+import { ExternalLink, FileDown, X } from "lucide-react";
 
 const PIMPINAN = [
   {
@@ -193,6 +193,140 @@ function PimpinanDrawer({ person, onClose }) {
   );
 }
 
+// Data dokumen Bagan & SK Struktur Organisasi (Publik · Pusdatin).
+const SK_BAGAN = {
+  title: "Bagan & SK Struktur Organisasi",
+  keterangan: "Rektor - SK [nomor]",
+  nomor: "SK [nomor]",
+  tanggal: "[tanggal]",
+  versi: "[v]",
+  status: "Berlaku",
+  akses: "Publik",
+  riwayat: [
+    { versi: "[v terbaru]", desc: "Berlaku sejak [tanggal]" },
+    { versi: "[v sebelumnya]", desc: "Diganti setelah evaluasi dan RTM" },
+  ],
+};
+
+// Drawer bagan & SK — pratinjau dokumen di kiri, detail SK di kanan.
+function BaganDrawer({ open, onClose }) {
+  const closeRef = useRef(null);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    closeRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const salinTautan = () => {
+    try {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard tidak tersedia di perangkat ini.
+    }
+  };
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div
+        className="pd pd--wide"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Bagan & SK Struktur Organisasi"
+      >
+        <div className="pd-head">
+          <span className="eyebrow">Pusdatin · Publik</span>
+          <h3>Bagan & SK Struktur Organisasi</h3>
+          <button
+            ref={closeRef}
+            type="button"
+            className="pd-close"
+            onClick={onClose}
+            aria-label="Tutup dokumen"
+          >
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <div className="pd-doc-grid">
+            <div className="pd-doc">
+              <img src="/logo.png" alt="Logo UNIZAR" />
+              <b>{SK_BAGAN.title}</b>
+              <div className="pd-doc-lines" aria-hidden="true">
+                <span style={{ width: "88%" }} />
+                <span style={{ width: "72%" }} />
+                <span style={{ width: "80%" }} />
+                <span style={{ width: "62%" }} />
+              </div>
+              <small>Pratinjau dokumen</small>
+            </div>
+            <div style={{ display: "grid", gap: "16px", alignContent: "start" }}>
+              <dl className="pd-meta">
+                <div>
+                  <dt>Keterangan</dt>
+                  <dd>{SK_BAGAN.keterangan}</dd>
+                </div>
+                <div>
+                  <dt>Nomor</dt>
+                  <dd>{SK_BAGAN.nomor}</dd>
+                </div>
+                <div>
+                  <dt>Tanggal penetapan</dt>
+                  <dd>{SK_BAGAN.tanggal}</dd>
+                </div>
+                <div>
+                  <dt>Versi</dt>
+                  <dd>{SK_BAGAN.versi}</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>{SK_BAGAN.status}</dd>
+                </div>
+                <div>
+                  <dt>Akses</dt>
+                  <dd>{SK_BAGAN.akses}</dd>
+                </div>
+              </dl>
+              <div className="pd-sec">
+                <h4>Riwayat versi</h4>
+                <ul className="clean">
+                  {SK_BAGAN.riwayat.map((r, i) => (
+                    <li key={i} className="pd-row pd-versi">
+                      <b>{r.versi}</b> {r.desc}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="btn-row">
+                <Button variant="dark" asButton onClick={() => {}}>
+                  <FileDown size={17} strokeWidth={1.9} /> Unduh PDF
+                </Button>
+                <Button variant="line" asButton onClick={salinTautan}>
+                  {copied ? "Tautan disalin ✓" : "Salin tautan"}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 const TIMELINE = [
   {
     year: "1979",
@@ -333,6 +467,7 @@ const SDG_CARDS = [
 export default function Profil() {
   const [tab, setTab] = useState(0);
   const [pimpinan, setPimpinan] = useState(null);
+  const [baganOpen, setBaganOpen] = useState(false);
 
   return (
     <div className="page animate-fade">
@@ -584,7 +719,12 @@ export default function Profil() {
               lengkap.
             </p>
             <div className="btn-row">
-              <Button variant="line" href="#">
+              <Button
+                variant="line"
+                asButton
+                onClick={() => setBaganOpen(true)}
+                aria-haspopup="dialog"
+              >
                 Bagan &amp; SK organisasi
               </Button>
               <Button variant="line" href="/direktori#unit">
@@ -650,6 +790,7 @@ export default function Profil() {
       </section>
 
       <PimpinanDrawer person={pimpinan} onClose={() => setPimpinan(null)} />
+      <BaganDrawer open={baganOpen} onClose={() => setBaganOpen(false)} />
     </div>
   );
 }
