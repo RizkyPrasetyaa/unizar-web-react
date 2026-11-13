@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import PageHero from '../components/layout/PageHero.jsx'
 import Subnav from '../components/layout/Subnav.jsx'
 import Card from '../components/ui/Card.jsx'
@@ -6,15 +6,154 @@ import Pill from '../components/ui/Pill.jsx'
 import PhotoSlot from '../components/ui/PhotoSlot.jsx'
 import Button from '../components/ui/Button.jsx'
 import SmartLink from '../components/ui/SmartLink.jsx'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, X } from 'lucide-react'
 
 const PIMPINAN = [
-  { id: 'pimpinan-rektor', role: 'Rektor', name: '[Nama & gelar]', desc: 'Memimpin penyelenggaraan universitas' },
-  { id: 'pimpinan-wakil-rektor-i', role: 'Wakil Rektor I', name: '[Nama & gelar]', desc: '[Bidang]' },
-  { id: 'pimpinan-wakil-rektor-ii', role: 'Wakil Rektor II', name: '[Nama & gelar]', desc: '[Bidang]' },
-  { id: 'pimpinan-wakil-rektor-iii', role: 'Wakil Rektor III', name: '[Nama & gelar]', desc: '[Bidang]' },
-  { id: 'pimpinan-wakil-rektor-iv', role: 'Wakil Rektor IV', name: '[Nama & gelar]', desc: '[Bidang]' },
+  {
+    id: 'pimpinan-rektor',
+    role: 'Rektor',
+    name: '[Nama & gelar]',
+    desc: 'Memimpin penyelenggaraan universitas',
+    jabatan: 'Rektor Universitas Islam Al-Azhar',
+    bidang: '[Bidang tugas]',
+    periode: '[tahun]–[tahun]',
+    sk: 'SK [nomor]',
+    bio: '[Profil singkat: latar belakang, fokus kepemimpinan, dan program prioritas periode ini.]',
+    units: ['[Unit 1]', '[Unit 2]', '[Unit 3]'],
+    edu: ['[S3 · universitas · tahun]', '[S2 · universitas · tahun]', '[S1 · universitas · tahun]'],
+  },
+  {
+    id: 'pimpinan-wakil-rektor-i',
+    role: 'Wakil Rektor I',
+    name: '[Nama & gelar]',
+    desc: '[Bidang]',
+    jabatan: 'Wakil Rektor I Universitas Islam Al-Azhar',
+    bidang: '[Bidang tugas]',
+    periode: '[tahun]–[tahun]',
+    sk: 'SK [nomor]',
+    bio: '[Profil singkat: latar belakang, fokus kepemimpinan, dan program prioritas periode ini.]',
+    units: ['[Unit 1]', '[Unit 2]'],
+    edu: ['[S3 · universitas · tahun]', '[S2 · universitas · tahun]', '[S1 · universitas · tahun]'],
+  },
+  {
+    id: 'pimpinan-wakil-rektor-ii',
+    role: 'Wakil Rektor II',
+    name: '[Nama & gelar]',
+    desc: '[Bidang]',
+    jabatan: 'Wakil Rektor II Universitas Islam Al-Azhar',
+    bidang: '[Bidang tugas]',
+    periode: '[tahun]–[tahun]',
+    sk: 'SK [nomor]',
+    bio: '[Profil singkat: latar belakang, fokus kepemimpinan, dan program prioritas periode ini.]',
+    units: ['[Unit 1]', '[Unit 2]'],
+    edu: ['[S3 · universitas · tahun]', '[S2 · universitas · tahun]', '[S1 · universitas · tahun]'],
+  },
+  {
+    id: 'pimpinan-wakil-rektor-iii',
+    role: 'Wakil Rektor III',
+    name: '[Nama & gelar]',
+    desc: '[Bidang]',
+    jabatan: 'Wakil Rektor III Universitas Islam Al-Azhar',
+    bidang: '[Bidang tugas]',
+    periode: '[tahun]–[tahun]',
+    sk: 'SK [nomor]',
+    bio: '[Profil singkat: latar belakang, fokus kepemimpinan, dan program prioritas periode ini.]',
+    units: ['[Unit 1]', '[Unit 2]'],
+    edu: ['[S3 · universitas · tahun]', '[S2 · universitas · tahun]', '[S1 · universitas · tahun]'],
+  },
+  {
+    id: 'pimpinan-wakil-rektor-iv',
+    role: 'Wakil Rektor IV',
+    name: '[Nama & gelar]',
+    desc: '[Bidang]',
+    jabatan: 'Wakil Rektor IV Universitas Islam Al-Azhar',
+    bidang: '[Bidang tugas]',
+    periode: '[tahun]–[tahun]',
+    sk: 'SK [nomor]',
+    bio: '[Profil singkat: latar belakang, fokus kepemimpinan, dan program prioritas periode ini.]',
+    units: ['[Unit 1]', '[Unit 2]'],
+    edu: ['[S3 · universitas · tahun]', '[S2 · universitas · tahun]', '[S1 · universitas · tahun]'],
+  },
 ]
+
+// Drawer detail pimpinan — panel geser dari sisi kanan.
+function PimpinanDrawer({ person, onClose }) {
+  const closeRef = useRef(null)
+
+  useEffect(() => {
+    if (!person) return
+    closeRef.current?.focus()
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [person, onClose])
+
+  if (!person) return null
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div className="pd" role="dialog" aria-modal="true" aria-label={`Profil ${person.role}`}>
+        <div className="pd-head">
+          <span className="eyebrow">{person.role}</span>
+          <h3>{person.name}</h3>
+          <button ref={closeRef} type="button" className="pd-close" onClick={onClose} aria-label="Tutup profil">
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <PhotoSlot
+            caption="Foto: potret resmi"
+            aria-label="Tempat foto: potret resmi"
+            style={{ height: '230px' }}
+          />
+          <dl className="pd-meta">
+            <div>
+              <dt>Jabatan</dt>
+              <dd>{person.jabatan}</dd>
+            </div>
+            <div>
+              <dt>Bidang</dt>
+              <dd>{person.bidang}</dd>
+            </div>
+            <div>
+              <dt>Periode</dt>
+              <dd>{person.periode}</dd>
+            </div>
+            <div>
+              <dt>SK pengangkatan</dt>
+              <dd>{person.sk}</dd>
+            </div>
+          </dl>
+          <p className="pd-bio">{person.bio}</p>
+          <div className="pd-sec">
+            <h4>Unit yang dibina</h4>
+            <ul className="clean">
+              {person.units.map((u, i) => (
+                <li key={i} className="pd-row">{u}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="pd-sec">
+            <h4>Pendidikan</h4>
+            <ul className="clean">
+              {person.edu.map((e, i) => (
+                <li key={i} className="pd-row">{e}</li>
+              ))}
+            </ul>
+          </div>
+          <p className="pd-note">Data lengkap mengikuti SK pengangkatan dan CV resmi yang dipublikasikan.</p>
+        </div>
+      </div>
+    </>
+  )
+}
 
 const TIMELINE = [
   { year: '1979', desc: 'Yayasan Pesantren Luhur Al-Azhar didirikan untuk berperan dalam pendidikan tinggi di NTB.' },
@@ -80,6 +219,7 @@ const SDG_CARDS = [
 
 export default function Profil() {
   const [tab, setTab] = useState(0)
+  const [pimpinan, setPimpinan] = useState(null)
 
   return (
     <div className="page animate-fade">
@@ -242,7 +382,15 @@ export default function Profil() {
           </div>
           <div className="grid g5">
             {PIMPINAN.map((p) => (
-              <Card key={p.id} to="#" style={{ padding: 0, overflow: 'hidden' }}>
+              <button
+                key={p.id}
+                type="button"
+                className="card card-link pimpinan-card"
+                style={{ padding: 0, overflow: 'hidden' }}
+                onClick={() => setPimpinan(p)}
+                aria-haspopup="dialog"
+                aria-label={`Lihat profil lengkap ${p.role}`}
+              >
                 <PhotoSlot
                   caption="Foto: potret resmi"
                   aria-label="Tempat foto: potret resmi"
@@ -253,7 +401,7 @@ export default function Profil() {
                   <h3 style={{ fontSize: '17px', marginTop: '4px' }}>{p.name}</h3>
                   <p style={{ fontSize: '13.5px' }}>{p.desc}</p>
                 </div>
-              </Card>
+              </button>
             ))}
           </div>
           <div className="slim" style={{ marginTop: '20px' }}>
@@ -311,6 +459,8 @@ export default function Profil() {
           </div>
         </div>
       </section>
+
+      <PimpinanDrawer person={pimpinan} onClose={() => setPimpinan(null)} />
     </div>
   )
 }
