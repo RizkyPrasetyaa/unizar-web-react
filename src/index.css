@@ -593,6 +593,26 @@
     font-size: 12.5px;
     color: #4a5e55;
   }
+  /* Kotak alamat — drawer website unit */
+  .pd-addr {
+    background: #f1f7f3;
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: grid;
+    gap: 4px;
+  }
+  .pd-addr small {
+    color: #4a5e55;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .pd-addr b {
+    font-size: 15px;
+    color: #13231c;
+    word-break: break-all;
+  }
   /* Kartu pimpinan sebagai tombol pembuka drawer */
   .pimpinan-card {
     text-align: left;
