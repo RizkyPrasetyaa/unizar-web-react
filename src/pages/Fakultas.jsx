@@ -29,14 +29,31 @@ const FACULTY_FULL_NAMES = {
   FAI: 'Fakultas Agama Islam',
 }
 
-// Map abbr to the "Lihat fakultas" target — only FK has a real page
+// Map abbr to the "Lihat fakultas" target
 const FACULTY_LINK = {
   FK: '/fakultas/kedokteran',
+  FT: '/fakultas/teknik',
+  FH: '/fakultas/hukum',
+  FEB: '/fakultas/ekonomi-bisnis',
+  FP: '/fakultas/pertanian',
+  FMIPA: '/fakultas/mipa',
+  FAI: '/fakultas/agama-islam',
 }
 
-// Some prodi have real pages (e.g. Pendidikan Dokter). Other ones go to "#"
+// Prodi links to their dedicated pages
 const PRODI_LINKS = {
   'Pendidikan Dokter': '/prodi/pendidikan-dokter',
+  'Profesi Dokter': '/prodi/profesi-dokter',
+  'Teknik Sipil': '/prodi/teknik-sipil',
+  'Ilmu Komputer': '/prodi/ilmu-komputer',
+  'Ilmu Hukum': '/prodi/ilmu-hukum',
+  'Akuntansi': '/prodi/akuntansi',
+  'Ekonomi Pembangunan': '/prodi/ekonomi-pembangunan',
+  'Agribisnis': '/prodi/agribisnis',
+  'Agroekoteknologi': '/prodi/agroekoteknologi',
+  'Biologi': '/prodi/biologi',
+  'Ekonomi Syariah': '/prodi/ekonomi-syariah',
+  'Manajemen Bisnis Syariah': '/prodi/manajemen-bisnis-syariah',
 }
 
 export default function Fakultas() {
