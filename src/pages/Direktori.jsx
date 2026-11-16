@@ -172,14 +172,14 @@ const UNIT_CHIPS = [
 ];
 
 const DOSEN_ITEMS = [
-  { name: "[Nama dosen]", desc: "Guru Besar · hukum agraria" },
-  { name: "[Nama dosen]", desc: "Lektor Kepala · ergonomi" },
-  { name: "[Nama dosen]", desc: "Lektor Kepala · agribisnis" },
-  { name: "[Nama dosen]", desc: "Lektor · akuntansi" },
-  { name: "[Nama dosen]", desc: "Lektor · teknik sipil" },
-  { name: "[Nama dosen]", desc: "Lektor · biologi" },
-  { name: "[Nama dosen]", desc: "Asisten Ahli · ekonomi syariah" },
-  { name: "[Nama dosen]", desc: "Asisten Ahli · ilmu komputer" },
+  { id: "dosen-1", name: "[Nama dosen]", jabatan: "Guru Besar", keahlian: "hukum agraria", fakultas: "Hukum" },
+  { id: "dosen-2", name: "[Nama dosen]", jabatan: "Lektor Kepala", keahlian: "ergonomi", fakultas: "Teknik" },
+  { id: "dosen-3", name: "[Nama dosen]", jabatan: "Lektor Kepala", keahlian: "agribisnis", fakultas: "Pertanian" },
+  { id: "dosen-4", name: "[Nama dosen]", jabatan: "Lektor", keahlian: "akuntansi", fakultas: "Ekonomi & Bisnis" },
+  { id: "dosen-5", name: "[Nama dosen]", jabatan: "Lektor", keahlian: "teknik sipil", fakultas: "Teknik" },
+  { id: "dosen-6", name: "[Nama dosen]", jabatan: "Lektor", keahlian: "biologi", fakultas: "MIPA" },
+  { id: "dosen-7", name: "[Nama dosen]", jabatan: "Asisten Ahli", keahlian: "ekonomi syariah", fakultas: "Agama Islam" },
+  { id: "dosen-8", name: "[Nama dosen]", jabatan: "Asisten Ahli", keahlian: "ilmu komputer", fakultas: "Teknik" },
 ];
 
 const FAKULTAS_OPTIONS = [
@@ -369,6 +369,125 @@ function WebsiteDrawer({ unit, onClose }) {
   );
 }
 
+// Drawer detail dosen — panel geser dari sisi kanan saat kartu dosen diklik.
+// Field opsional (prodi, publikasi, mata kuliah, dll.) berasal dari data dosen
+// atau diisi placeholder sesuai mockup.
+function DosenDrawer({ dosen, onClose }) {
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    if (!dosen) return;
+    closeRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [dosen, onClose]);
+
+  if (!dosen) return null;
+
+  const namaGelar = dosen.namaGelar || "[Nama dosen dan gelar]";
+  const prodi = dosen.prodi || "[Prodi]";
+  const bidang = dosen.bidang || ["[Bidang 1]", "[Bidang 2]"];
+  const email = dosen.email || "[email]@unizar.ac.id";
+  const ringkasan = dosen.ringkasan || "[Ringkasan kepakaran dalam dua kalimat.]";
+  const publikasi =
+    dosen.publikasi ||
+    [
+      { judul: "[Judul artikel]", jurnal: "[Jurnal]", tahun: "2026" },
+      { judul: "[Judul artikel]", jurnal: "[Jurnal]", tahun: "2025" },
+    ];
+  const matkul = dosen.matkul || ["[Mata kuliah 1]", "[Mata kuliah 2]"];
+  const bersedia = dosen.bersedia || ["Narasumber", "Saksi ahli", "Kolaborasi riset"];
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div
+        className="pd"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Profil dosen ${dosen.name}`}
+      >
+        <div className="pd-head">
+          <span className="eyebrow">Dosen &amp; pakar</span>
+          <h3>{namaGelar}</h3>
+          <button
+            ref={closeRef}
+            type="button"
+            className="pd-close"
+            onClick={onClose}
+            aria-label="Tutup profil dosen"
+          >
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <PhotoSlot
+            caption="Foto: foto profil"
+            aria-label="Tempat foto: foto profil dosen"
+            style={{ height: "210px" }}
+          />
+          <dl className="pd-meta">
+            <div>
+              <dt>Jabatan akademik</dt>
+              <dd>{dosen.jabatan}</dd>
+            </div>
+            <div>
+              <dt>Program studi</dt>
+              <dd>{prodi}</dd>
+            </div>
+            <div>
+              <dt>Bidang keahlian</dt>
+              <dd>{bidang.join(", ")}</dd>
+            </div>
+            <div>
+              <dt>Email</dt>
+              <dd>{email}</dd>
+            </div>
+          </dl>
+          <p className="pd-bio">{ringkasan}</p>
+          <div className="pd-sec">
+            <h4>Publikasi terbaru</h4>
+            <ul className="clean">
+              {publikasi.map((p, i) => (
+                <li key={i} className="pd-row">
+                  {p.judul} · {p.jurnal} · {p.tahun}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="pd-sec">
+            <h4>Mata kuliah</h4>
+            <ul className="clean">
+              {matkul.map((m, i) => (
+                <li key={i} className="pd-row">
+                  {m}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="pd-sec">
+            <h4>Bersedia untuk</h4>
+            <ul className="clean">
+              {bersedia.map((b, i) => (
+                <li key={i} className="pd-row">
+                  {b}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function Direktori() {
   // Unit filter state
   const [unitQuery, setUnitQuery] = useState("");
@@ -379,6 +498,7 @@ export default function Direktori() {
   // Dosen filter state
   const [dosenQuery, setDosenQuery] = useState("");
   const [dosenFakultas, setDosenFakultas] = useState("Semua fakultas");
+  const [dosenDetail, setDosenDetail] = useState(null);
 
   const filteredUnits = useMemo(() => {
     const q = unitQuery.trim().toLowerCase();
@@ -399,10 +519,10 @@ export default function Direktori() {
       const matchText =
         !q ||
         d.name.toLowerCase().includes(q) ||
-        d.desc.toLowerCase().includes(q);
+        d.jabatan.toLowerCase().includes(q) ||
+        d.keahlian.toLowerCase().includes(q);
       const matchFak =
-        dosenFakultas === "Semua fakultas" ||
-        d.desc.toLowerCase().includes(dosenFakultas.toLowerCase());
+        dosenFakultas === "Semua fakultas" || d.fakultas === dosenFakultas;
       return matchText && matchFak;
     });
   }, [dosenQuery, dosenFakultas]);
@@ -548,15 +668,19 @@ export default function Direktori() {
             </div>
 
             <div className="grid g4">
-              {filteredDosen.map((d, i) => (
-                <Card
-                  key={i}
-                  to="#"
+              {filteredDosen.map((d) => (
+                <button
+                  key={d.id}
+                  type="button"
+                  className="card card-link pimpinan-card"
                   style={{
                     flexDirection: "row",
                     gap: "12px",
                     alignItems: "center",
                   }}
+                  onClick={() => setDosenDetail(d)}
+                  aria-haspopup="dialog"
+                  aria-label={`Lihat profil ${d.name}`}
                 >
                   <span
                     style={{
@@ -570,9 +694,11 @@ export default function Direktori() {
                   />
                   <div>
                     <b style={{ fontSize: "14.5px" }}>{d.name}</b>
-                    <p style={{ fontSize: "13px" }}>{d.desc}</p>
+                    <p style={{ fontSize: "13px" }}>
+                      {d.jabatan} · {d.keahlian}
+                    </p>
                   </div>
-                </Card>
+                </button>
               ))}
             </div>
 
@@ -649,6 +775,7 @@ export default function Direktori() {
 
       <UnitDrawer unit={unitDetail} onClose={() => setUnitDetail(null)} />
       <WebsiteDrawer unit={webUnit} onClose={() => setWebUnit(null)} />
+      <DosenDrawer dosen={dosenDetail} onClose={() => setDosenDetail(null)} />
     </div>
   );
 }
