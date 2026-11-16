@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PageHero from "../components/layout/PageHero.jsx";
 import Subnav from "../components/layout/Subnav.jsx";
 import Card from "../components/ui/Card.jsx";
 import Pill from "../components/ui/Pill.jsx";
 import Button from "../components/ui/Button.jsx";
 import SmartLink from "../components/ui/SmartLink.jsx";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, X } from "lucide-react";
 
 const JALUR_PMB = [
   {
@@ -152,8 +152,97 @@ const SUASANA = [
   },
 ];
 
+// Drawer Portal PMB — konfirmasi "menuju sistem lain" sebelum buka tab baru.
+// Muncul saat klik tombol "Daftar Sekarang" atau kartu jalur PMB.
+const PORTAL_PMB_URL = ""; // diisi operator website ketika sudah tersedia
+const PORTAL_PMB_DESC =
+  "Portal PMB UNIZAR berisi pendaftaran, pembayaran, tes seleksi, dan pengumuman calon mahasiswa baru.";
+
+function PortalPmbDrawer({ open, onClose }) {
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    closeRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const alamat = PORTAL_PMB_URL || "[alamat diisi operator website]";
+
+  const bukaTabBaru = () => {
+    if (PORTAL_PMB_URL) window.open(PORTAL_PMB_URL, "_blank", "noreferrer");
+  };
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div
+        className="pd"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Portal PMB UNIZAR"
+      >
+        <div className="pd-head">
+          <span className="eyebrow">Menuju sistem lain</span>
+          <h3>Portal PMB UNIZAR</h3>
+          <button
+            ref={closeRef}
+            type="button"
+            className="pd-close"
+            onClick={onClose}
+            aria-label="Tutup"
+          >
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <span
+            style={{
+              width: "52px",
+              height: "52px",
+              borderRadius: "14px",
+              background: "#e3f1ea",
+              display: "grid",
+              placeItems: "center",
+              color: "#064e3b",
+            }}
+            aria-hidden="true"
+          >
+            <ExternalLink size={26} strokeWidth={1.9} />
+          </span>
+          <p className="pd-bio">{PORTAL_PMB_DESC}</p>
+          <div className="pd-addr">
+            <small>Alamat</small>
+            <b>{alamat}</b>
+          </div>
+          <div className="btn-row" style={{ marginTop: "4px" }}>
+            <Button variant="dark" asButton onClick={bukaTabBaru}>
+              Buka di tab baru{" "}
+              <ExternalLink style={{ width: 15, height: 15 }} aria-hidden="true" />
+            </Button>
+            <Button variant="line" asButton onClick={onClose}>
+              Batal
+            </Button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function Pendidikan() {
   const [openFaq, setOpenFaq] = useState(null);
+  const [openPmb, setOpenPmb] = useState(false);
 
   return (
     <div className="page animate-fade">
@@ -197,7 +286,11 @@ export default function Pendidikan() {
             }}
           >
             {JALUR_PMB.map((j) => (
-              <Card key={j.pill} to="#">
+              <Card
+                key={j.pill}
+                onClick={() => setOpenPmb(true)}
+                style={{ cursor: "pointer" }}
+              >
                 <Pill variant={j.variant}>{j.pill}</Pill>
                 <p>{j.desc}</p>
                 <span className="more">Daftar jalur ini →</span>
@@ -259,7 +352,7 @@ export default function Pendidikan() {
                   </p>
                 </div>
                 <div className="btn-row">
-                  <Button variant="pri" href="#">
+                  <Button variant="pri" asButton onClick={() => setOpenPmb(true)}>
                     Daftar Sekarang{" "}
                     <ExternalLink
                       style={{ width: 16, height: 16 }}
@@ -344,7 +437,7 @@ export default function Pendidikan() {
           </div>
           <div className="grid g3">
             {KURIKULUM.map((k) => (
-              <Card key={k.title} to="#">
+              <Card key={k.title} style={{ cursor: "pointer" }}>
                 <Pill>{k.pill}</Pill>
                 <h3>{k.title}</h3>
                 <p>{k.desc}</p>
@@ -432,7 +525,7 @@ export default function Pendidikan() {
           </div>
           <div className="grid g3">
             {SUASANA.map((s) => (
-              <Card key={s.title} to="#">
+              <Card key={s.title} style={{ cursor: "pointer" }}>
                 <Pill>{s.pill}</Pill>
                 <h3>{s.title}</h3>
                 <p>{s.desc}</p>
@@ -442,6 +535,8 @@ export default function Pendidikan() {
           </div>
         </div>
       </section>
+
+      <PortalPmbDrawer open={openPmb} onClose={() => setOpenPmb(false)} />
     </div>
   );
 }
