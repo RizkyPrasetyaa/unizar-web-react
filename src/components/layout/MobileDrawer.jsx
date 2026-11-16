@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react'
-import { X, ChevronDown } from 'lucide-react'
-import { NAV_LEFT, NAV_RIGHT } from '../../data/navigation.js'
+import { X, Plus, Minus, LogIn, LayoutGrid, Handshake, GraduationCap } from 'lucide-react'
+import { NAV_LEFT, NAV_RIGHT, RAIL_LINKS } from '../../data/navigation.js'
 import { toHref } from '../../lib/router.js'
 
+const TILE_ICONS = {
+  '/masuk': LogIn,
+  '/layanan': LayoutGrid,
+  '/kerjasama': Handshake,
+  '/mahasiswa-alumni': GraduationCap,
+}
+
 // MobileDrawer — slide-in panel dari kiri untuk mobile
-// Setiap menu: label (klik → navigasi) + tombol expand (klik → buka sub-link)
+// Setiap menu: label (klik → navigasi) + tombol expand plus/minus (klik → buka sub-link)
 export default function MobileDrawer({ open, onClose }) {
   const [expanded, setExpanded] = useState(null)
 
@@ -61,20 +68,17 @@ export default function MobileDrawer({ open, onClose }) {
             aria-label={expanded === m.key ? `Tutup sub-menu ${m.label}` : `Buka sub-menu ${m.label}`}
             className="w-12 flex items-center justify-center text-em-700 hover:bg-em-50 transition-colors"
           >
-            <ChevronDown
-              size={20}
-              strokeWidth={1.9}
-              style={{
-                transform: expanded === m.key ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.2s',
-              }}
-            />
+            {expanded === m.key ? (
+              <Minus size={20} strokeWidth={1.9} />
+            ) : (
+              <Plus size={20} strokeWidth={1.9} />
+            )}
           </button>
         )}
       </div>
       {/* Sub-links */}
       {expanded === m.key && m.mega && (
-        <div className="pb-2 bg-em-50">
+        <div className="pb-2">
           <a
             href={toHref(m.to)}
             onClick={onClose}
@@ -110,7 +114,17 @@ export default function MobileDrawer({ open, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-3">
-          <img src="/logo.png" alt="UNIZAR" className="w-10 h-10" />
+          <a
+            href={toHref('/beranda')}
+            onClick={onClose}
+            className="flex items-center gap-2 no-underline"
+            aria-label="Beranda UNIZAR"
+          >
+            <img src="/logo.png" alt="" className="w-10 h-10" />
+            <span className="text-[16px] font-extrabold tracking-tight text-em-800">
+              UNIZAR
+            </span>
+          </a>
           <button
             type="button"
             onClick={onClose}
@@ -121,23 +135,22 @@ export default function MobileDrawer({ open, onClose }) {
           </button>
         </div>
 
-        {/* Quick access */}
+        {/* Quick access — tiles 2×2 dengan ikon */}
         <div className="grid grid-cols-2 gap-2 my-4">
-          {[
-            { label: 'PMB 2027', to: '/pendidikan#penerimaan' },
-            { label: 'Berita', to: '/berita' },
-            { label: 'Layanan', to: '/layanan' },
-            { label: 'Masuk', to: '/masuk' },
-          ].map((q, i) => (
-            <a
-              key={i}
-              href={toHref(q.to)}
-              onClick={onClose}
-              className="bg-em-50 rounded-card p-3 font-bold text-sm no-underline text-em-800"
-            >
-              {q.label}
-            </a>
-          ))}
+          {RAIL_LINKS.map((q, i) => {
+            const Icon = TILE_ICONS[q.to] || LogIn
+            return (
+              <a
+                key={i}
+                href={toHref(q.to)}
+                onClick={onClose}
+                className="flex items-center gap-2.5 bg-em-50 rounded-card p-3 no-underline text-em-800 hover:bg-em-100 transition-colors"
+              >
+                <Icon size={20} strokeWidth={1.9} className="flex-none text-em-700" />
+                <span className="font-bold text-[13px] leading-tight">{q.label}</span>
+              </a>
+            )
+          })}
         </div>
 
         {/* All main menus */}

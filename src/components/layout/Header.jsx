@@ -74,13 +74,8 @@ export default function Header({ onOpenDrawer, onOpenSearch, activeNav }) {
   return (
     <header
       ref={headerRef}
-      className="sticky top-0 z-50 bg-white border-b border-line"
+      className="bg-white"
     >
-      <div
-        className="h-[3px] w-full"
-        style={{ background: 'linear-gradient(90deg, #f2c230 0 88%, #c1272d 88% 100%)' }}
-      />
-
       {/* === Desktop layout === */}
       <div
         className="wrap hidden md:grid items-center gap-5 h-[84px]"
@@ -133,6 +128,12 @@ export default function Header({ onOpenDrawer, onOpenSearch, activeNav }) {
           <Search size={22} strokeWidth={1.9} />
         </button>
       </div>
+
+      {/* Garis kuning-merah di bawah bar menu */}
+      <div
+        className="h-[3px] w-full"
+        style={{ background: 'linear-gradient(90deg, #f2c230 0 88%, #c1272d 88% 100%)' }}
+      />
 
       {/* Mega menu (desktop only) */}
       {openMenu && (

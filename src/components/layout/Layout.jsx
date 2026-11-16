@@ -94,8 +94,11 @@ export default function Layout({ children }) {
         Lewati ke konten
       </a>
 
-      <UtilityBar onOpenSearch={openSearch} />
-      <Header onOpenDrawer={openDrawer} onOpenSearch={openSearch} activeNav={activeNav} />
+      {/* Stack atas sticky — utility bar + header tetap tampil saat discroll */}
+      <div className="sticky top-0 z-50">
+        <UtilityBar onOpenSearch={openSearch} />
+        <Header onOpenDrawer={openDrawer} onOpenSearch={openSearch} activeNav={activeNav} />
+      </div>
       <QuickRail />
 
       <main id="main" className="flex-1 min-h-[60vh]">
