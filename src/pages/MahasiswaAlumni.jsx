@@ -7,13 +7,22 @@ import Button from '../components/ui/Button.jsx'
 import SmartLink from '../components/ui/SmartLink.jsx'
 import { ArrowRight } from 'lucide-react'
 
-const LAYANAN_MHS = [
-  { pill: 'Kesehatan', title: 'Konseling', desc: 'Psikolog kampus, kerahasiaan terjaga.', to: '#' },
-  { pill: 'Inklusi', title: 'Layanan disabilitas', desc: 'Akomodasi belajar dan aksesibilitas.', to: '#' },
+const PMB_ITEMS = [
   { pill: 'Keuangan', title: 'Beasiswa', desc: 'Informasi dan pendaftaran beasiswa.', to: '/pendidikan#penerimaan' },
   { pill: 'Mahasiswa baru', title: 'PKKMB', desc: 'Pengenalan kehidupan kampus bagi mahasiswa baru.', to: '#' },
+]
+
+const KDLK_ITEMS = [
+  { pill: 'Kesehatan', title: 'Konseling', desc: 'Psikolog kampus, kerahasiaan terjaga.', to: '#' },
+]
+
+const MINAT_BAKAT_ITEMS = [
+  { pill: 'Komunitas', title: 'ORMAWA', desc: 'BEM, DPM, dan unit kegiatan mahasiswa.', to: '#' },
   { pill: 'Inkubator', title: 'Kewirausahaan', desc: 'Inkubasi bisnis dan pendanaan usaha mahasiswa di ITe.', to: '#' },
-  { pill: 'Komunitas', title: 'Organisasi & UKM', desc: 'BEM, DPM, dan unit kegiatan mahasiswa.', to: '#' },
+]
+
+const LAYANAN_LAINNYA = [
+  { pill: 'Inklusi', title: 'Layanan disabilitas', desc: 'Akomodasi belajar dan aksesibilitas.', to: '#' },
 ]
 
 const PRESTASI_DOCS = [
@@ -28,6 +37,21 @@ const ALUMNI_STATS = [
   { big: '[n]%', span: 'Berwirausaha' },
   { big: '[n]%', span: 'Kepuasan pengguna lulusan' },
 ]
+
+function LayananGrid({ items }) {
+  return (
+    <div className="grid g3">
+      {items.map((l) => (
+        <Card key={l.title} to={l.to}>
+          <Pill>{l.pill}</Pill>
+          <h3>{l.title}</h3>
+          <p>{l.desc}</p>
+          <span className="more">Selengkapnya →</span>
+        </Card>
+      ))}
+    </div>
+  )
+}
 
 export default function MahasiswaAlumni() {
   return (
@@ -56,15 +80,40 @@ export default function MahasiswaAlumni() {
             </div>
           </div>
 
-          <div className="grid g3">
-            {LAYANAN_MHS.map((l) => (
-              <Card key={l.title} to={l.to}>
-                <Pill>{l.pill}</Pill>
-                <h3>{l.title}</h3>
-                <p>{l.desc}</p>
-                <span className="more">Selengkapnya →</span>
-              </Card>
-            ))}
+          {/* PMB */}
+          <div style={{ marginBottom: '36px' }}>
+            <div style={{ marginBottom: '16px' }}>
+              <span className="eyebrow">PMB</span>
+              <h3 style={{ fontSize: '20px', marginTop: '4px' }}>Penerimaan & mahasiswa baru</h3>
+            </div>
+            <LayananGrid items={PMB_ITEMS} />
+          </div>
+
+          {/* KDLK */}
+          <div style={{ marginBottom: '36px' }}>
+            <div style={{ marginBottom: '16px' }}>
+              <span className="eyebrow">KDLK</span>
+              <h3 style={{ fontSize: '20px', marginTop: '4px' }}>Konseling & dukungan layanan kemahasiswaan</h3>
+            </div>
+            <LayananGrid items={KDLK_ITEMS} />
+          </div>
+
+          {/* Minat & Bakat */}
+          <div style={{ marginBottom: '36px' }}>
+            <div style={{ marginBottom: '16px' }}>
+              <span className="eyebrow">Minat &amp; Bakat</span>
+              <h3 style={{ fontSize: '20px', marginTop: '4px' }}>Organisasi & kewirausahaan</h3>
+            </div>
+            <LayananGrid items={MINAT_BAKAT_ITEMS} />
+          </div>
+
+          {/* Layanan lainnya */}
+          <div>
+            <div style={{ marginBottom: '16px' }}>
+              <span className="eyebrow">Layanan lainnya</span>
+              <h3 style={{ fontSize: '20px', marginTop: '4px' }}>Dukungan tambahan</h3>
+            </div>
+            <LayananGrid items={LAYANAN_LAINNYA} />
           </div>
         </div>
       </section>
