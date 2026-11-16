@@ -5,7 +5,7 @@ import Card from "../components/ui/Card.jsx";
 import Pill from "../components/ui/Pill.jsx";
 import Button from "../components/ui/Button.jsx";
 import SmartLink from "../components/ui/SmartLink.jsx";
-import { ExternalLink, X } from "lucide-react";
+import { ExternalLink, FileDown, X } from "lucide-react";
 
 const JALUR_PMB = [
   {
@@ -40,16 +40,77 @@ const BEASISWA = [
     id: "doc:kip-kuliah",
     title: "KIP-Kuliah",
     small: "Pemerintah · biaya pendidikan dan hidup",
+    keterangan:
+      "Bantuan biaya pendidikan dan biaya hidup dari pemerintah pusat bagi mahasiswa kurang mampu.",
+    nomor: "SK [nomor]",
+    tanggal: "[tanggal]",
+    versi: "[v]",
+    status: "Berlaku",
+    akses: "Publik",
+    riwayat: [
+      { versi: "v1.0", desc: "[tanggal] — berlaku sejak versi awal." },
+      {
+        versi: "v0.9",
+        desc: "[tanggal] — versi lama, digantikan setelah evaluasi dan RTM.",
+      },
+    ],
+  },
+  {
+    id: "doc:beasiswa-3t-afirmasi",
+    title: "Beasiswa afirmasi 3T",
+    small: "Universitas · keringanan UKT bagi mahasiswa dari daerah 3T",
+    keterangan:
+      "Keringanan UKT dari universitas bagi mahasiswa yang berasal dari daerah tertinggal, terdepan, dan terluar (3T).",
+    nomor: "SK [nomor]",
+    tanggal: "[tanggal]",
+    versi: "[v]",
+    status: "Berlaku",
+    akses: "Publik",
+    riwayat: [
+      { versi: "v1.0", desc: "[tanggal] — berlaku sejak versi awal." },
+      {
+        versi: "v0.9",
+        desc: "[tanggal] — versi lama, digantikan setelah evaluasi dan RTM.",
+      },
+    ],
   },
   {
     id: "doc:beasiswa-prestasi-tahfidz",
     title: "Beasiswa prestasi & tahfidz",
     small: "Universitas",
+    keterangan:
+      "Beasiswa internal universitas untuk mahasiswa berprestasi akademik atau hafidz Al-Qur'an.",
+    nomor: "SK [nomor]",
+    tanggal: "[tanggal]",
+    versi: "[v]",
+    status: "Berlaku",
+    akses: "Publik",
+    riwayat: [
+      { versi: "v1.0", desc: "[tanggal] — berlaku sejak versi awal." },
+      {
+        versi: "v0.9",
+        desc: "[tanggal] — versi lama, digantikan setelah evaluasi dan RTM.",
+      },
+    ],
   },
   {
     id: "doc:keringanan-ukt",
     title: "Keringanan UKT",
     small: "Bagi mahasiswa terdampak ekonomi",
+    keterangan:
+      "Keringanan UKT bagi mahasiswa yang mengalami kendala ekonomi karena musibah, PHK, atau kondisi lain.",
+    nomor: "SK [nomor]",
+    tanggal: "[tanggal]",
+    versi: "[v]",
+    status: "Berlaku",
+    akses: "Publik",
+    riwayat: [
+      { versi: "v1.0", desc: "[tanggal] — berlaku sejak versi awal." },
+      {
+        versi: "v0.9",
+        desc: "[tanggal] — versi lama, digantikan setelah evaluasi dan RTM.",
+      },
+    ],
   },
 ];
 
@@ -240,9 +301,130 @@ function PortalPmbDrawer({ open, onClose }) {
   );
 }
 
+// Drawer detail dokumen beasiswa — pratinjau dokumen di kiri, detail SK di kanan.
+// Pola sama dengan BaganDrawer di Profil.jsx biar konsisten.
+function BeasiswaDrawer({ beasiswa, onClose }) {
+  const closeRef = useRef(null);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!beasiswa) return;
+    closeRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [beasiswa, onClose]);
+
+  if (!beasiswa) return null;
+
+  const salinTautan = () => {
+    try {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard tidak tersedia di perangkat ini.
+    }
+  };
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div
+        className="pd pd--wide"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Dokumen ${beasiswa.title}`}
+      >
+        <div className="pd-head">
+          <span className="eyebrow">Pusdatin · Publik</span>
+          <h3>{beasiswa.title}</h3>
+          <button
+            ref={closeRef}
+            type="button"
+            className="pd-close"
+            onClick={onClose}
+            aria-label="Tutup dokumen"
+          >
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <div className="pd-doc-grid">
+            <div className="pd-doc">
+              <img src="/logo.png" alt="Logo UNIZAR" />
+              <b>{beasiswa.title}</b>
+              <div className="pd-doc-lines" aria-hidden="true">
+                <span style={{ width: "88%" }} />
+                <span style={{ width: "72%" }} />
+                <span style={{ width: "80%" }} />
+                <span style={{ width: "62%" }} />
+              </div>
+              <small>Pratinjau dokumen</small>
+            </div>
+            <div style={{ display: "grid", gap: "16px", alignContent: "start" }}>
+              <dl className="pd-meta">
+                <div>
+                  <dt>Keterangan</dt>
+                  <dd>{beasiswa.keterangan}</dd>
+                </div>
+                <div>
+                  <dt>Nomor</dt>
+                  <dd>{beasiswa.nomor}</dd>
+                </div>
+                <div>
+                  <dt>Tanggal penetapan</dt>
+                  <dd>{beasiswa.tanggal}</dd>
+                </div>
+                <div>
+                  <dt>Versi</dt>
+                  <dd>{beasiswa.versi}</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>{beasiswa.status}</dd>
+                </div>
+                <div>
+                  <dt>Akses</dt>
+                  <dd>{beasiswa.akses}</dd>
+                </div>
+              </dl>
+              <div className="pd-sec">
+                <h4>Riwayat versi</h4>
+                <ul className="clean">
+                  {beasiswa.riwayat.map((r, i) => (
+                    <li key={i} className="pd-row pd-versi">
+                      <b>{r.versi}</b> {r.desc}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="btn-row">
+                <Button variant="dark" asButton onClick={() => {}}>
+                  <FileDown size={17} strokeWidth={1.9} /> Unduh PDF
+                </Button>
+                <Button variant="line" asButton onClick={salinTautan}>
+                  {copied ? "Tautan disalin ✓" : "Salin tautan"}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function Pendidikan() {
   const [openFaq, setOpenFaq] = useState(null);
   const [openPmb, setOpenPmb] = useState(false);
+  const [beasiswaDetail, setBeasiswaDetail] = useState(null);
 
   return (
     <div className="page animate-fade">
@@ -328,7 +510,24 @@ export default function Pendidikan() {
                         {b.small}
                       </small>
                     </div>
-                    <SmartLink to="#">Lihat dokumen →</SmartLink>
+                    <button
+                      type="button"
+                      onClick={() => setBeasiswaDetail(b)}
+                      style={{
+                        border: 0,
+                        background: "transparent",
+                        padding: 0,
+                        font: "inherit",
+                        color: "#0a6b4f",
+                        fontWeight: 700,
+                        fontSize: "14px",
+                        cursor: "pointer",
+                        textDecoration: "none",
+                      }}
+                      className="weblink"
+                    >
+                      Lihat dokumen →
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -537,6 +736,10 @@ export default function Pendidikan() {
       </section>
 
       <PortalPmbDrawer open={openPmb} onClose={() => setOpenPmb(false)} />
+      <BeasiswaDrawer
+        beasiswa={beasiswaDetail}
+        onClose={() => setBeasiswaDetail(null)}
+      />
     </div>
   );
 }
