@@ -1,5 +1,5 @@
-import SmartLink from '../ui/SmartLink.jsx'
-import { Search } from 'lucide-react'
+import SmartLink from "../ui/SmartLink.jsx";
+import { Search } from "lucide-react";
 
 // UtilityBar — bar hitam paling atas (di atas header)
 export default function UtilityBar({ onOpenSearch }) {
@@ -13,19 +13,34 @@ export default function UtilityBar({ onOpenSearch }) {
         </div>
 
         <div className="flex items-center gap-[18px] flex-wrap ml-auto">
-          <SmartLink to="/pendidikan#penerimaan" className="hidden md:inline hover:text-white hover:underline">
-            PMB 2027
+          <SmartLink
+            to="/pendidikan#penerimaan"
+            className="hidden md:inline-block bg-red-600 hover:bg-red-700 !text-white hover:!text-white font-semibold px-4 py-1.5 rounded-lg transition-colors shadow-sm"
+          >
+            PMB
           </SmartLink>
-          <SmartLink to="/berita" className="hidden lg:inline hover:text-white hover:underline">
+          <SmartLink
+            to="/berita"
+            className="hidden lg:inline !text-white hover:!text-white hover:!underline"
+          >
             Berita
           </SmartLink>
-          <SmartLink to="/tata-kelola#ppid" className="hidden lg:inline hover:text-white hover:underline">
+          <SmartLink
+            to="/tata-kelola#ppid"
+            className="hidden lg:inline !text-white hover:!text-white hover:!underline"
+          >
             PPID
           </SmartLink>
-          <SmartLink to="/pusdatin#jdih" className="hidden lg:inline hover:text-white hover:underline">
+          <SmartLink
+            to="/pusdatin#jdih"
+            className="hidden lg:inline !text-white hover:!text-white hover:!underline"
+          >
             JDIH
           </SmartLink>
-          <SmartLink to="/direktori#kontak" className="hidden lg:inline hover:text-white hover:underline">
+          <SmartLink
+            to="/direktori#kontak"
+            className="hidden lg:inline !text-white hover:!text-white hover:!underline"
+          >
             Kontak
           </SmartLink>
 
@@ -62,5 +77,5 @@ export default function UtilityBar({ onOpenSearch }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
