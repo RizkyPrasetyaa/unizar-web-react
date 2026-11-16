@@ -20,6 +20,12 @@ export default function UtilityBar({ onOpenSearch }) {
             PMB
           </SmartLink>
           <SmartLink
+            to="/mahasiswa-alumni#alumni"
+            className="hidden lg:inline !text-white hover:!text-white hover:!underline"
+          >
+            Karir
+          </SmartLink>
+          <SmartLink
             to="/berita"
             className="hidden lg:inline !text-white hover:!text-white hover:!underline"
           >
