@@ -4,6 +4,7 @@ import Subnav from "../components/layout/Subnav.jsx";
 import Card from "../components/ui/Card.jsx";
 import Pill from "../components/ui/Pill.jsx";
 import Button from "../components/ui/Button.jsx";
+import PhotoSlot from "../components/ui/PhotoSlot.jsx";
 import SmartLink from "../components/ui/SmartLink.jsx";
 import { toHref } from "../lib/router.js";
 import { ExternalLink, FileDown, X } from "lucide-react";
@@ -242,18 +243,111 @@ const SUASANA = [
     pill: "Agenda",
     title: "Kuliah umum & seminar",
     desc: "Agenda terbuka untuk umum setiap bulan.",
+    drawer: {
+      eyebrow: "Kehidupan di kampus",
+      title: "Kuliah umum & seminar",
+      fotoCaption: "Foto: kuliah umum di Aula Rektorat",
+      meta: [
+        ["Frekuensi", "Setiap bulan"],
+        ["Peserta", "Terbuka untuk umum"],
+        ["Tempat utama", "Aula Rektorat"],
+      ],
+      note: "[Ruang lingkup: tema rutin, mekanisme pendaftaran, dan tautan siaran ulang.]",
+      listTitle: "Agenda mendatang",
+      list: [
+        "[Tanggal] Kuliah umum — [tema]",
+        "[Tanggal] Seminar nasional — [tema]",
+      ],
+      cta: "Lihat agenda terbuka",
+      cta2: "Riwayat acara",
+    },
   },
   {
     pill: "Pedoman",
     title: "Integritas akademik",
     desc: "Pemeriksaan kemiripan karya ilmiah dan pedoman antiplagiarisme.",
+    drawer: {
+      eyebrow: "Tata kelola & budaya",
+      title: "Pedoman integritas akademik",
+      fotoCaption: "Foto: suasana seminar integritas",
+      meta: [
+        ["Naungan unit", "Satuan Pengawasan Internal"],
+        ["Siklus", "Tahunan"],
+        ["Terakhir diperbarui", "[tanggal]"],
+      ],
+      note: "[Ruang lingkup pedoman: etika publikasi, pemeriksaan kemiripan, dan sanksi.]",
+      listTitle: "Mekanisme penegakan",
+      list: [
+        "Pemeriksaan kemiripan karya ilmiah",
+        "Proses etika publikasi ilmiah",
+        "Sanksi atas pelanggaran integritas",
+      ],
+      cta: "Lihat dokumen",
+      cta2: "Laporkan pelanggaran",
+    },
   },
   {
     pill: "Komunitas",
     title: "Kelompok studi",
     desc: "Forum diskusi lintas prodi yang dikelola mahasiswa.",
+    drawer: {
+      eyebrow: "Kehidupan di kampus",
+      title: "Kelompok studi & komunitas",
+      fotoCaption: "Foto: kegiatan kelompok studi",
+      meta: [
+        ["Naungan unit", "[Unit pembina]"],
+        ["Peserta", "Terbuka untuk semua mahasiswa"],
+        ["Jadwal rutin", "[Jadwal]"],
+      ],
+      note: "[Ruang lingkup kelompok studi dan komunitas yang aktif dikelola mahasiswa.]",
+      listTitle: "Kegiatan rutin",
+      list: [
+        "Diskusi bulanan lintas prodi",
+        "Kajian ilmiah bersama dosen pembina",
+        "Proyek kolaborasi mahasiswa",
+      ],
+      cta: "Gabung kelompok studi",
+      cta2: "Lihat jadwal",
+    },
   },
-];
+]
+
+// Dokumen kalender & panduan — dibuka via DocDrawer saat tombol diklik
+const KALENDER_DOC = {
+  id: "doc:kalender-akademik",
+  title: "Kalender Akademik 2026/2027 — Semester Ganjil",
+  keterangan: "Kalender akademik semester ganjil tahun akademik 2026/2027.",
+  nomor: "SK [nomor]",
+  tanggal: "[tanggal]",
+  versi: "1.0",
+  status: "Berlaku",
+  akses: "Publik",
+  riwayat: [
+    { versi: "v1.0", desc: "[tanggal] — berlaku sejak versi awal." },
+    {
+      versi: "v0.9",
+      desc: "[tanggal] — versi lama, digantikan setelah evaluasi dan RTM.",
+    },
+  ],
+}
+
+const PANDUAN_DOC = {
+  id: "doc:panduan-akademik",
+  title: "Panduan Akademik 2026/2027",
+  keterangan: "Panduan akademik program studi tahun akademik 2026/2027.",
+  nomor: "SK [nomor]",
+  tanggal: "[tanggal]",
+  versi: "1.0",
+  status: "Berlaku",
+  akses: "Publik",
+  riwayat: [
+    { versi: "v1.0", desc: "[tanggal] — berlaku sejak versi awal." },
+    {
+      versi: "v0.9",
+      desc: "[tanggal] — versi lama, digantikan setelah evaluasi dan RTM.",
+    },
+  ],
+};
 
 // Drawer "menuju sistem lain" — konfirmasi sebelum buka sistem eksternal
 // di tab baru. Dipakai untuk Portal PMB dan SIERRA (RPL).
@@ -414,6 +508,89 @@ function KurikulumDrawer({ kartu, onClose }) {
   );
 }
 
+// Drawer detail kartu suasana akademik — muncul saat kartu pada section
+// "Suasana Akademik" diklik.
+function SuasanaDrawer({ item, onClose }) {
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    if (!item) return;
+    closeRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [item, onClose]);
+
+  if (!item) return null;
+  const d = item.drawer;
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div
+        className="pd"
+        role="dialog"
+        aria-modal="true"
+        aria-label={d.title}
+      >
+        <div className="pd-head">
+          <span className="eyebrow">{d.eyebrow}</span>
+          <h3>{d.title}</h3>
+          <button
+            ref={closeRef}
+            type="button"
+            className="pd-close"
+            onClick={onClose}
+            aria-label="Tutup"
+          >
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <PhotoSlot
+            caption={d.fotoCaption}
+            className="h-[170px]"
+            aria-label={d.fotoCaption}
+          />
+          <dl className="pd-meta">
+            {d.meta.map(([k, v]) => (
+              <div key={k}>
+                <dt>{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="pd-note">{d.note}</p>
+          <div className="pd-sec">
+            <h4>{d.listTitle}</h4>
+            <ul className="clean list-none p-0 m-0">
+              {d.list.map((li, i) => (
+                <li key={i} className="pd-row">
+                  {li}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="btn-row">
+            <Button variant="dark" asButton onClick={() => {}}>
+              {d.cta}
+            </Button>
+            <Button variant="line" asButton onClick={() => {}}>
+              {d.cta2}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 // Drawer detail dokumen — pratinjau dokumen di kiri, detail SK di kanan.
 // Pola sama dengan BaganDrawer di Profil.jsx biar konsisten. Dipakai untuk
 // dokumen beasiswa dan dokumen kurikulum (Pedoman OBE & Antikorupsi).
@@ -541,6 +718,7 @@ export default function Pendidikan() {
   const [openSierra, setOpenSierra] = useState(false);
   const [kurikulumDetail, setKurikulumDetail] = useState(null);
   const [docDetail, setDocDetail] = useState(null);
+  const [suasanaDetail, setSuasanaDetail] = useState(null);
 
   const handleKurikulumClick = (k) => {
     if (k.action === "sierra") {
@@ -827,10 +1005,18 @@ export default function Pendidikan() {
             ))}
           </div>
           <div className="btn-row" style={{ marginTop: "18px" }}>
-            <Button variant="line" href="#">
+            <Button
+              variant="line"
+              asButton
+              onClick={() => setDocDetail(KALENDER_DOC)}
+            >
               Kalender lengkap (PDF)
             </Button>
-            <Button variant="line" href="#">
+            <Button
+              variant="line"
+              asButton
+              onClick={() => setDocDetail(PANDUAN_DOC)}
+            >
               Panduan akademik
             </Button>
           </div>
@@ -856,7 +1042,11 @@ export default function Pendidikan() {
           </div>
           <div className="grid g3">
             {SUASANA.map((s) => (
-              <Card key={s.title} style={{ cursor: "pointer" }}>
+              <Card
+                key={s.title}
+                onClick={() => setSuasanaDetail(s)}
+                style={{ cursor: "pointer" }}
+              >
                 <Pill>{s.pill}</Pill>
                 <h3>{s.title}</h3>
                 <p>{s.desc}</p>
@@ -886,6 +1076,10 @@ export default function Pendidikan() {
         onClose={() => setKurikulumDetail(null)}
       />
       <DocDrawer doc={docDetail} onClose={() => setDocDetail(null)} />
+      <SuasanaDrawer
+        item={suasanaDetail}
+        onClose={() => setSuasanaDetail(null)}
+      />
     </div>
   );
 }
