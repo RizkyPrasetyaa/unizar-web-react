@@ -1,9 +1,14 @@
+import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { PARTNERS } from '../../data/content.js'
 import { toHref } from '../../lib/router.js'
+import PartnerDrawer from './PartnerDrawer.jsx'
 
-// PartnersSection — logo mitra + link dokumen mutu
+// PartnersSection — logo mitra + link dokumen mutu.
+// Klik kartu logo mitra membuka popup detail kerja sama (PartnerDrawer).
 export default function PartnersSection() {
+  const [detail, setDetail] = useState(null)
+
   return (
     <section className="sec">
       <div className="wrap">
@@ -23,13 +28,14 @@ export default function PartnersSection() {
           style={{ gridTemplateColumns: 'repeat(6, minmax(0,1fr))' }}
         >
           {PARTNERS.map((p, i) => (
-            <a
+            <button
               key={i}
-              href={toHref(p.to)}
-              className="h-[70px] border border-dashed border-[#C4D6CC] rounded-card grid place-items-center text-muted text-[12.5px] font-bold text-center p-1.5 bg-white no-underline hover:border-em-500 hover:text-em-700 transition-colors"
+              type="button"
+              onClick={() => setDetail(p)}
+              className="h-[70px] border border-dashed border-[#C4D6CC] rounded-card grid place-items-center text-muted text-[12.5px] font-bold text-center p-1.5 bg-white hover:border-em-500 hover:text-em-700 transition-colors cursor-pointer"
             >
               {p.label}
-            </a>
+            </button>
           ))}
         </div>
 
@@ -48,6 +54,8 @@ export default function PartnersSection() {
           </div>
         </div>
       </div>
+
+      <PartnerDrawer mitra={detail} onClose={() => setDetail(null)} />
     </section>
   )
 }
