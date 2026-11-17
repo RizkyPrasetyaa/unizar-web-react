@@ -49,7 +49,7 @@ export const NAV_LEFT = [
         { title: 'Unit kerja', desc: 'Biro, lembaga, badan, UPT, dan satgas', to: '/direktori#unit' },
         { title: 'Dosen & Tendik', desc: 'Cari berdasarkan nama atau bidang keilmuan', to: '/direktori#dosen' },
         { title: 'Pusdatin', desc: 'Dokumen resmi, data, statistik, dan JDIH', to: '/pusdatin' },
-        { title: 'Kontak & denah', desc: 'Alamat, telepon, dan denah gedung', to: '/direktori#kontak' },
+        { title: 'Kontak & Peta', desc: 'Alamat, telepon, dan peta gedung', to: '/direktori#kontak' },
       ],
       feat: { title: 'Pusdatin', desc: 'Dokumen, data, dan statistik resmi', to: '/pusdatin' },
     },
