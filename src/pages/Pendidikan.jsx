@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PageHero from "../components/layout/PageHero.jsx";
 import Subnav from "../components/layout/Subnav.jsx";
 import Card from "../components/ui/Card.jsx";
 import Pill from "../components/ui/Pill.jsx";
 import Button from "../components/ui/Button.jsx";
 import SmartLink from "../components/ui/SmartLink.jsx";
-import { ExternalLink } from "lucide-react";
+import { toHref } from "../lib/router.js";
+import { ExternalLink, FileDown, X } from "lucide-react";
 
 const JALUR_PMB = [
   {
@@ -40,16 +41,77 @@ const BEASISWA = [
     id: "doc:kip-kuliah",
     title: "KIP-Kuliah",
     small: "Pemerintah · biaya pendidikan dan hidup",
+    keterangan:
+      "Bantuan biaya pendidikan dan biaya hidup dari pemerintah pusat bagi mahasiswa kurang mampu.",
+    nomor: "SK [nomor]",
+    tanggal: "[tanggal]",
+    versi: "[v]",
+    status: "Berlaku",
+    akses: "Publik",
+    riwayat: [
+      { versi: "v1.0", desc: "[tanggal] — berlaku sejak versi awal." },
+      {
+        versi: "v0.9",
+        desc: "[tanggal] — versi lama, digantikan setelah evaluasi dan RTM.",
+      },
+    ],
+  },
+  {
+    id: "doc:beasiswa-3t-afirmasi",
+    title: "Beasiswa afirmasi 3T",
+    small: "Universitas · keringanan UKT bagi mahasiswa dari daerah 3T",
+    keterangan:
+      "Keringanan UKT dari universitas bagi mahasiswa yang berasal dari daerah tertinggal, terdepan, dan terluar (3T).",
+    nomor: "SK [nomor]",
+    tanggal: "[tanggal]",
+    versi: "[v]",
+    status: "Berlaku",
+    akses: "Publik",
+    riwayat: [
+      { versi: "v1.0", desc: "[tanggal] — berlaku sejak versi awal." },
+      {
+        versi: "v0.9",
+        desc: "[tanggal] — versi lama, digantikan setelah evaluasi dan RTM.",
+      },
+    ],
   },
   {
     id: "doc:beasiswa-prestasi-tahfidz",
     title: "Beasiswa prestasi & tahfidz",
     small: "Universitas",
+    keterangan:
+      "Beasiswa internal universitas untuk mahasiswa berprestasi akademik atau hafidz Al-Qur'an.",
+    nomor: "SK [nomor]",
+    tanggal: "[tanggal]",
+    versi: "[v]",
+    status: "Berlaku",
+    akses: "Publik",
+    riwayat: [
+      { versi: "v1.0", desc: "[tanggal] — berlaku sejak versi awal." },
+      {
+        versi: "v0.9",
+        desc: "[tanggal] — versi lama, digantikan setelah evaluasi dan RTM.",
+      },
+    ],
   },
   {
     id: "doc:keringanan-ukt",
     title: "Keringanan UKT",
     small: "Bagi mahasiswa terdampak ekonomi",
+    keterangan:
+      "Keringanan UKT bagi mahasiswa yang mengalami kendala ekonomi karena musibah, PHK, atau kondisi lain.",
+    nomor: "SK [nomor]",
+    tanggal: "[tanggal]",
+    versi: "[v]",
+    status: "Berlaku",
+    akses: "Publik",
+    riwayat: [
+      { versi: "v1.0", desc: "[tanggal] — berlaku sejak versi awal." },
+      {
+        versi: "v0.9",
+        desc: "[tanggal] — versi lama, digantikan setelah evaluasi dan RTM.",
+      },
+    ],
   },
 ];
 
@@ -68,36 +130,77 @@ const FAQ = [
   },
 ];
 
+// Dokumen kurikulum — detail SK muncul di drawer saat kartu terkait diklik.
+// Placeholder [nomor]/[tanggal]/[v] diisi operator website ketika SK tersedia.
+const DOK_OBE = {
+  id: "doc:pedoman-kurikulum-obe",
+  title: "Pedoman Kurikulum OBE",
+  keterangan: "Wakil Rektor I - SK [nomor]",
+  nomor: "SK [nomor]",
+  tanggal: "[tanggal]",
+  versi: "[v]",
+  status: "Berlaku",
+  akses: "Publik",
+  riwayat: [
+    { versi: "[v terbaru]", desc: "Berlaku sejak [tanggal]" },
+    { versi: "[v sebelumnya]", desc: "Diganti setelah evaluasi dan RTM" },
+  ],
+};
+
+const DOK_ANTIKORUPSI = {
+  id: "doc:pedoman-pendidikan-antikorupsi",
+  title: "Pedoman Pendidikan Antikorupsi",
+  keterangan: "SK [nomor]",
+  nomor: "SK [nomor]",
+  tanggal: "[tanggal]",
+  versi: "[v]",
+  status: "Berlaku",
+  akses: "Publik",
+  riwayat: [
+    { versi: "[v terbaru]", desc: "Berlaku sejak [tanggal]" },
+    { versi: "[v sebelumnya]", desc: "Diganti setelah evaluasi dan RTM" },
+  ],
+};
+
 const KURIKULUM = [
   {
     pill: "Kebijakan",
     title: "Kurikulum berbasis luaran (OBE)",
     desc: "Disusun bersama pengguna lulusan dan dievaluasi berkala.",
+    action: "doc",
+    doc: DOK_OBE,
   },
   {
     pill: "MBKM",
     title: "Merdeka Belajar (MBKM)",
     desc: "Minimal 10 sks di luar prodi: magang, proyek desa, riset, atau pertukaran.",
+    action: "info",
   },
   {
     pill: "RPL",
     title: "Rekognisi Pembelajaran Lampau",
     desc: "Pengalaman kerja dan pelatihan diakui sebagai sks.",
+    action: "sierra",
   },
   {
     pill: "Layanan",
     title: "E-learning",
     desc: "Kelas daring, bahan ajar, dan forum diskusi untuk semua mata kuliah.",
+    action: "info",
   },
   {
     pill: "Integritas",
     title: "Pendidikan antikorupsi",
     desc: "Nilai integritas terintegrasi di setiap kurikulum prodi.",
+    action: "doc",
+    doc: DOK_ANTIKORUPSI,
   },
   {
     pill: "Mutu",
     title: "Evaluasi pembelajaran",
     desc: "Hasil evaluasi dosen oleh mahasiswa dan tindak lanjutnya.",
+    action: "link",
+    linkTo: "/penjaminan-mutu#dokumen",
   },
 ];
 
@@ -152,8 +255,304 @@ const SUASANA = [
   },
 ];
 
+// Drawer "menuju sistem lain" — konfirmasi sebelum buka sistem eksternal
+// di tab baru. Dipakai untuk Portal PMB dan SIERRA (RPL).
+const PORTAL_PMB_URL = ""; // diisi operator website ketika sudah tersedia
+const PORTAL_PMB_DESC =
+  "Portal PMB UNIZAR berisi pendaftaran, pembayaran, tes seleksi, dan pengumuman calon mahasiswa baru.";
+
+const SIERRA_URL = ""; // diisi operator website ketika sudah tersedia
+const SIERRA_DESC =
+  "SIERRA adalah sistem nasional rekognisi pembelajaran lampau (RPL) untuk pendaftaran jalur RPL.";
+
+function SystemDrawer({ open, title, desc, url, onClose }) {
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    closeRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const alamat = url || "[alamat diisi operator website]";
+
+  const bukaTabBaru = () => {
+    if (url) window.open(url, "_blank", "noreferrer");
+  };
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div
+        className="pd"
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+      >
+        <div className="pd-head">
+          <span className="eyebrow">Menuju sistem lain</span>
+          <h3>{title}</h3>
+          <button
+            ref={closeRef}
+            type="button"
+            className="pd-close"
+            onClick={onClose}
+            aria-label="Tutup"
+          >
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <span
+            style={{
+              width: "52px",
+              height: "52px",
+              borderRadius: "14px",
+              background: "#e3f1ea",
+              display: "grid",
+              placeItems: "center",
+              color: "#064e3b",
+            }}
+            aria-hidden="true"
+          >
+            <ExternalLink size={26} strokeWidth={1.9} />
+          </span>
+          <p className="pd-bio">{desc}</p>
+          <div className="pd-addr">
+            <small>Alamat</small>
+            <b>{alamat}</b>
+          </div>
+          <div className="btn-row" style={{ marginTop: "4px" }}>
+            <Button variant="dark" asButton onClick={bukaTabBaru}>
+              Buka di tab baru{" "}
+              <ExternalLink style={{ width: 15, height: 15 }} aria-hidden="true" />
+            </Button>
+            <Button variant="line" asButton onClick={onClose}>
+              Batal
+            </Button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// Drawer detail kartu kurikulum — info ringkas program/kebijakan.
+// Muncul saat klik kartu pada section "Kurikulum & Pembelajaran"
+// yang tidak punya aksi khusus (RPL → SIERRA, OBE & Antikorupsi →
+// drawer dokumen, Evaluasi pembelajaran → halaman Penjaminan Mutu).
+function KurikulumDrawer({ kartu, onClose }) {
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    if (!kartu) return;
+    closeRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [kartu, onClose]);
+
+  if (!kartu) return null;
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div
+        className="pd"
+        role="dialog"
+        aria-modal="true"
+        aria-label={kartu.title}
+      >
+        <div className="pd-head">
+          <span className="eyebrow">Kurikulum &amp; pembelajaran</span>
+          <h3>{kartu.title}</h3>
+          <button
+            ref={closeRef}
+            type="button"
+            className="pd-close"
+            onClick={onClose}
+            aria-label="Tutup"
+          >
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <span className="pill">{kartu.pill}</span>
+          <p className="pd-bio">{kartu.desc}</p>
+          <div className="pd-sec">
+            <h4>Informasi lengkap</h4>
+            <p className="pd-note">
+              Rincian kebijakan, prosedur, dan dokumen terkait akan diisi
+              operator website. Untuk sementara, informasi singkat di atas
+              merupakan ringkasan program.
+            </p>
+          </div>
+          <div className="btn-row">
+            <Button variant="line" asButton onClick={onClose}>
+              Tutup
+            </Button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// Drawer detail dokumen — pratinjau dokumen di kiri, detail SK di kanan.
+// Pola sama dengan BaganDrawer di Profil.jsx biar konsisten. Dipakai untuk
+// dokumen beasiswa dan dokumen kurikulum (Pedoman OBE & Antikorupsi).
+function DocDrawer({ doc, onClose }) {
+  const closeRef = useRef(null);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!doc) return;
+    closeRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [doc, onClose]);
+
+  if (!doc) return null;
+
+  const salinTautan = () => {
+    try {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard tidak tersedia di perangkat ini.
+    }
+  };
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div
+        className="pd pd--wide"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Dokumen ${doc.title}`}
+      >
+        <div className="pd-head">
+          <span className="eyebrow">Pusdatin · Publik</span>
+          <h3>{doc.title}</h3>
+          <button
+            ref={closeRef}
+            type="button"
+            className="pd-close"
+            onClick={onClose}
+            aria-label="Tutup dokumen"
+          >
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <div className="pd-doc-grid">
+            <div className="pd-doc">
+              <img src="/logo.png" alt="Logo UNIZAR" />
+              <b>{doc.title}</b>
+              <div className="pd-doc-lines" aria-hidden="true">
+                <span style={{ width: "88%" }} />
+                <span style={{ width: "72%" }} />
+                <span style={{ width: "80%" }} />
+                <span style={{ width: "62%" }} />
+              </div>
+              <small>Pratinjau dokumen</small>
+            </div>
+            <div style={{ display: "grid", gap: "16px", alignContent: "start" }}>
+              <dl className="pd-meta">
+                <div>
+                  <dt>Keterangan</dt>
+                  <dd>{doc.keterangan}</dd>
+                </div>
+                <div>
+                  <dt>Nomor</dt>
+                  <dd>{doc.nomor}</dd>
+                </div>
+                <div>
+                  <dt>Tanggal penetapan</dt>
+                  <dd>{doc.tanggal}</dd>
+                </div>
+                <div>
+                  <dt>Versi</dt>
+                  <dd>{doc.versi}</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>{doc.status}</dd>
+                </div>
+                <div>
+                  <dt>Akses</dt>
+                  <dd>{doc.akses}</dd>
+                </div>
+              </dl>
+              <div className="pd-sec">
+                <h4>Riwayat versi</h4>
+                <ul className="clean">
+                  {doc.riwayat.map((r, i) => (
+                    <li key={i} className="pd-row pd-versi">
+                      <b>{r.versi}</b> {r.desc}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="btn-row">
+                <Button variant="dark" asButton onClick={() => {}}>
+                  <FileDown size={17} strokeWidth={1.9} /> Unduh PDF
+                </Button>
+                <Button variant="line" asButton onClick={salinTautan}>
+                  {copied ? "Tautan disalin ✓" : "Salin tautan"}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function Pendidikan() {
   const [openFaq, setOpenFaq] = useState(null);
+  const [openPmb, setOpenPmb] = useState(false);
+  const [openSierra, setOpenSierra] = useState(false);
+  const [kurikulumDetail, setKurikulumDetail] = useState(null);
+  const [docDetail, setDocDetail] = useState(null);
+
+  const handleKurikulumClick = (k) => {
+    if (k.action === "sierra") {
+      setOpenSierra(true);
+    } else if (k.action === "doc") {
+      setDocDetail(k.doc);
+    } else if (k.action === "link") {
+      window.location.hash = toHref(k.linkTo).replace(/^#/, "");
+    } else {
+      setKurikulumDetail(k);
+    }
+  };
 
   return (
     <div className="page animate-fade">
@@ -197,7 +596,11 @@ export default function Pendidikan() {
             }}
           >
             {JALUR_PMB.map((j) => (
-              <Card key={j.pill} to="#">
+              <Card
+                key={j.pill}
+                onClick={() => setOpenPmb(true)}
+                style={{ cursor: "pointer" }}
+              >
                 <Pill variant={j.variant}>{j.pill}</Pill>
                 <p>{j.desc}</p>
                 <span className="more">Daftar jalur ini →</span>
@@ -235,7 +638,24 @@ export default function Pendidikan() {
                         {b.small}
                       </small>
                     </div>
-                    <SmartLink to="#">Lihat dokumen →</SmartLink>
+                    <button
+                      type="button"
+                      onClick={() => setDocDetail(b)}
+                      style={{
+                        border: 0,
+                        background: "transparent",
+                        padding: 0,
+                        font: "inherit",
+                        color: "#0a6b4f",
+                        fontWeight: 700,
+                        fontSize: "14px",
+                        cursor: "pointer",
+                        textDecoration: "none",
+                      }}
+                      className="weblink"
+                    >
+                      Lihat dokumen →
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -259,7 +679,7 @@ export default function Pendidikan() {
                   </p>
                 </div>
                 <div className="btn-row">
-                  <Button variant="pri" href="#">
+                  <Button variant="pri" asButton onClick={() => setOpenPmb(true)}>
                     Daftar Sekarang{" "}
                     <ExternalLink
                       style={{ width: 16, height: 16 }}
@@ -344,7 +764,11 @@ export default function Pendidikan() {
           </div>
           <div className="grid g3">
             {KURIKULUM.map((k) => (
-              <Card key={k.title} to="#">
+              <Card
+                key={k.title}
+                onClick={() => handleKurikulumClick(k)}
+                style={{ cursor: "pointer" }}
+              >
                 <Pill>{k.pill}</Pill>
                 <h3>{k.title}</h3>
                 <p>{k.desc}</p>
@@ -432,7 +856,7 @@ export default function Pendidikan() {
           </div>
           <div className="grid g3">
             {SUASANA.map((s) => (
-              <Card key={s.title} to="#">
+              <Card key={s.title} style={{ cursor: "pointer" }}>
                 <Pill>{s.pill}</Pill>
                 <h3>{s.title}</h3>
                 <p>{s.desc}</p>
@@ -442,6 +866,26 @@ export default function Pendidikan() {
           </div>
         </div>
       </section>
+
+      <SystemDrawer
+        open={openPmb}
+        title="Portal PMB UNIZAR"
+        desc={PORTAL_PMB_DESC}
+        url={PORTAL_PMB_URL}
+        onClose={() => setOpenPmb(false)}
+      />
+      <SystemDrawer
+        open={openSierra}
+        title="SIERRA"
+        desc={SIERRA_DESC}
+        url={SIERRA_URL}
+        onClose={() => setOpenSierra(false)}
+      />
+      <KurikulumDrawer
+        kartu={kurikulumDetail}
+        onClose={() => setKurikulumDetail(null)}
+      />
+      <DocDrawer doc={docDetail} onClose={() => setDocDetail(null)} />
     </div>
   );
 }

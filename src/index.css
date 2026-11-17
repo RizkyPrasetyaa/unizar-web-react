@@ -145,6 +145,13 @@
     }
   }
 
+  /* Beranda: konten lebih lebar di layar besar biar info lebih lega */
+  @media (min-width: 1280px) {
+    .page-home .wrap {
+      max-width: 1320px;
+    }
+  }
+
   /* Eyebrow label kecil */
   .eyebrow {
     @apply text-xs font-extrabold uppercase tracking-[0.14em];

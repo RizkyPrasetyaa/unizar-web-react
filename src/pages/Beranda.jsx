@@ -10,7 +10,7 @@ import PartnersSection from '../components/home/PartnersSection.jsx'
 // Beranda — halaman utama UNIZAR
 export default function Beranda() {
   return (
-    <div className="page animate-fade">
+    <div className="page page-home animate-fade">
       <Hero />
       <AudienceBar />
       <StatsSection />

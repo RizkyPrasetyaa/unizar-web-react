@@ -1,11 +1,15 @@
+import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { STORIES } from '../../data/content.js'
 import Pill from '../ui/Pill.jsx'
 import PhotoSlot from '../ui/PhotoSlot.jsx'
 import { toHref } from '../../lib/router.js'
+import StoryDrawer from './StoryDrawer.jsx'
 
-// StoriesSection — 1 berita besar + 2 berita kecil
+// StoriesSection — 1 berita besar + 2 berita kecil.
+// Klik kartu membuka popup detail berita (StoryDrawer).
 export default function StoriesSection() {
+  const [detail, setDetail] = useState(null)
   const big = STORIES.find((s) => s.size === 'lg')
   const smalls = STORIES.filter((s) => s.size === 'sm')
 
@@ -24,9 +28,10 @@ export default function StoriesSection() {
         </div>
 
         <div className="stories">
-          <a
-            href={toHref(big.to)}
-            className="story flex flex-col bg-white border border-line rounded-card overflow-hidden no-underline text-ink hover:shadow-card transition-shadow card-link"
+          <button
+            type="button"
+            onClick={() => setDetail(big)}
+            className="story flex flex-col bg-white border border-line rounded-card overflow-hidden text-ink text-left hover:shadow-card transition-shadow card-link cursor-pointer"
           >
             <PhotoSlot
               variant={big.photoVariant || 'default'}
@@ -40,14 +45,15 @@ export default function StoriesSection() {
               <p className="text-muted">{big.excerpt}</p>
               <small className="text-muted">{big.dateLabel}</small>
             </div>
-          </a>
+          </button>
 
           <div className="story-stack">
             {smalls.map((s) => (
-              <a
+              <button
                 key={s.key}
-                href={toHref(s.to)}
-                className="story sm flex flex-row bg-white border border-line rounded-card overflow-hidden no-underline text-ink hover:shadow-card transition-shadow card-link"
+                type="button"
+                onClick={() => setDetail(s)}
+                className="story sm flex flex-row bg-white border border-line rounded-card overflow-hidden text-ink text-left hover:shadow-card transition-shadow card-link cursor-pointer"
               >
                 <PhotoSlot
                   variant={s.photoVariant || 'default'}
@@ -60,11 +66,13 @@ export default function StoriesSection() {
                   <h3 className="text-[17px]">{s.title}</h3>
                   <small className="text-muted">{s.dateLabel}</small>
                 </div>
-              </a>
+              </button>
             ))}
           </div>
         </div>
       </div>
+
+      <StoryDrawer story={detail} onClose={() => setDetail(null)} />
     </section>
   )
 }

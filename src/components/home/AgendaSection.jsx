@@ -1,9 +1,14 @@
+import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { AGENDA } from '../../data/content.js'
 import { toHref } from '../../lib/router.js'
+import AgendaDrawer from './AgendaDrawer.jsx'
 
-// AgendaSection — list agenda + CTA PMB 2027
+// AgendaSection — list agenda + CTA PMB 2027.
+// Klik baris agenda membuka popup detail agenda (AgendaDrawer).
 export default function AgendaSection() {
+  const [detail, setDetail] = useState(null)
+
   return (
     <section className="sec bg-white">
       <div className="wrap split">
@@ -18,8 +23,9 @@ export default function AgendaSection() {
             {AGENDA.map((a, i) => (
               <li
                 key={i}
-                className="grid items-center gap-4 py-3.5 border-b border-line"
+                className="grid items-center gap-4 py-3.5 border-b border-line cursor-pointer transition-colors hover:bg-em-50"
                 style={{ gridTemplateColumns: '64px minmax(0,1fr)' }}
+                onClick={() => setDetail(a)}
               >
                 <span className="d bg-em-50 rounded-card text-center py-2 font-extrabold text-em-800 leading-[1.1]">
                   {a.day}
@@ -28,9 +34,16 @@ export default function AgendaSection() {
                   </small>
                 </span>
                 <div>
-                  <a href={toHref(a.to)} className="no-underline text-ink hover:text-em-700">
+                  <button
+                    type="button"
+                    className="text-left font-[inherit] bg-transparent border-0 p-0 no-underline text-ink hover:text-em-700 cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setDetail(a)
+                    }}
+                  >
                     <b>{a.title}</b>
-                  </a>
+                  </button>
                   <div className="text-muted text-sm">{a.meta}</div>
                 </div>
               </li>
@@ -58,6 +71,8 @@ export default function AgendaSection() {
           </a>
         </div>
       </div>
+
+      <AgendaDrawer agenda={detail} onClose={() => setDetail(null)} />
     </section>
   )
 }

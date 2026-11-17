@@ -11,42 +11,42 @@ export const FACULTIES = [
   {
     abbr: 'FT',
     name: 'Teknik',
-    to: '/fakultas#ft',
+    to: '/fakultas/teknik',
     prodi: ['Teknik Sipil', 'Ilmu Komputer'],
     color: 'sky',
   },
   {
     abbr: 'FH',
     name: 'Hukum',
-    to: '/fakultas#fh',
+    to: '/fakultas/hukum',
     prodi: ['Ilmu Hukum'],
     color: 'warm',
   },
   {
     abbr: 'FEB',
     name: 'Ekonomi & Bisnis',
-    to: '/fakultas#feb',
+    to: '/fakultas/ekonomi-bisnis',
     prodi: ['Akuntansi', 'Ekonomi Pembangunan'],
     color: 'red',
   },
   {
     abbr: 'FP',
     name: 'Pertanian',
-    to: '/fakultas#fp',
+    to: '/fakultas/pertanian',
     prodi: ['Agribisnis', 'Agroekoteknologi'],
     color: 'default',
   },
   {
     abbr: 'FMIPA',
     name: 'MIPA',
-    to: '/fakultas#fmipa',
+    to: '/fakultas/mipa',
     prodi: ['Biologi'],
     color: 'sky',
   },
   {
     abbr: 'FAI',
     name: 'Agama Islam',
-    to: '/fakultas#fai',
+    to: '/fakultas/agama-islam',
     prodi: ['Ekonomi Syariah', 'Manajemen Bisnis Syariah'],
     color: 'warm',
   },
@@ -163,6 +163,8 @@ export const STORIES = [
     title: 'Mahasiswa kedokteran dampingi posyandu di tiga desa binaan',
     excerpt: 'Program berkelanjutan bersama puskesmas setempat, berfokus pada gizi balita dan kesehatan ibu.',
     dateLabel: '[tanggal]',
+    penulis: 'Humas UNIZAR',
+    isiNote: '[Isi berita: kegiatan, kutipan dosen pendamping dan kepala desa, capaian, dan rencana lanjutan.]',
     to: '/berita#posyandu',
   },
   {
@@ -173,7 +175,10 @@ export const STORIES = [
     photoCaption: 'Foto: laboratorium biologi',
     photoVariant: 'sky',
     title: 'Dosen UNIZAR raih hibah riset kolaborasi internasional',
+    excerpt: 'Dosen Fakultas MIPA memperoleh pendanaan riset bersama universitas mitra di Asia Tenggara.',
     dateLabel: '[tanggal]',
+    penulis: 'Humas UNIZAR',
+    isiNote: '[Isi berita: nama dosen, mitra riset, skema hibah, dan rencana penelitian.]',
     to: '/berita#hibah',
   },
   {
@@ -184,7 +189,10 @@ export const STORIES = [
     photoCaption: 'Foto: tim debat di panggung',
     photoVariant: 'warm',
     title: 'Tim mahasiswa juara kompetisi ilmiah tingkat nasional',
+    excerpt: 'Tim debat mahasiswa UNIZAR keluar sebagai juara pertama pada kompetisi ilmiah nasional.',
     dateLabel: '[tanggal]',
+    penulis: 'Humas UNIZAR',
+    isiNote: '[Isi berita: nama tim, penyelenggara lomba, capaian, dan kategori kompetisi.]',
     to: '/berita#juara',
   },
 ]
@@ -195,6 +203,16 @@ export const AGENDA = [
     month: 'NOV',
     title: 'Kuliah umum: Kesehatan wisatawan di destinasi super prioritas',
     meta: 'Aula Rektorat · 09.00–12.00 WITA · terbuka untuk umum',
+    tanggal: '20 NOV 2026',
+    penyelenggara: '[Unit]',
+    fotoCaption: 'Foto: suasana acara',
+    deskripsiNote: '[Deskripsi acara, narasumber, dan susunan acara.]',
+    susunan: [
+      '[Waktu] Pembukaan',
+      '[Waktu] Sesi utama',
+      '[Waktu] Tanya jawab',
+      '[Waktu] Penutupan',
+    ],
     to: '/berita#agenda-kuliah-umum',
   },
   {
@@ -202,6 +220,16 @@ export const AGENDA = [
     month: 'NOV',
     title: 'Expo UMKM halal mahasiswa FAI & FEB',
     meta: 'Halaman kampus · 08.00–16.00 WITA',
+    tanggal: '28 NOV 2026',
+    penyelenggara: '[Unit]',
+    fotoCaption: 'Foto: suasana expo',
+    deskripsiNote: '[Deskripsi acara, narasumber, dan susunan acara.]',
+    susunan: [
+      '[Waktu] Pembukaan',
+      '[Waktu] Pameran produk mahasiswa',
+      '[Waktu] Talkshow bisnis halal',
+      '[Waktu] Penutupan',
+    ],
     to: '/berita#agenda-expo',
   },
   {
@@ -209,6 +237,16 @@ export const AGENDA = [
     month: 'DES',
     title: 'Wisuda Periode II 2026',
     meta: 'Gedung Serbaguna · siaran langsung di kanal YouTube UNIZAR',
+    tanggal: '05 DES 2026',
+    penyelenggara: '[Unit]',
+    fotoCaption: 'Foto: suasana wisuda',
+    deskripsiNote: '[Deskripsi acara, narasumber, dan susunan acara.]',
+    susunan: [
+      '[Waktu] Prosesi wisudawan',
+      '[Waktu] Sambutan Rektor',
+      '[Waktu] Pengikraran wisudawan',
+      '[Waktu] Penutupan',
+    ],
     to: '/berita#agenda-wisuda',
   },
 ]
@@ -221,10 +259,24 @@ export const AUDIENCES = [
   { label: 'Mitra & industri', labelEn: 'Partner', to: '/kerjasama' },
 ]
 
-export const PARTNERS = Array.from({ length: 6 }, (_, i) => ({
-  label: `[Logo mitra ${i + 1}]`,
-  to: '/kerjasama',
-}))
+export const PARTNERS = Array.from({ length: 6 }, (_, i) => {
+  const negara = ['Malaysia', 'Thailand', 'Mesir', 'Turki', 'Brunei Darussalam', 'Yordania'][i]
+  return {
+    label: `[Logo mitra ${i + 1}]`,
+    nama: `[Universitas mitra, ${negara}]`,
+    kelompok: 'Luar negeri',
+    bidang: i % 3 === 1 ? 'Penelitian' : 'Pendidikan',
+    jenisNaskah: i % 2 === 0 ? 'MoA' : 'MoU',
+    masaBerlaku: '[tanggal]–[tanggal]',
+    statusRealisasi: 'Berjalan',
+    lingkupNote: '[Ruang lingkup kerja sama dan manfaat bagi kedua pihak.]',
+    kegiatan: [
+      'Pertukaran mahasiswa · [tahun] · [jumlah peserta]',
+      '[Kegiatan lain] · [tahun]',
+    ],
+    to: '/kerjasama',
+  }
+})
 
 export const SEARCH_INDEX = [
   { t: 'Penerimaan Mahasiswa Baru 2027', g: 'Pendidikan', to: '/pendidikan#penerimaan' },
