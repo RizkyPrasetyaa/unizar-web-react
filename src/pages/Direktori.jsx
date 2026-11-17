@@ -182,6 +182,15 @@ const DOSEN_ITEMS = [
   { id: "dosen-8", name: "[Nama dosen]", jabatan: "Asisten Ahli", keahlian: "ilmu komputer", fakultas: "Teknik" },
 ];
 
+// Ringkasan jumlah resmi (placeholder); daftar di bawah adalah sampel untuk filter
+const TENDIK_STATS = [
+  { label: "Administrasi", value: "98" },
+  { label: "Pustakawan", value: "14" },
+  { label: "Laboran/teknisi", value: "52" },
+  { label: "Pranata TI", value: "18" },
+  { label: "Lainnya", value: "54" },
+];
+
 const FAKULTAS_OPTIONS = [
   "Semua fakultas",
   "Kedokteran",
@@ -193,8 +202,6 @@ const FAKULTAS_OPTIONS = [
   "Agama Islam",
 ];
 
-// Drawer detail unit — panel geser dari sisi kanan saat tombol "Detail unit" diklik.
-// Field opsional (kepala, tugas, layanan, jam) berasal dari data unit atau default.
 function UnitDrawer({ unit, onClose }) {
   const closeRef = useRef(null);
 
@@ -284,7 +291,6 @@ function UnitDrawer({ unit, onClose }) {
   );
 }
 
-// Drawer website unit — konfirmasi "menuju sistem lain" sebelum buka tab baru.
 function WebsiteDrawer({ unit, onClose }) {
   const closeRef = useRef(null);
 
@@ -347,9 +353,7 @@ function WebsiteDrawer({ unit, onClose }) {
           >
             <ExternalLink size={26} strokeWidth={1.9} />
           </span>
-          <p className="pd-bio">
-            Website resmi unit di lingkungan UNIZAR.
-          </p>
+          <p className="pd-bio">Website resmi unit di lingkungan UNIZAR.</p>
           <div className="pd-addr">
             <small>Alamat</small>
             <b>{alamat}</b>
@@ -369,9 +373,6 @@ function WebsiteDrawer({ unit, onClose }) {
   );
 }
 
-// Drawer detail dosen — panel geser dari sisi kanan saat kartu dosen diklik.
-// Field opsional (prodi, publikasi, mata kuliah, dll.) berasal dari data dosen
-// atau diisi placeholder sesuai mockup.
 function DosenDrawer({ dosen, onClose }) {
   const closeRef = useRef(null);
 
@@ -415,7 +416,7 @@ function DosenDrawer({ dosen, onClose }) {
         aria-label={`Profil dosen ${dosen.name}`}
       >
         <div className="pd-head">
-          <span className="eyebrow">Dosen &amp; pakar</span>
+          <span className="eyebrow">Dosen &amp; tendik</span>
           <h3>{namaGelar}</h3>
           <button
             ref={closeRef}
@@ -443,7 +444,7 @@ function DosenDrawer({ dosen, onClose }) {
               <dd>{prodi}</dd>
             </div>
             <div>
-              <dt>Bidang keahlian</dt>
+              <dt>Bidang keilmuan</dt>
               <dd>{bidang.join(", ")}</dd>
             </div>
             <div>
@@ -458,16 +459,6 @@ function DosenDrawer({ dosen, onClose }) {
               {publikasi.map((p, i) => (
                 <li key={i} className="pd-row">
                   {p.judul} · {p.jurnal} · {p.tahun}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="pd-sec">
-            <h4>Mata kuliah</h4>
-            <ul className="clean">
-              {matkul.map((m, i) => (
-                <li key={i} className="pd-row">
-                  {m}
                 </li>
               ))}
             </ul>
@@ -489,18 +480,15 @@ function DosenDrawer({ dosen, onClose }) {
 }
 
 export default function Direktori() {
-  // Unit filter state
   const [unitQuery, setUnitQuery] = useState("");
   const [unitKind, setUnitKind] = useState("all");
   const [unitDetail, setUnitDetail] = useState(null);
   const [webUnit, setWebUnit] = useState(null);
 
-  // Dosen filter state
   const [dosenQuery, setDosenQuery] = useState("");
   const [dosenFakultas, setDosenFakultas] = useState("Semua fakultas");
   const [dosenDetail, setDosenDetail] = useState(null);
-
-  const filteredUnits = useMemo(() => {
+const filteredUnits = useMemo(() => {
     const q = unitQuery.trim().toLowerCase();
     return UNIT_ITEMS.filter((u) => {
       const matchKind = unitKind === "all" || u.kind === unitKind;
@@ -526,19 +514,18 @@ export default function Direktori() {
       return matchText && matchFak;
     });
   }, [dosenQuery, dosenFakultas]);
-
-  return (
+return (
     <div className="page animate-fade">
       <PageHero
         title="Direktori"
-        description="Satu tempat untuk menemukan unit kerja, dosen dan pakar, dokumen, serta lokasi di kampus."
+        description="Satu tempat untuk menemukan unit kerja, dosen dan tendik, dokumen, serta lokasi di kampus."
         crumbs={[{ label: "Beranda", to: "/beranda" }, { label: "Direktori" }]}
         photoCaption="Foto: denah kampus"
       />
       <Subnav
         items={[
           { id: "direktori--unit", label: "Unit Kerja" },
-          { id: "direktori--dosen", label: "Dosen & Pakar" },
+          { id: "direktori--dosen", label: "Dosen & Tendik" },
           { id: "direktori--dokumen", label: "Pusdatin" },
           { id: "direktori--kontak", label: "Kontak & Peta" },
         ]}
@@ -628,85 +615,142 @@ export default function Direktori() {
         </div>
       </section>
 
-      {/* === Dosen & Pakar === */}
-      <section className="sec" id="direktori--dosen" data-t="Dosen & Pakar">
+      {/* === Dosen & Tendik === */}
+      <section className="sec" id="direktori--dosen" data-t="Dosen & Tendik">
         <div className="wrap">
           <div className="sec-h">
             <div>
-              <span className="eyebrow">Dosen &amp; pakar</span>
-              <h2>Cari dosen dan kepakarannya</h2>
+              <span className="eyebrow">Dosen &amp; tendik</span>
+              <h2>Cari dosen dan tenaga kependidikan</h2>
               <p>
-                Profil publik memuat jabatan akademik, bidang keahlian, dan
-                tautan SINTA/Google Scholar. Data pribadi tidak ditampilkan.
+                Profil publik memuat jabatan, bidang keahlian, dan unit kerja.
+                Data pribadi tidak ditampilkan.
               </p>
             </div>
           </div>
 
-          <div data-filter>
-            <div className="toolbar">
-              <div className="field">
-                <label htmlFor="d-q2">Nama atau bidang keahlian</label>
-                <input
-                  id="d-q2"
-                  placeholder="mis. ergonomi, hukum agraria, agribisnis"
-                  value={dosenQuery}
-                  onChange={(e) => setDosenQuery(e.target.value)}
-                />
-              </div>
-              <div className="field" style={{ flex: "0 1 220px" }}>
-                <label htmlFor="d-f2">Fakultas</label>
-                <select
-                  id="d-f2"
-                  value={dosenFakultas}
-                  onChange={(e) => setDosenFakultas(e.target.value)}
-                >
-                  {FAKULTAS_OPTIONS.map((f) => (
-                    <option key={f}>{f}</option>
-                  ))}
-                </select>
-              </div>
+          {/* --- Dosen --- */}
+          <div style={{ marginBottom: "40px" }}>
+            <div style={{ marginBottom: "16px" }}>
+              <span className="eyebrow">Dosen</span>
+              <h3 style={{ fontSize: "20px", marginTop: "4px" }}>
+                Dosen
+              </h3>
             </div>
 
-            <div className="grid g4">
-              {filteredDosen.map((d) => (
-                <button
-                  key={d.id}
-                  type="button"
-                  className="card card-link pimpinan-card"
-                  style={{
-                    flexDirection: "row",
-                    gap: "12px",
-                    alignItems: "center",
-                  }}
-                  onClick={() => setDosenDetail(d)}
-                  aria-haspopup="dialog"
-                  aria-label={`Lihat profil ${d.name}`}
+            <div data-filter>
+              <div className="toolbar">
+                <div className="field">
+                  <label htmlFor="d-q2">Nama atau bidang keilmuan</label>
+                  <input
+                    id="d-q2"
+                    placeholder="mis. ergonomi, hukum agraria, agribisnis"
+                    value={dosenQuery}
+                    onChange={(e) => setDosenQuery(e.target.value)}
+                  />
+                </div>
+                <div className="field" style={{ flex: "0 1 220px" }}>
+                  <label htmlFor="d-f2">Fakultas</label>
+                  <select
+                    id="d-f2"
+                    value={dosenFakultas}
+                    onChange={(e) => setDosenFakultas(e.target.value)}
+                  >
+                    {FAKULTAS_OPTIONS.map((f) => (
+                      <option key={f}>{f}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid g4">
+                {filteredDosen.map((d) => (
+                  <button
+                    key={d.id}
+                    type="button"
+                    className="card card-link pimpinan-card"
+                    style={{
+                      flexDirection: "row",
+                      gap: "12px",
+                      alignItems: "center",
+                    }}
+                    onClick={() => setDosenDetail(d)}
+                    aria-haspopup="dialog"
+                    aria-label={`Lihat profil ${d.name}`}
+                  >
+                    <span
+                      style={{
+                        width: "52px",
+                        height: "52px",
+                        borderRadius: "50%",
+                        background: "var(--em-100)",
+                        flex: "none",
+                      }}
+                      aria-hidden="true"
+                    />
+                    <div>
+                      <b style={{ fontSize: "14.5px" }}>{d.name}</b>
+                      <p style={{ fontSize: "13px" }}>
+                        {d.jabatan} · {d.keahlian}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {filteredDosen.length === 0 && (
+                <p className="muted" style={{ marginTop: "16px" }}>
+                  Tidak ada dosen yang cocok dengan pencarian Anda.
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* --- Tendik --- */}
+          <div>
+            <div style={{ marginBottom: "16px" }}>
+              <span className="eyebrow">Tendik</span>
+              <h3 style={{ fontSize: "20px", marginTop: "4px" }}>
+                Tenaga kependidikan
+              </h3>
+              <p className="muted" style={{ marginTop: "4px" }}>
+                Ringkasan jumlah tendik per kategori  jabatan.
+              </p>
+            </div>
+
+            <div
+              className="grid"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+                gap: "12px",
+              }}
+            >
+              {TENDIK_STATS.map((t) => (
+                <Card
+                  key={t.label}
+                  flat
+                  style={{ textAlign: "left", padding: "18px 20px" }}
                 >
                   <span
+                    className="eyebrow"
+                    style={{ display: "block", marginBottom: "10px" }}
+                  >
+                    {t.label}
+                  </span>
+                  <b
                     style={{
-                      width: "52px",
-                      height: "52px",
-                      borderRadius: "50%",
-                      background: "var(--em-100)",
-                      flex: "none",
+                      fontSize: "32px",
+                      lineHeight: 1.1,
+                      color: "var(--em-700)",
+                      
                     }}
-                    aria-hidden="true"
-                  />
-                  <div>
-                    <b style={{ fontSize: "14.5px" }}>{d.name}</b>
-                    <p style={{ fontSize: "13px" }}>
-                      {d.jabatan} · {d.keahlian}
-                    </p>
-                  </div>
-                </button>
+                  >
+                    {t.value}
+                  </b>
+                </Card>
               ))}
             </div>
-
-            {filteredDosen.length === 0 && (
-              <p className="muted" style={{ marginTop: "16px" }}>
-                Tidak ada dosen yang cocok dengan pencarian Anda.
-              </p>
-            )}
           </div>
         </div>
       </section>
