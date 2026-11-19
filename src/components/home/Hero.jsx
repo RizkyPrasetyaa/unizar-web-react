@@ -38,7 +38,7 @@ export default function Hero() {
           </p>
           <div className="btn-row mt-7">
             <a href={toHref('/pendidikan#penerimaan')} className="btn btn-pri">
-              <span>Daftar PMB 2027</span>
+              <span>Daftar Sekarang</span>
               <ArrowRight size={18} strokeWidth={1.9} />
             </a>
             <a href={toHref('/profil')} className="btn btn-ghost">
