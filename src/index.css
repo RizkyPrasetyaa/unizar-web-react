@@ -1081,26 +1081,179 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  /* Faculty chip */
-  .fac-chip {
+  /* ============================================
+     Belajar di UNIZAR — 2 kartu pintu masuk + popup daftar
+     ============================================ */
+  .acad-cards {
+    @apply grid gap-5;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .acad-card {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 18px;
-    border-radius: 14px;
+    gap: 10px;
+    padding: 26px 28px 24px;
+    border-radius: 16px;
     background: #fff;
     border: 1px solid #dce6e0;
     text-decoration: none;
     color: #13231c;
-    min-height: 140px;
+    transition: border-color 0.18s ease, transform 0.18s ease,
+      box-shadow 0.18s ease;
   }
-  .fac-chip:hover {
+  .acad-card:hover {
     border-color: #2f8f6b;
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(3, 41, 31, 0.1);
   }
-  .fac-chip .abbr {
-    font-weight: 800;
-    font-size: 22px;
+  .acad-card:focus-visible {
+    outline: 2px solid #0a6b4f;
+    outline-offset: 3px;
+  }
+  .acad-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .acad-ico {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: #eaf4ee;
     color: #0a6b4f;
+    display: grid;
+    place-items: center;
+  }
+  .acad-count {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1;
+    color: #dce6e0;
+    letter-spacing: 0.02em;
+    transition: color 0.18s ease;
+  }
+  .acad-card:hover .acad-count {
+    color: #2f8f6b;
+  }
+  .acad-card h3 {
+    font-size: 21px;
+  }
+  .acad-card p {
+    color: #4a5e55;
+    font-size: 14.5px;
+  }
+  .acad-cta {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 14.5px;
+    color: #0a6b4f;
+  }
+  .acad-cta svg {
+    transition: transform 0.18s ease;
+  }
+  .acad-card:hover .acad-cta svg {
+    transform: translateX(4px);
+  }
+
+  /* Popup daftar fakultas/prodi (pola .pop) */
+  .acad-search {
+    position: relative;
+  }
+  .acad-search svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #4a5e55;
+    pointer-events: none;
+  }
+  .acad-search input {
+    width: 100%;
+    border: 1px solid #dce6e0;
+    border-radius: 12px;
+    padding: 11px 14px 11px 42px;
+    font: inherit;
+    font-size: 14.5px;
+    background: #f7faf8;
+    color: #13231c;
+  }
+  .acad-search input::placeholder {
+    color: #6b8277;
+  }
+  .acad-search input:focus {
+    outline: none;
+    border-color: #2f8f6b;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(47, 143, 107, 0.12);
+  }
+  .acad-list {
+    display: grid;
+    gap: 10px;
+  }
+  .acad-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 1px solid #e3ece7;
+    border-radius: 14px;
+    background: #fff;
+    text-decoration: none;
+    color: #13231c;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .acad-item:hover {
+    border-color: #2f8f6b;
+    background: #f1f7f3;
+  }
+  .acad-item:focus-visible {
+    outline: 2px solid #0a6b4f;
+    outline-offset: 2px;
+  }
+  .acad-abbr {
+    flex-shrink: 0;
+    min-width: 54px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: #064e3b;
+    color: #f2c230;
+    font-weight: 800;
+    font-size: 13.5px;
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+  .acad-item-main {
+    min-width: 0;
+    display: grid;
+    gap: 2px;
+  }
+  .acad-item-main b {
+    font-size: 15px;
+  }
+  .acad-item-main small {
+    color: #4a5e55;
+    font-size: 12.5px;
+  }
+  .acad-arrow {
+    margin-left: auto;
+    flex-shrink: 0;
+    color: #0a6b4f;
+    transition: transform 0.15s ease;
+  }
+  .acad-item:hover .acad-arrow {
+    transform: translateX(3px);
+  }
+  .acad-empty {
+    padding: 26px;
+    text-align: center;
+    color: #4a5e55;
+    font-size: 14.5px;
+    border: 1px dashed #dce6e0;
+    border-radius: 14px;
   }
 
   /* Hero kicker */
@@ -1405,6 +1558,9 @@
       grid-template-columns: 1fr;
     }
     .focus {
+      grid-template-columns: 1fr;
+    }
+    .acad-cards {
       grid-template-columns: 1fr;
     }
   }

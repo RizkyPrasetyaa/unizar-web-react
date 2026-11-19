@@ -2,7 +2,7 @@ import Hero from '../components/home/Hero.jsx'
 import AudienceBar from '../components/home/AudienceBar.jsx'
 import StatsSection from '../components/home/StatsSection.jsx'
 import FocusSection from '../components/home/FocusSection.jsx'
-import FacultyChips from '../components/home/FacultyChips.jsx'
+import AcademicsSection from '../components/home/AcademicsSection.jsx'
 import StoriesSection from '../components/home/StoriesSection.jsx'
 import AgendaSection from '../components/home/AgendaSection.jsx'
 import PartnersSection from '../components/home/PartnersSection.jsx'
@@ -15,7 +15,7 @@ export default function Beranda() {
       <AudienceBar />
       <StatsSection />
       <FocusSection />
-      <FacultyChips />
+      <AcademicsSection />
       <StoriesSection />
       <AgendaSection />
       <PartnersSection />

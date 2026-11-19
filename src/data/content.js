@@ -4,6 +4,7 @@ export const FACULTIES = [
   {
     abbr: 'FK',
     name: 'Kedokteran',
+    full: 'Fakultas Kedokteran',
     to: '/fakultas/kedokteran',
     prodi: ['Pendidikan Dokter', 'Profesi Dokter'],
     color: 'default',
@@ -11,6 +12,7 @@ export const FACULTIES = [
   {
     abbr: 'FT',
     name: 'Teknik',
+    full: 'Fakultas Teknik',
     to: '/fakultas/teknik',
     prodi: ['Teknik Sipil', 'Ilmu Komputer'],
     color: 'sky',
@@ -18,6 +20,7 @@ export const FACULTIES = [
   {
     abbr: 'FH',
     name: 'Hukum',
+    full: 'Fakultas Hukum',
     to: '/fakultas/hukum',
     prodi: ['Ilmu Hukum'],
     color: 'warm',
@@ -25,6 +28,7 @@ export const FACULTIES = [
   {
     abbr: 'FEB',
     name: 'Ekonomi & Bisnis',
+    full: 'Fakultas Ekonomi & Bisnis',
     to: '/fakultas/ekonomi-bisnis',
     prodi: ['Akuntansi', 'Ekonomi Pembangunan'],
     color: 'red',
@@ -32,6 +36,7 @@ export const FACULTIES = [
   {
     abbr: 'FP',
     name: 'Pertanian',
+    full: 'Fakultas Pertanian',
     to: '/fakultas/pertanian',
     prodi: ['Agribisnis', 'Agroekoteknologi'],
     color: 'default',
@@ -39,6 +44,7 @@ export const FACULTIES = [
   {
     abbr: 'FMIPA',
     name: 'MIPA',
+    full: 'Fakultas MIPA',
     to: '/fakultas/mipa',
     prodi: ['Biologi'],
     color: 'sky',
@@ -46,11 +52,28 @@ export const FACULTIES = [
   {
     abbr: 'FAI',
     name: 'Agama Islam',
+    full: 'Fakultas Agama Islam',
     to: '/fakultas/agama-islam',
     prodi: ['Ekonomi Syariah', 'Manajemen Bisnis Syariah'],
     color: 'warm',
   },
 ]
+
+// Tautan halaman detail per program studi (nama prodi → path).
+export const PRODI_LINKS = {
+  'Pendidikan Dokter': '/prodi/pendidikan-dokter',
+  'Profesi Dokter': '/prodi/profesi-dokter',
+  'Teknik Sipil': '/prodi/teknik-sipil',
+  'Ilmu Komputer': '/prodi/ilmu-komputer',
+  'Ilmu Hukum': '/prodi/ilmu-hukum',
+  'Akuntansi': '/prodi/akuntansi',
+  'Ekonomi Pembangunan': '/prodi/ekonomi-pembangunan',
+  'Agribisnis': '/prodi/agribisnis',
+  'Agroekoteknologi': '/prodi/agroekoteknologi',
+  'Biologi': '/prodi/biologi',
+  'Ekonomi Syariah': '/prodi/ekonomi-syariah',
+  'Manajemen Bisnis Syariah': '/prodi/manajemen-bisnis-syariah',
+}
 
 export const CAMPUS_STATS = [
   { value: '1981', label: 'Berdiri di Mataram', labelEn: 'Founded in Mataram' },

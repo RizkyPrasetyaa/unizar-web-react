@@ -4,7 +4,7 @@ import Card from '../components/ui/Card.jsx'
 import Button from '../components/ui/Button.jsx'
 import SmartLink from '../components/ui/SmartLink.jsx'
 import PhotoSlot from '../components/ui/PhotoSlot.jsx'
-import { FACULTIES } from '../data/content.js'
+import { FACULTIES, PRODI_LINKS } from '../data/content.js'
 import { ExternalLink } from 'lucide-react'
 
 // Map abbr to the mockup section id suffix
@@ -16,44 +16,6 @@ const FACULTY_IDS = {
   FP: 'fp',
   FMIPA: 'fmipa',
   FAI: 'fai',
-}
-
-// Full faculty name (as displayed in mockup headings)
-const FACULTY_FULL_NAMES = {
-  FK: 'Fakultas Kedokteran',
-  FT: 'Fakultas Teknik',
-  FH: 'Fakultas Hukum',
-  FEB: 'Fakultas Ekonomi & Bisnis',
-  FP: 'Fakultas Pertanian',
-  FMIPA: 'Fakultas MIPA',
-  FAI: 'Fakultas Agama Islam',
-}
-
-// Map abbr to the "Lihat fakultas" target
-const FACULTY_LINK = {
-  FK: '/fakultas/kedokteran',
-  FT: '/fakultas/teknik',
-  FH: '/fakultas/hukum',
-  FEB: '/fakultas/ekonomi-bisnis',
-  FP: '/fakultas/pertanian',
-  FMIPA: '/fakultas/mipa',
-  FAI: '/fakultas/agama-islam',
-}
-
-// Prodi links to their dedicated pages
-const PRODI_LINKS = {
-  'Pendidikan Dokter': '/prodi/pendidikan-dokter',
-  'Profesi Dokter': '/prodi/profesi-dokter',
-  'Teknik Sipil': '/prodi/teknik-sipil',
-  'Ilmu Komputer': '/prodi/ilmu-komputer',
-  'Ilmu Hukum': '/prodi/ilmu-hukum',
-  'Akuntansi': '/prodi/akuntansi',
-  'Ekonomi Pembangunan': '/prodi/ekonomi-pembangunan',
-  'Agribisnis': '/prodi/agribisnis',
-  'Agroekoteknologi': '/prodi/agroekoteknologi',
-  'Biologi': '/prodi/biologi',
-  'Ekonomi Syariah': '/prodi/ekonomi-syariah',
-  'Manajemen Bisnis Syariah': '/prodi/manajemen-bisnis-syariah',
 }
 
 export default function Fakultas() {
@@ -82,9 +44,9 @@ export default function Fakultas() {
           </div>
           <div className="grid g3">
             {FACULTIES.map((f) => {
-              const full = FACULTY_FULL_NAMES[f.abbr] || `Fakultas ${f.name}`
+              const full = f.full || `Fakultas ${f.name}`
               const id = `fakultas--${FACULTY_IDS[f.abbr] || f.abbr.toLowerCase()}`
-              const lihatTo = FACULTY_LINK[f.abbr] || '#'
+              const lihatTo = f.to || '#'
               return (
                 <Card key={f.abbr} id={id} style={{ padding: 0, overflow: 'hidden' }}>
                   <PhotoSlot
