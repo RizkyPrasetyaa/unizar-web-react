@@ -17,6 +17,14 @@ export default function Header({ onOpenDrawer, onOpenSearch, activeNav }) {
     setOpenMenu((prev) => (prev === key ? null : key))
   }, [])
 
+  const handleLogoClick = (e) => {
+    closeMega()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (window.location.hash === '#beranda' || window.location.hash === '' || window.location.hash === '#') {
+      e.preventDefault()
+    }
+  }
+
   // Click outside header closes mega menu
   useEffect(() => {
     if (!openMenu) return
@@ -87,7 +95,8 @@ export default function Header({ onOpenDrawer, onOpenSearch, activeNav }) {
 
         <a
           href={toHref('/beranda')}
-          className="seal flex flex-col items-center gap-0.5 no-underline"
+          onClick={handleLogoClick}
+          className="seal flex flex-col items-center gap-0.5 no-underline cursor-pointer"
           aria-label="Beranda Universitas Islam Al-Azhar"
         >
           <img
@@ -114,7 +123,12 @@ export default function Header({ onOpenDrawer, onOpenSearch, activeNav }) {
           <MenuIcon size={24} strokeWidth={1.9} />
         </button>
 
-        <a href={toHref('/beranda')} className="flex items-center gap-2 no-underline" aria-label="Beranda">
+        <a
+          href={toHref('/beranda')}
+          onClick={handleLogoClick}
+          className="flex items-center gap-2 no-underline cursor-pointer"
+          aria-label="Beranda"
+        >
           <img src="/logo.png" alt="" className="w-9 h-9 block" />
           <span className="text-[15px] font-extrabold tracking-tight text-em-800">UNIZAR</span>
         </a>

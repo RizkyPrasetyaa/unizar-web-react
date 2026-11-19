@@ -151,8 +151,11 @@ export default function MobileDrawer({ open, onClose }) {
         <div className="flex justify-between items-center mb-3">
           <a
             href={toHref('/beranda')}
-            onClick={onClose}
-            className="flex items-center gap-2 no-underline"
+            onClick={() => {
+              onClose()
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
+            className="flex items-center gap-2 no-underline cursor-pointer"
             aria-label="Beranda UNIZAR"
           >
             <img src="/logo.png" alt="" className="w-10 h-10" />
