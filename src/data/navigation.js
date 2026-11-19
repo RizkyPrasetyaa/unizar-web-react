@@ -16,7 +16,7 @@ export const NAV_LEFT = [
         { title: 'UNIZAR dalam Angka', desc: 'Fakta ringkas yang selalu mutakhir', to: '/profil/angka' },
         { title: 'UNIZAR untuk SDGs', desc: 'Lima SDGs yang kami tekuni', to: '/profil/sdgs' },
       ],
-      feat: { title: 'Diferensiasi misi UNIZAR', desc: 'Tiga fokus keunggulan', to: '/profil#tentang' },
+      feat: { caption: 'Foto: Kampus UNIZAR', to: '/profil#tentang' },
     },
   },
   {
@@ -35,7 +35,7 @@ export const NAV_LEFT = [
         { title: 'MIPA', desc: 'Biologi', to: '/fakultas#fmipa' },
         { title: 'Agama Islam', desc: 'Ekonomi Syariah · Manajemen Bisnis Syariah', to: '/fakultas#fai' },
       ],
-      feat: { title: 'Contoh halaman prodi', desc: 'Pendidikan Dokter', to: '/prodi/pendidikan-dokter' },
+      feat: { caption: 'Foto: Fakultas UNIZAR', to: '/fakultas' },
     },
   },
   {
@@ -51,7 +51,7 @@ export const NAV_LEFT = [
         { title: 'Pusdatin', desc: 'Dokumen resmi, data, statistik, dan JDIH', to: '/pusdatin' },
         { title: 'Kontak & Peta', desc: 'Alamat, telepon, dan peta gedung', to: '/direktori#kontak' },
       ],
-      feat: { title: 'Pusdatin', desc: 'Dokumen, data, dan statistik resmi', to: '/pusdatin' },
+      feat: { caption: 'Foto: Unit Kerja UNIZAR', to: '/direktori' },
     },
   },
   {
@@ -67,7 +67,7 @@ export const NAV_LEFT = [
         { title: 'Manajemen risiko', desc: 'SPI, manajemen risiko, zona integritas', to: '/tata-kelola#risiko' },
         { title: 'PPID', desc: 'Daftar informasi publik dan permohonan', to: '/tata-kelola#ppid' },
       ],
-      feat: { title: 'Lapor dengan aman', desc: 'Kanal pelaporan rahasia', to: '/tata-kelola#lapor' },
+      feat: { caption: 'Foto: Fasilitas UNIZAR', to: '/tata-kelola' },
     },
   },
 ]
@@ -86,7 +86,7 @@ export const NAV_RIGHT = [
         { title: 'Kalender akademik', desc: 'Kalender akademik dan panduan studi', to: '/pendidikan#kalender' },
         { title: 'Akademik & kemahasiswaan', desc: 'Kuliah umum, integritas akademik', to: '/pendidikan#akademik' },
       ],
-      feat: { title: 'PMB 2027 dibuka', desc: 'Gelombang 1 sampai [tanggal]', to: '/pendidikan#penerimaan' },
+      feat: { caption: 'Foto: Fasilitas UNIZAR', to: '/pendidikan' },
     },
   },
   {
@@ -101,7 +101,7 @@ export const NAV_RIGHT = [
         { title: 'Publikasi & inovasi', desc: 'Jurnal, repositori, SINTA, HKI, hilirisasi', to: '/publikasi-inovasi' },
         { title: 'Etik penelitian', desc: 'Alur, etik, dan pedoman', to: '/penelitian#etik' },
       ],
-      feat: { title: 'Hibah internal 2027', desc: 'Proposal dibuka', to: '/penelitian#hibah' },
+      feat: { caption: 'Foto: Penelitian UNIZAR', to: '/penelitian' },
     },
   },
   {
@@ -116,7 +116,7 @@ export const NAV_RIGHT = [
         { title: 'Kolaborasi pakar', desc: 'Ajukan kerja sama dengan pakar', to: '/pengabdian#kolaborasi' },
         { title: 'Cerita dampak', desc: 'Cerita perubahan dan luaran', to: '/pengabdian#dampak' },
       ],
-      feat: { title: 'Ajukan kolaborasi', desc: 'Untuk desa, sekolah, UMKM', to: '/pengabdian#kolaborasi' },
+      feat: { caption: 'Foto: Pengabdian UNIZAR', to: '/pengabdian' },
     },
   },
   {
@@ -132,7 +132,7 @@ export const NAV_RIGHT = [
         { title: 'Akreditasi', desc: 'Institusi dan program studi', to: '/penjaminan-mutu#akreditasi' },
         { title: 'Peta Bukti BAN-PT', desc: '39 indikator IAPT 4.1', to: '/peta-bukti' },
       ],
-      feat: { title: 'Untuk asesor', desc: 'Peta Bukti 39 indikator', to: '/peta-bukti' },
+      feat: { caption: 'Foto: Kegiatan UNIZAR', to: '/penjaminan-mutu' },
     },
   },
 ]

@@ -16,8 +16,7 @@ export default function MegaMenu({ menu, onClose }) {
       aria-label={`Menu ${menu.label}`}
     >
       <div
-        className="wrap grid gap-8 py-7 pb-8"
-        style={{ gridTemplateColumns: '260px minmax(0,1fr) 300px' }}
+        className="wrap grid grid-cols-1 md:grid-cols-[220px_minmax(0,1fr)_260px] lg:grid-cols-[260px_minmax(0,1fr)_280px] xl:grid-cols-[260px_minmax(0,1fr)_300px] gap-6 lg:gap-8 py-7 pb-8 items-start"
       >
         {/* Intro */}
         <div className="mega-intro">
@@ -55,17 +54,25 @@ export default function MegaMenu({ menu, onClose }) {
         </div>
 
         {/* Featured card */}
-        <a
-          href={toHref(feat.to)}
-          onClick={onClose}
-          className="mega-feat overflow-hidden rounded-card bg-em-50 no-underline text-ink flex flex-col"
-        >
-          <PhotoSlot className="h-[140px]" variant="default" caption="" />
-          <div className="p-3.5">
-            <b className="block text-[15px]">{feat.title}</b>
-            <small className="text-muted">{feat.desc}</small>
-          </div>
-        </a>
+        {feat && (
+          <a
+            href={toHref(feat.to)}
+            onClick={onClose}
+            className="mega-feat self-start w-full overflow-hidden rounded-card bg-em-50 no-underline text-ink flex flex-col group hover:shadow-card transition-shadow"
+          >
+            <PhotoSlot
+              className="w-full h-[180px]"
+              variant="default"
+              caption={feat.caption || ''}
+            />
+            {(feat.title || feat.desc) && (
+              <div className="p-3.5">
+                {feat.title && <b className="block text-[15px]">{feat.title}</b>}
+                {feat.desc && <small className="text-muted">{feat.desc}</small>}
+              </div>
+            )}
+          </a>
+        )}
       </div>
     </div>
   )

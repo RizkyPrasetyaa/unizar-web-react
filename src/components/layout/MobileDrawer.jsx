@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { X, Plus, Minus, LogIn, LayoutGrid, Handshake, GraduationCap } from 'lucide-react'
 import { NAV_LEFT, NAV_RIGHT, RAIL_LINKS } from '../../data/navigation.js'
 import { toHref } from '../../lib/router.js'
+import PhotoSlot from '../ui/PhotoSlot.jsx'
 
 const TILE_ICONS = {
   '/masuk': LogIn,
@@ -96,6 +97,29 @@ export default function MobileDrawer({ open, onClose }) {
               {l.title}
             </a>
           ))}
+          {m.mega.feat && (
+            <a
+              href={toHref(m.mega.feat.to)}
+              onClick={onClose}
+              className="block mt-2 mb-1.5 mx-3 overflow-hidden rounded-card no-underline group shadow-sm"
+            >
+              <PhotoSlot
+                className="w-full h-[120px]"
+                variant="default"
+                caption={m.mega.feat.caption || ''}
+              />
+              {(m.mega.feat.title || m.mega.feat.desc) && (
+                <div className="p-2.5 bg-em-50">
+                  {m.mega.feat.title && (
+                    <b className="block text-[13px] text-ink">{m.mega.feat.title}</b>
+                  )}
+                  {m.mega.feat.desc && (
+                    <small className="text-muted text-[12px]">{m.mega.feat.desc}</small>
+                  )}
+                </div>
+              )}
+            </a>
+          )}
         </div>
       )}
     </div>

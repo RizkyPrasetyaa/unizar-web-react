@@ -313,6 +313,10 @@
     border-radius: 999px;
     max-width: calc(100% - 24px);
   }
+  .ph:not([data-cap])::after,
+  .ph[data-cap=""]::after {
+    display: none;
+  }
   .ph.warm {
     background: linear-gradient(140deg, #8a6a10, #3d2e00);
   }
