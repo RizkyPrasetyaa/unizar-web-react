@@ -92,32 +92,32 @@ export default function Layanan() {
             </div>
           </div>
 
-          <div data-filter>
-            <div className="toolbar">
-              <div className="field">
-                <label htmlFor="ly-q">Cari layanan</label>
-                <div style={{ position: 'relative' }}>
-                  <Search
-                    style={{
-                      position: 'absolute',
-                      left: '12px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      width: 16,
-                      height: 16,
-                      color: 'var(--muted)',
-                      pointerEvents: 'none',
-                    }}
-                    aria-hidden="true"
-                  />
-                  <input
-                    id="ly-q"
-                    placeholder="mis. legalisir, UKT, reset password"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    style={{ paddingLeft: '34px' }}
-                  />
-                </div>
+          <div data-filter className="mb-6 space-y-3.5">
+            <div className="w-full">
+              <label htmlFor="ly-q" className="block text-xs font-bold text-[#4a5e55] mb-1.5">
+                Cari layanan
+              </label>
+              <div style={{ position: 'relative', width: '100%' }}>
+                <Search
+                  style={{
+                    position: 'absolute',
+                    left: '14px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    width: 17,
+                    height: 17,
+                    color: 'var(--muted)',
+                    pointerEvents: 'none',
+                  }}
+                  aria-hidden="true"
+                />
+                <input
+                  id="ly-q"
+                  placeholder="mis. legalisir, UKT, reset password"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="w-full rounded-card border border-line bg-white py-2.5 pl-11 pr-4 text-sm font-[inherit] text-ink outline-none transition-all focus:border-em-600 focus:ring-1 focus:ring-em-600"
+                />
               </div>
             </div>
 
@@ -143,7 +143,7 @@ export default function Layanan() {
               className="chips"
               role="group"
               aria-label="Kategori"
-              style={{ marginBottom: '18px' }}
+              style={{ marginBottom: '22px' }}
             >
               {CAT_CHIPS.map((c) => (
                 <button

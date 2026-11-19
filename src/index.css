@@ -114,6 +114,11 @@
   a:hover {
     color: #053b2c;
   }
+  .rail-link:not(.bg-gold),
+  .rail-link:not(.bg-gold):hover,
+  .rail-link:not(.bg-gold) * {
+    color: #fff !important;
+  }
   button {
     font: inherit;
     color: inherit;
@@ -975,25 +980,35 @@
     font-size: 14px;
     background: #fff;
   }
-  .toolbar .chips {
+  .toolbar .chips,
+  .chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
+    gap: 8px;
+    align-items: center;
   }
-  .toolbar .chips button {
-    border: 0;
-    background: #f1f7f3;
-    padding: 6px 12px;
+  .toolbar .chips button,
+  .chips button {
+    border: 1px solid #dce6e0;
+    background: #fff;
+    padding: 6px 14px;
     border-radius: 999px;
     font-weight: 700;
-    font-size: 13px;
-    color: #4a5e55;
+    font-size: 13.5px;
+    color: #064e3b;
     cursor: pointer;
     font-family: inherit;
+    transition: all 0.15s ease;
   }
-  .toolbar .chips button[aria-pressed="true"] {
+  .toolbar .chips button:hover,
+  .chips button:hover {
+    background: #f1f7f3;
+  }
+  .toolbar .chips button[aria-pressed="true"],
+  .chips button[aria-pressed="true"] {
     background: #064e3b;
     color: #fff;
+    border-color: #064e3b;
   }
 
   /* Table */

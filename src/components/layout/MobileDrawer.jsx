@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { X, Plus, Minus, LogIn, LayoutGrid, Handshake, GraduationCap } from 'lucide-react'
 import { NAV_LEFT, NAV_RIGHT, RAIL_LINKS } from '../../data/navigation.js'
-import { toHref } from '../../lib/router.js'
+import { useHashRouter, toHref } from '../../lib/router.js'
 import PhotoSlot from '../ui/PhotoSlot.jsx'
+import { cn } from '../../lib/cn.js'
 
 const TILE_ICONS = {
   '/masuk': LogIn,
@@ -14,6 +15,7 @@ const TILE_ICONS = {
 // MobileDrawer — slide-in panel dari kiri untuk mobile
 // Setiap menu: label (klik → navigasi) + tombol expand plus/minus (klik → buka sub-link)
 export default function MobileDrawer({ open, onClose }) {
+  const { route } = useHashRouter()
   const [expanded, setExpanded] = useState(null)
 
   useEffect(() => {
@@ -46,17 +48,25 @@ export default function MobileDrawer({ open, onClose }) {
     setExpanded(expanded === key ? null : key)
   }
 
-  const renderMenu = (m) => (
-    <div key={m.key} className="border-b border-line">
-      <div className="flex items-stretch">
-        {/* Clickable label — navigates */}
-        <a
-          href={toHref(m.to)}
-          onClick={onClose}
-          className="flex-1 py-3.5 pl-1 pr-2 font-extrabold text-[15px] no-underline text-ink"
-        >
-          {m.label}
-        </a>
+  const renderMenu = (m) => {
+    const isMenuActive =
+      route.path === m.to ||
+      (m.to !== '/beranda' && route.path.startsWith(m.to))
+
+    return (
+      <div key={m.key} className="border-b border-line">
+        <div className="flex items-stretch">
+          {/* Clickable label — navigates */}
+          <a
+            href={toHref(m.to)}
+            onClick={onClose}
+            className={cn(
+              'flex-1 py-3.5 pl-1 pr-2 font-extrabold text-[15px] no-underline transition-colors',
+              isMenuActive ? 'text-em-700' : 'text-ink',
+            )}
+          >
+            {m.label}
+          </a>
         {/* Expand toggle button */}
         {m.mega && m.mega.links.length > 0 && (
           <button
@@ -124,6 +134,7 @@ export default function MobileDrawer({ open, onClose }) {
       )}
     </div>
   )
+}
 
   return (
     <div
@@ -163,14 +174,27 @@ export default function MobileDrawer({ open, onClose }) {
         <div className="grid grid-cols-2 gap-2 my-4">
           {RAIL_LINKS.map((q, i) => {
             const Icon = TILE_ICONS[q.to] || LogIn
+            const isActive =
+              route.path === q.to ||
+              (q.to !== '/beranda' && route.path.startsWith(q.to))
+
             return (
               <a
                 key={i}
                 href={toHref(q.to)}
                 onClick={onClose}
-                className="flex items-center gap-2.5 bg-em-50 rounded-card p-3 no-underline text-em-800 hover:bg-em-100 transition-colors"
+                className={cn(
+                  'flex items-center gap-2.5 rounded-card p-3 no-underline transition-colors',
+                  isActive
+                    ? 'bg-em-800 text-white shadow-sm'
+                    : 'bg-em-50 text-em-800 hover:bg-em-100',
+                )}
               >
-                <Icon size={20} strokeWidth={1.9} className="flex-none text-em-700" />
+                <Icon
+                  size={20}
+                  strokeWidth={1.9}
+                  className={cn('flex-none', isActive ? 'text-white' : 'text-em-700')}
+                />
                 <span className="font-bold text-[13px] leading-tight">{q.label}</span>
               </a>
             )
