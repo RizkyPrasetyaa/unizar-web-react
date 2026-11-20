@@ -3,6 +3,7 @@ import PageHero from '../components/layout/PageHero.jsx'
 import Subnav from '../components/layout/Subnav.jsx'
 import Card from '../components/ui/Card.jsx'
 import Pill from '../components/ui/Pill.jsx'
+import PhotoSlot from '../components/ui/PhotoSlot.jsx'
 import Button from '../components/ui/Button.jsx'
 import SmartLink from '../components/ui/SmartLink.jsx'
 import { ExternalLink, Lock, X, Download, Copy, LogIn } from 'lucide-react'
@@ -116,6 +117,45 @@ const DOC_POPUPS = {
       { label: '[v sebelumnya]', note: 'Diganti setelah evaluasi dan RTM' },
     ],
     downloadHref: '/download/ikhtisar-keuangan-2023.pdf',
+  },
+  'kode-etik': {
+    type: 'dokumen',
+    eyebrow: 'Pusdatin · Publik',
+    title: 'Kode Etik Dosen, Tendik & Mahasiswa',
+    docTitle: 'Kode Etik Dosen, Tendik & Mahasiswa',
+    meta: [
+      ['Keterangan', 'Rektor · SK [nomor]'],
+      ['Nomor', 'SK [nomor]'],
+      ['Tanggal penetapan', '[tanggal]'],
+      ['Versi', '[V]'],
+      ['Status', 'Berlaku'],
+      ['Akses', 'Publik'],
+    ],
+    riwayat: [
+      { label: '[v terbaru]', note: 'Berlaku sejak [tanggal]' },
+      { label: '[v sebelumnya]', note: 'Diganti setelah evaluasi dan RTM' },
+    ],
+    downloadHref: '/download/kode-etik-dosen-tendik-mahasiswa.pdf',
+  },
+  'satgas-ppkpt': {
+    type: 'unit',
+    eyebrow: 'Direktori · Satgas',
+    title: 'Satgas PPKPT',
+    photoCaption: 'Foto: kantor Satgas PPKPT',
+    photoVariant: 'default',
+    meta: [
+      ['Email', '[email]'],
+      ['Lokasi', '[lokasi]'],
+      ['Jam layanan', 'Senin–Jumat, 08.00–16.00 WITA'],
+      ['Kepala unit', '[Nama]'],
+    ],
+    description: '[Tugas dan fungsi unit sesuai Statuta dan OTK.]',
+    listTitle: 'Layanan utama',
+    listItems: [
+      '[Layanan 1]',
+      '[Layanan 2]',
+      '[Layanan 3]',
+    ],
   },
 }
 
@@ -399,6 +439,8 @@ function DocPopup({ data, onClose }) {
 
   if (!data) return null
 
+  const isUnit = data.type === 'unit'
+
   return (
     <div className="pop-root">
       <div className="pop-backdrop" onClick={onClose} />
@@ -418,18 +460,15 @@ function DocPopup({ data, onClose }) {
         </header>
 
         <div className="pop-bd">
-          {/* Layout: doc preview + metadata side by side */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
-              gap: '18px',
-              alignItems: 'start',
-            }}
-          >
-            <DocPreview title={data.docTitle} />
-            <div>
-              <dl className="pop-meta" style={{ gridTemplateColumns: '120px minmax(0, 1fr)' }}>
+          {isUnit ? (
+            <>
+              <PhotoSlot
+                variant={data.photoVariant || 'default'}
+                caption={data.photoCaption}
+                className="h-[230px] rounded-none"
+                aria-label={data.photoCaption}
+              />
+              <dl className="pop-meta">
                 {data.meta.map(([label, value]) => (
                   <div key={label} className="contents">
                     <dt>{label}</dt>
@@ -437,49 +476,86 @@ function DocPopup({ data, onClose }) {
                   </div>
                 ))}
               </dl>
-            </div>
-          </div>
+              {data.description && <p>{data.description}</p>}
+              {data.listTitle && (
+                <div className="pop-list">
+                  <b>{data.listTitle}</b>
+                  <ul className="clean">
+                    {data.listItems.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {/* Layout: doc preview + metadata side by side */}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
+                  gap: '18px',
+                  alignItems: 'start',
+                }}
+              >
+                <DocPreview title={data.docTitle} />
+                <div>
+                  <dl className="pop-meta" style={{ gridTemplateColumns: '120px minmax(0, 1fr)' }}>
+                    {data.meta.map(([label, value]) => (
+                      <div key={label} className="contents">
+                        <dt>{label}</dt>
+                        <dd>{value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </div>
 
-          {/* Riwayat versi */}
-          {data.riwayat && data.riwayat.length > 0 && (
-            <div className="pop-list">
-              <b>Riwayat versi</b>
-              <ul className="clean">
-                {data.riwayat.map((item) => (
-                  <li key={item.label}>
-                    <b style={{ fontSize: '14px' }}>{item.label}</b>{' '}
-                    <span style={{ color: 'var(--muted)', fontSize: '14px' }}>{item.note}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              {/* Riwayat versi */}
+              {data.riwayat && data.riwayat.length > 0 && (
+                <div className="pop-list">
+                  <b>Riwayat versi</b>
+                  <ul className="clean">
+                    {data.riwayat.map((item) => (
+                      <li key={item.label}>
+                        <b style={{ fontSize: '14px' }}>{item.label}</b>{' '}
+                        <span style={{ color: 'var(--muted)', fontSize: '14px' }}>{item.note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </>
           )}
         </div>
 
-        <footer className="pop-ft">
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <a
-              href={data.downloadHref}
-              download
-              className="btn btn-dark"
-              style={{ flex: 1, justifyContent: 'center' }}
-            >
-              <Download size={16} />
-              Unduh PDF
-            </a>
-            <button
-              className="btn btn-line"
-              style={{ justifyContent: 'center' }}
-              onClick={() => {
-                navigator.clipboard?.writeText(window.location.href)
-                alert('Tautan disalin!')
-              }}
-            >
-              <Copy size={16} />
-              Salin tautan
-            </button>
-          </div>
-        </footer>
+        {!isUnit && (
+          <footer className="pop-ft">
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <a
+                href={data.downloadHref || '#'}
+                download
+                className="btn btn-dark"
+                style={{ flex: 1, justifyContent: 'center' }}
+              >
+                <Download size={16} />
+                Unduh PDF
+              </a>
+              <button
+                className="btn btn-line"
+                style={{ justifyContent: 'center' }}
+                onClick={() => {
+                  navigator.clipboard?.writeText(window.location.href)
+                  alert('Tautan disalin!')
+                }}
+              >
+                <Copy size={16} />
+                Salin tautan
+              </button>
+            </div>
+          </footer>
+        )}
       </aside>
     </div>
   )
@@ -630,7 +706,11 @@ export default function TataKelola() {
           </div>
 
           <div className="grid g2">
-            <Card to="#">
+            <Card
+              className="card-link"
+              style={{ cursor: 'pointer' }}
+              onClick={() => openDoc('kode-etik')}
+            >
               <Pill>Pedoman</Pill>
               <h3>Kode etik</h3>
               <p>
@@ -639,7 +719,11 @@ export default function TataKelola() {
               </p>
               <span className="more">Selengkapnya →</span>
             </Card>
-            <Card to="#">
+            <Card
+              className="card-link"
+              style={{ cursor: 'pointer' }}
+              onClick={() => openDoc('satgas-ppkpt')}
+            >
               <Pill>Satgas</Pill>
               <h3>Satgas PPKPT</h3>
               <p>
@@ -650,18 +734,29 @@ export default function TataKelola() {
             </Card>
           </div>
 
-          <div className="band" style={{ background: 'var(--red-ink)', marginTop: '20px' }}>
+          <div
+            className="band"
+            style={{
+              backgroundColor: 'var(--red-ink)',
+              backgroundImage: 'var(--pattern)',
+              marginTop: '24px',
+              borderRadius: '20px',
+              padding: '32px 36px',
+            }}
+          >
             <div>
-              <span className="eyebrow" style={{ color: '#FFD2D4' }}>
+              <span className="eyebrow" style={{ color: '#FFD2D4', letterSpacing: '0.14em' }}>
                 Kanal rahasia
               </span>
-              <h2>Laporkan pelanggaran atau kekerasan</h2>
-              <p>
+              <h2 style={{ color: '#fff', fontSize: '26px', marginTop: '6px' }}>
+                Laporkan pelanggaran atau kekerasan
+              </h2>
+              <p style={{ color: '#fce7e7', marginTop: '8px', fontSize: '15px' }}>
                 Identitas pelapor dirahasiakan. Setiap laporan mendapat nomor tiket untuk
                 dipantau.
               </p>
             </div>
-            <div className="btn-row">
+            <div className="btn-row" style={{ flexShrink: 0, gap: '12px' }}>
               <Button variant="pri" href="#">
                 Lapor ke Satgas PPKPT
               </Button>
