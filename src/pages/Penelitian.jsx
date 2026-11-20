@@ -53,6 +53,14 @@ const STEPS = [
   { title: 'Luaran', desc: 'Publikasi terbuka, HKI, repositori' },
 ]
 
+const RISET_PER_TAHUN = [
+  { tahun: '2021', jumlah: 42 },
+  { tahun: '2022', jumlah: 58 },
+  { tahun: '2023', jumlah: 71 },
+  { tahun: '2024', jumlah: 86 },
+  { tahun: '2025', jumlah: 95 },
+]
+
 export default function Penelitian() {
   return (
     <div className="page animate-fade">
@@ -70,11 +78,76 @@ export default function Penelitian() {
       />
       <Subnav
         items={[
+          { id: 'penelitian--grafik', label: 'Grafik Penelitian' },
           { id: 'penelitian--riset', label: 'Riset UNIZAR' },
           { id: 'penelitian--publikasi', label: 'Publikasi & Inovasi' },
           { id: 'penelitian--tata-kelola', label: 'Tata Kelola Riset' },
         ]}
       />
+
+      {/* === Grafik Penelitian === */}
+      <section className="sec" id="penelitian--grafik" data-t="Grafik Penelitian">
+        <div className="wrap">
+          <div className="sec-h">
+            <div>
+              <span className="eyebrow">Grafik penelitian</span>
+              <h2>Jumlah penelitian per tahun</h2>
+              <p>Tren judul penelitian yang didanai dan dilaksanakan di UNIZAR.</p>
+            </div>
+          </div>
+          <Card flat style={{ padding: '24px 28px' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                gap: '16px',
+                height: '220px',
+                borderBottom: '1px solid var(--line)',
+                paddingBottom: '8px',
+              }}
+              role="img"
+              aria-label="Grafik batang jumlah penelitian per tahun"
+            >
+              {(() => {
+                const max = Math.max(...RISET_PER_TAHUN.map((d) => d.jumlah))
+                return RISET_PER_TAHUN.map((d) => {
+                  const h = Math.round((d.jumlah / max) * 180)
+                  return (
+                    <div
+                      key={d.tahun}
+                      style={{
+                        flex: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                        gap: '8px',
+                        height: '100%',
+                      }}
+                    >
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--em-700)' }}>
+                        {d.jumlah}
+                      </span>
+                      <div
+                        style={{
+                          width: '100%',
+                          maxWidth: '56px',
+                          height: `${h}px`,
+                          borderRadius: '10px 10px 4px 4px',
+                          background: 'linear-gradient(180deg, var(--em-700) 0%, #0d6b4c 100%)',
+                          minHeight: '8px',
+                        }}
+                        title={`${d.tahun}: ${d.jumlah} penelitian`}
+                      />
+                      <span style={{ fontSize: '13px', color: 'var(--muted)' }}>{d.tahun}</span>
+                    </div>
+                  )
+                })
+              })()}
+            </div>
+          </Card>
+        </div>
+      </section>
 
       {/* === Riset UNIZAR === */}
       <section className="sec" id="penelitian--riset" data-t="Riset UNIZAR">
@@ -89,7 +162,11 @@ export default function Penelitian() {
 
           <div
             className="focus"
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '18px' }}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '18px',
+            }}
           >
             {FOKUS_RISET.map((f) => (
               <Card key={f.id} to="#" style={{ padding: 0, overflow: 'hidden' }}>
@@ -122,14 +199,19 @@ export default function Penelitian() {
             <div>
               <span className="eyebrow" style={{ color: 'var(--gold)' }}>Hibah internal 2027</span>
               <h2>Ajukan proposal penelitian</h2>
-              <p>Skema dasar, terapan, dan kolaborasi internasional. Proposal wajib selaras peta jalan dan melibatkan mahasiswa.</p>
+              <p>
+                Skema dasar, terapan, dan kolaborasi internasional. Proposal wajib selaras peta
+                jalan dan melibatkan mahasiswa.
+              </p>
             </div>
             <div className="btn-row">
               <Button variant="pri" href="#">
                 Ajukan proposal{' '}
                 <ExternalLink style={{ width: 16, height: 16 }} aria-hidden="true" />
               </Button>
-              <Button variant="ghost" href="#">Panduan hibah</Button>
+              <Button variant="ghost" href="#">
+                Panduan hibah
+              </Button>
             </div>
           </div>
         </div>
@@ -197,8 +279,12 @@ export default function Penelitian() {
             ))}
           </ol>
           <div className="btn-row" style={{ marginTop: '18px' }}>
-            <Button variant="line" href="#">Pedoman penelitian</Button>
-            <Button variant="line" href="#">Kode etik penelitian</Button>
+            <Button variant="line" href="#">
+              Pedoman penelitian
+            </Button>
+            <Button variant="line" href="#">
+              Kode etik penelitian
+            </Button>
           </div>
         </div>
       </section>
