@@ -1055,7 +1055,7 @@
     margin-top: 8px;
   }
   .doc .lock {
-    color: #4a5e55;
+    color: var(--red-ink);
   }
 
   /* Stories */
