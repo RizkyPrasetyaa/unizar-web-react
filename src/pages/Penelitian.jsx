@@ -1,10 +1,11 @@
+import { useEffect, useRef, useState } from 'react'
 import PageHero from '../components/layout/PageHero.jsx'
 import Subnav from '../components/layout/Subnav.jsx'
 import Card from '../components/ui/Card.jsx'
 import Pill from '../components/ui/Pill.jsx'
 import PhotoSlot from '../components/ui/PhotoSlot.jsx'
 import Button from '../components/ui/Button.jsx'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, FileDown, X } from 'lucide-react'
 
 const FOKUS_RISET = [
   {
@@ -15,6 +16,12 @@ const FOKUS_RISET = [
     caption: 'Foto: riset lapangan di destinasi wisata',
     title: 'Kesehatan pariwisata',
     desc: 'Kesehatan wisatawan dan pekerja pariwisata, ergonomi, dan keselamatan kerja di destinasi.',
+    bidang: 'Kesehatan & pariwisata',
+    koordinator: '[Nama dosen]',
+    periode: '2025–2027',
+    skema: 'Hibah internal · terapan',
+    uraian: '[Uraian riset: latar masalah, metode, dan hasil yang diharapkan.]',
+    luaran: ['[Artikel jurnal]', '[HKI / produk]', '[Repositori terbuka]'],
   },
   {
     id: 'fokus-syariah',
@@ -24,6 +31,12 @@ const FOKUS_RISET = [
     caption: 'Foto: wawancara pelaku UMKM',
     title: 'Ekonomi syariah & UMKM',
     desc: 'Pembiayaan syariah, sertifikasi halal, dan daya saing usaha lokal.',
+    bidang: 'Ekonomi syariah',
+    koordinator: '[Nama dosen]',
+    periode: '2025–2027',
+    skema: 'Hibah internal · dasar',
+    uraian: '[Uraian riset: latar masalah, metode, dan hasil yang diharapkan.]',
+    luaran: ['[Artikel jurnal]', '[Modul / pedoman]', '[Repositori terbuka]'],
   },
   {
     id: 'fokus-pangan',
@@ -33,6 +46,12 @@ const FOKUS_RISET = [
     caption: 'Foto: uji tanam di lahan kering',
     title: 'Pangan lahan kering',
     desc: 'Agroekoteknologi dan agribisnis untuk lahan kering NTB.',
+    bidang: 'Pertanian & pangan',
+    koordinator: '[Nama dosen]',
+    periode: '2025–2027',
+    skema: 'Hibah internal · terapan',
+    uraian: '[Uraian riset: latar masalah, metode, dan hasil yang diharapkan.]',
+    luaran: ['[Artikel jurnal]', '[Varietas / produk]', '[Repositori terbuka]'],
   },
 ]
 
@@ -61,7 +80,363 @@ const RISET_PER_TAHUN = [
   { tahun: '2025', jumlah: 95 },
 ]
 
+
+const PANDUAN_HIBAH = {
+  title: 'Panduan hibah penelitian internal',
+  eyebrow: 'Pusdatin · Publik',
+  keterangan: 'LPPM · panduan hibah',
+  nomor: 'SK [nomor]',
+  tanggal: '[tanggal]',
+  versi: '[v]',
+  status: 'Berlaku',
+  akses: 'Publik',
+  riwayat: [
+    { versi: '[v terbaru]', desc: 'Berlaku sejak [tanggal]' },
+    { versi: '[v sebelumnya]', desc: 'Diganti setelah evaluasi dan RTM' },
+  ],
+}
+
+function DocDrawer({ doc, onClose }) {
+  const closeRef = useRef(null)
+  const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    if (!doc) return
+    closeRef.current?.focus()
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [doc, onClose])
+
+  if (!doc) return null
+
+  const salinTautan = () => {
+    try {
+      navigator.clipboard.writeText(window.location.href)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {}
+  }
+
+  const riwayat = doc.riwayat || []
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div className="pd pd--wide" role="dialog" aria-modal="true" aria-label={doc.title}>
+        <div className="pd-head">
+          <span className="eyebrow" style={{ color: '#f2c230' }}>
+            {doc.eyebrow || 'Pusdatin · Publik'}
+          </span>
+          <h3>{doc.title}</h3>
+          <button ref={closeRef} type="button" className="pd-close" onClick={onClose} aria-label="Tutup dokumen">
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <div className="pd-doc-grid">
+            <div className="pd-doc">
+              <img src="/logo.png" alt="Logo UNIZAR" />
+              <b>{doc.title}</b>
+              <div className="pd-doc-lines" aria-hidden="true">
+                <span style={{ width: '88%' }} />
+                <span style={{ width: '72%' }} />
+                <span style={{ width: '80%' }} />
+                <span style={{ width: '62%' }} />
+              </div>
+              <small>Pratinjau dokumen</small>
+            </div>
+            <div>
+              <dl className="pd-meta">
+                <div><dt>Keterangan</dt><dd>{doc.keterangan}</dd></div>
+                <div><dt>Nomor</dt><dd>{doc.nomor}</dd></div>
+                <div><dt>Tanggal penetapan</dt><dd>{doc.tanggal}</dd></div>
+                <div><dt>Versi</dt><dd>{doc.versi}</dd></div>
+                <div><dt>Status</dt><dd>{doc.status}</dd></div>
+                <div><dt>Akses</dt><dd>{doc.akses}</dd></div>
+              </dl>
+              <div className="pd-sec">
+                <h4>Riwayat versi</h4>
+                <ul className="clean">
+                  {riwayat.map((r, i) => (
+                    <li key={i} className="pd-row pd-versi">
+                      <b>{r.versi}</b> {r.desc}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="btn-row">
+                <Button variant="dark" asButton onClick={() => {}}>
+                  <FileDown size={17} strokeWidth={1.9} /> Unduh PDF
+                </Button>
+                <Button variant="line" asButton onClick={salinTautan}>
+                  {copied ? 'Tautan disalin ✓' : 'Salin tautan'}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function ProposalDrawer({ open, onClose }) {
+  const closeRef = useRef(null)
+  const [judul, setJudul] = useState('')
+  const [skema, setSkema] = useState('Dasar')
+  const [ketua, setKetua] = useState('')
+  const [ringkas, setRingkas] = useState('')
+  const [msg, setMsg] = useState('')
+
+  useEffect(() => {
+    if (!open) return
+    closeRef.current?.focus()
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open, onClose])
+
+  if (!open) return null
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    if (!judul.trim() || !ketua.trim()) {
+      setMsg('Lengkapi judul dan ketua peneliti terlebih dahulu.')
+      return
+    }
+    setMsg(`Terima kasih. Usulan "${judul.trim()}" tercatat dan akan ditelaah sesuai jadwal hibah.`)
+    setJudul('')
+    setSkema('Dasar')
+    setKetua('')
+    setRingkas('')
+  }
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div className="pd" role="dialog" aria-modal="true" aria-label="Ajukan proposal penelitian">
+        <div className="pd-head">
+          <span className="eyebrow" style={{ color: '#f2c230' }}>Hibah internal 2027</span>
+          <h3>Ajukan proposal penelitian</h3>
+          <button ref={closeRef} type="button" className="pd-close" onClick={onClose} aria-label="Tutup formulir">
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <p className="pd-bio" style={{ marginBottom: '16px' }}>
+            Skema dasar, terapan, dan kolaborasi internasional. Proposal wajib selaras peta jalan
+            dan melibatkan mahasiswa.
+          </p>
+          <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '14px' }}>
+            <div className="field" style={{ display: 'grid', gap: '6px' }}>
+              <label htmlFor="p-judul">Judul usulan</label>
+              <input
+                id="p-judul"
+                required
+                value={judul}
+                onChange={(e) => setJudul(e.target.value)}
+                style={{
+                  padding: '10px 12px',
+                  border: '1px solid #DCE6E0',
+                  borderRadius: '14px',
+                  fontSize: '15px',
+                  background: '#fff',
+                }}
+              />
+            </div>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                gap: '14px',
+              }}
+            >
+              <div className="field" style={{ display: 'grid', gap: '6px' }}>
+                <label htmlFor="p-skema">Skema</label>
+                <select
+                  id="p-skema"
+                  value={skema}
+                  onChange={(e) => setSkema(e.target.value)}
+                  style={{
+                    padding: '10px 12px',
+                    border: '1px solid #DCE6E0',
+                    borderRadius: '14px',
+                    fontSize: '15px',
+                    background: '#fff',
+                  }}
+                >
+                  <option>Dasar</option>
+                  <option>Terapan</option>
+                  <option>Kolaborasi internasional</option>
+                </select>
+              </div>
+              <div className="field" style={{ display: 'grid', gap: '6px' }}>
+                <label htmlFor="p-ketua">Ketua peneliti</label>
+                <input
+                  id="p-ketua"
+                  required
+                  value={ketua}
+                  onChange={(e) => setKetua(e.target.value)}
+                  style={{
+                    padding: '10px 12px',
+                    border: '1px solid #DCE6E0',
+                    borderRadius: '14px',
+                    fontSize: '15px',
+                    background: '#fff',
+                  }}
+                />
+              </div>
+            </div>
+            <div className="field" style={{ display: 'grid', gap: '6px' }}>
+              <label htmlFor="p-ringkas">Ringkasan singkat</label>
+              <textarea
+                id="p-ringkas"
+                rows={4}
+                value={ringkas}
+                onChange={(e) => setRingkas(e.target.value)}
+                style={{
+                  padding: '10px 12px',
+                  border: '1px solid #DCE6E0',
+                  borderRadius: '14px',
+                  fontSize: '15px',
+                  background: '#fff',
+                  resize: 'vertical',
+                }}
+              />
+            </div>
+            <div className="btn-row">
+              <Button variant="dark" asButton type="submit">
+                Kirim usulan
+              </Button>
+              <Button variant="line" asButton onClick={onClose}>
+                Batal
+              </Button>
+            </div>
+            {msg && (
+              <p className="form-msg" aria-live="polite" style={{ margin: 0, fontSize: '14px' }}>
+                {msg}
+              </p>
+            )}
+          </form>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function RisetDrawer({ tema, onClose }) {
+  const closeRef = useRef(null)
+
+  useEffect(() => {
+    if (!tema) return
+    closeRef.current?.focus()
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [tema, onClose])
+
+  if (!tema) return null
+
+  const luaran = tema.luaran || ['[Artikel jurnal]', '[HKI / produk]', '[Repositori terbuka]']
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div
+        className="pd"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Detail riset ${tema.title}`}
+      >
+        <div className="pd-head">
+          <span className="eyebrow" style={{ color: '#f2c230' }}>
+            Tema riset unggulan
+          </span>
+          <h3>{tema.title}</h3>
+          <button
+            ref={closeRef}
+            type="button"
+            className="pd-close"
+            onClick={onClose}
+            aria-label="Tutup detail riset"
+          >
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <PhotoSlot
+            variant={tema.photoVariant}
+            caption={tema.caption}
+            aria-label={`Tempat foto: ${tema.caption}`}
+            style={{ height: '210px' }}
+          />
+          <dl className="pd-meta">
+            <div>
+              <dt>Bidang</dt>
+              <dd>{tema.bidang}</dd>
+            </div>
+            <div>
+              <dt>Koordinator</dt>
+              <dd>{tema.koordinator}</dd>
+            </div>
+            <div>
+              <dt>Periode</dt>
+              <dd>{tema.periode}</dd>
+            </div>
+            <div>
+              <dt>Skema</dt>
+              <dd>{tema.skema}</dd>
+            </div>
+          </dl>
+          <p className="pd-bio">{tema.desc}</p>
+          <p className="pd-bio" style={{ marginTop: '8px' }}>
+            {tema.uraian}
+          </p>
+          <div className="pd-sec">
+            <h4>Luaran</h4>
+            <ul className="clean">
+              {luaran.map((l, i) => (
+                <li key={i} className="pd-row">
+                  {l}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="btn-row" style={{ marginTop: '18px' }}>
+            <Button variant="dark" href="#">
+              Ajukan riset serupa
+            </Button>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
 export default function Penelitian() {
+  const [risetDetail, setRisetDetail] = useState(null)
+  const [proposalOpen, setProposalOpen] = useState(false)
+  const [docDetail, setDocDetail] = useState(null)
+
   return (
     <div className="page animate-fade">
       <PageHero
@@ -85,69 +460,107 @@ export default function Penelitian() {
         ]}
       />
 
-      {/* === Grafik Penelitian === */}
-      <section className="sec" id="penelitian--grafik" data-t="Grafik Penelitian">
-        <div className="wrap">
-          <div className="sec-h">
-            <div>
-              <span className="eyebrow">Grafik penelitian</span>
-              <h2>Jumlah penelitian per tahun</h2>
-              <p>Tren judul penelitian yang didanai dan dilaksanakan di UNIZAR.</p>
-            </div>
-          </div>
-          <Card flat style={{ padding: '24px 28px' }}>
+     
+{/* === Grafik Penelitian === */}
+<section
+  className="sec"
+  id="penelitian--grafik"
+  data-t="Grafik Penelitian"
+>
+  <div className="wrap">
+    <div className="sec-h">
+      <div>
+        <span className="eyebrow">Grafik penelitian</span>
+        <h2>Jumlah penelitian per tahun</h2>
+        <p>
+          Tren judul penelitian yang didanai dan dilaksanakan di UNIZAR.
+        </p>
+      </div>
+    </div>
+
+    <Card
+      flat
+      style={{
+        padding: '28px 32px',
+        background: '#f3faf6',
+        maxWidth: 720,
+      }}
+    >
+      <div
+        role="img"
+        aria-label="Grafik batang jumlah penelitian per tahun"
+        style={{
+          display: 'grid',
+          gap: 8,
+        }}
+      >
+        {[...RISET_PER_TAHUN].reverse().map((d) => {
+          const max = Math.max(
+            ...RISET_PER_TAHUN.map((item) => item.jumlah),
+            1
+          )
+          const pct = (d.jumlah / max) * 78
+
+          return (
             <div
+              key={d.tahun}
               style={{
-                display: 'flex',
-                alignItems: 'flex-end',
-                gap: '16px',
-                height: '220px',
-                borderBottom: '1px solid var(--line)',
-                paddingBottom: '8px',
+                display: 'grid',
+                gridTemplateColumns: '52px minmax(0, 1fr)',
+                columnGap: 14,
+                alignItems: 'center',
               }}
-              role="img"
-              aria-label="Grafik batang jumlah penelitian per tahun"
             >
-              {(() => {
-                const max = Math.max(...RISET_PER_TAHUN.map((d) => d.jumlah))
-                return RISET_PER_TAHUN.map((d) => {
-                  const h = Math.round((d.jumlah / max) * 180)
-                  return (
-                    <div
-                      key={d.tahun}
-                      style={{
-                        flex: 1,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'flex-end',
-                        gap: '8px',
-                        height: '100%',
-                      }}
-                    >
-                      <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--em-700)' }}>
-                        {d.jumlah}
-                      </span>
-                      <div
-                        style={{
-                          width: '100%',
-                          maxWidth: '56px',
-                          height: `${h}px`,
-                          borderRadius: '10px 10px 4px 4px',
-                          background: 'linear-gradient(180deg, var(--em-700) 0%, #0d6b4c 100%)',
-                          minHeight: '8px',
-                        }}
-                        title={`${d.tahun}: ${d.jumlah} penelitian`}
-                      />
-                      <span style={{ fontSize: '13px', color: 'var(--muted)' }}>{d.tahun}</span>
-                    </div>
-                  )
-                })
-              })()}
+              <span
+                style={{
+                  fontSize: 15,
+                  fontWeight: 600,
+                  color: '#13231c',
+                }}
+              >
+                {d.tahun}
+              </span>
+
+              <div
+                style={{
+                  position: 'relative',
+                  height: 36,
+                }}
+              >
+                <div
+                  title={`${d.tahun}: ${d.jumlah}`}
+                  style={{
+                    width: `${pct}%`,
+                    height: '100%',
+                    border: '1.75px solid #0C6B4D',
+                    background: '#0C6B4D',
+                    boxSizing: 'border-box',
+                  }}
+                />
+
+                <span
+                  style={{
+                    position: 'absolute',
+                    left: `calc(${pct}% + 10px)`,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    fontSize: 15,
+                    fontWeight: 700,
+                    color: '#0C6B4D',
+                    lineHeight: 1,
+                  }}
+                >
+                  {d.jumlah}
+                </span>
+              </div>
             </div>
-          </Card>
-        </div>
-      </section>
+          )
+        })}
+      </div>
+    </Card>
+  </div>
+</section>
+
 
       {/* === Riset UNIZAR === */}
       <section className="sec" id="penelitian--riset" data-t="Riset UNIZAR">
@@ -169,7 +582,24 @@ export default function Penelitian() {
             }}
           >
             {FOKUS_RISET.map((f) => (
-              <Card key={f.id} to="#" style={{ padding: 0, overflow: 'hidden' }}>
+              <button
+                key={f.id}
+                type="button"
+                className="card"
+                style={{
+                  padding: 0,
+                  overflow: 'hidden',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  width: '100%',
+                  border: '1px solid var(--line)',
+                  background: '#fff',
+                  display: 'block',
+                }}
+                onClick={() => setRisetDetail(f)}
+                aria-haspopup="dialog"
+                aria-label={`Detail riset ${f.title}`}
+              >
                 <PhotoSlot
                   variant={f.photoVariant}
                   caption={f.caption}
@@ -180,8 +610,9 @@ export default function Penelitian() {
                   <Pill variant={f.variant}>{f.pill}</Pill>
                   <h3>{f.title}</h3>
                   <p>{f.desc}</p>
+                  <span className="more">Selengkapnya →</span>
                 </div>
-              </Card>
+              </button>
             ))}
           </div>
 
@@ -205,11 +636,11 @@ export default function Penelitian() {
               </p>
             </div>
             <div className="btn-row">
-              <Button variant="pri" href="#">
+              <Button variant="pri" asButton onClick={() => setProposalOpen(true)}>
                 Ajukan proposal{' '}
                 <ExternalLink style={{ width: 16, height: 16 }} aria-hidden="true" />
               </Button>
-              <Button variant="ghost" href="#">
+              <Button variant="ghost" asButton onClick={() => setDocDetail(PANDUAN_HIBAH)}>
                 Panduan hibah
               </Button>
             </div>
@@ -288,6 +719,10 @@ export default function Penelitian() {
           </div>
         </div>
       </section>
+
+      <RisetDrawer tema={risetDetail} onClose={() => setRisetDetail(null)} />
+      <ProposalDrawer open={proposalOpen} onClose={() => setProposalOpen(false)} />
+      <DocDrawer doc={docDetail} onClose={() => setDocDetail(null)} />
     </div>
   )
 }
