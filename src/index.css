@@ -858,12 +858,25 @@
 
   /* Band — colored callout */
   .band {
-    background: #064e3b;
+    background-color: #064e3b;
+    background-image: var(--pattern);
     color: #fff;
-    border-radius: 22px;
-    padding: 36px;
+    border-radius: 20px;
+    padding: 32px 36px;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .band h2 {
+    color: #fff;
+    font-size: clamp(22px, 2.4vw, 28px);
+  }
+  .band p {
+    color: rgba(255, 255, 255, 0.88);
   }
 
   .note {
@@ -1055,7 +1068,7 @@
     margin-top: 8px;
   }
   .doc .lock {
-    color: #4a5e55;
+    color: var(--red-ink);
   }
 
   /* Stories */
