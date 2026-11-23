@@ -97,6 +97,7 @@ export const NAV_RIGHT = [
     mega: {
       intro: 'Riset & inovasi',
       links: [
+        { title: 'Grafik penelitian', desc: 'Jumlah penelitian per tahun', to: '/penelitian#penelitian--grafik' },
         { title: 'Riset unggulan', desc: 'Tema unggulan, peta jalan, hibah', to: '/penelitian#unggulan' },
         { title: 'Publikasi & inovasi', desc: 'Jurnal, repositori, SINTA, HKI, hilirisasi', to: '/publikasi-inovasi' },
         { title: 'Etik penelitian', desc: 'Alur, etik, dan pedoman', to: '/penelitian#etik' },
@@ -112,6 +113,7 @@ export const NAV_RIGHT = [
     mega: {
       intro: 'Mengabdi pada masyarakat',
       links: [
+        { title: 'Grafik pengabdian', desc: 'Jumlah pengabdian per tahun', to: '/pengabdian#pengabdian--grafik' },
         { title: 'Program unggulan', desc: 'Program unggulan dan lokasinya', to: '/pengabdian#program' },
         { title: 'Kolaborasi pakar', desc: 'Ajukan kerja sama dengan pakar', to: '/pengabdian#kolaborasi' },
         { title: 'Cerita dampak', desc: 'Cerita perubahan dan luaran', to: '/pengabdian#dampak' },

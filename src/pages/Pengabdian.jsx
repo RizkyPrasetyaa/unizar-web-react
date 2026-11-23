@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import PageHero from '../components/layout/PageHero.jsx'
 import Subnav from '../components/layout/Subnav.jsx'
 import Card from '../components/ui/Card.jsx'
@@ -26,15 +25,6 @@ const PROGRAM_CARDS = [
   },
 ]
 
-const KABUPATEN_OPTIONS = [
-  'Pilih…',
-  'Kota Mataram',
-  'Lombok Barat',
-  'Lombok Tengah',
-  'Lombok Timur',
-  'Lombok Utara',
-  'Sumbawa',
-]
 
 const DAMPAK_DOCS = [
   {
@@ -57,29 +47,15 @@ const DAMPAK_DOCS = [
   },
 ]
 
+const PKM_PER_TAHUN = [
+  { tahun: '2021', jumlah: 36 },
+  { tahun: '2022', jumlah: 48 },
+  { tahun: '2023', jumlah: 62 },
+  { tahun: '2024', jumlah: 74 },
+  { tahun: '2025', jumlah: 81 },
+]
+
 export default function Pengabdian() {
-  // === Form state for kolaborasi ===
-  const [org, setOrg] = useState('')
-  const [kab, setKab] = useState(KABUPATEN_OPTIONS[0])
-  const [need, setNeed] = useState('')
-  const [cp, setCp] = useState('')
-  const [msg, setMsg] = useState('')
-
-  function handleSubmit(e) {
-    e.preventDefault()
-    if (!org.trim() || !need.trim()) {
-      setMsg('Lengkapi nama lembaga dan kebutuhan terlebih dahulu.')
-      return
-    }
-    setMsg(
-      `Terima kasih, ${org.trim()}. Permintaan tercatat dan akan dicocokkan dengan pakar dalam 7 hari kerja.`,
-    )
-    setOrg('')
-    setKab(KABUPATEN_OPTIONS[0])
-    setNeed('')
-    setCp('')
-  }
-
   return (
     <div className="page animate-fade">
       <PageHero
@@ -96,11 +72,77 @@ export default function Pengabdian() {
       />
       <Subnav
         items={[
+          { id: 'pengabdian--grafik', label: 'Grafik Pengabdian' },
           { id: 'pengabdian--program', label: 'Program & Desa Binaan' },
           { id: 'pengabdian--kepakaran', label: 'Kepakaran & Kolaborasi' },
           { id: 'pengabdian--dampak', label: 'Dampak & Luaran' },
         ]}
       />
+
+
+      {/* === Grafik Pengabdian === */}
+      <section className="sec" id="pengabdian--grafik" data-t="Grafik Pengabdian">
+        <div className="wrap">
+          <div className="sec-h">
+            <div>
+              <span className="eyebrow">Grafik pengabdian</span>
+              <h2>Jumlah pengabdian per tahun</h2>
+              <p>Tren kegiatan pengabdian kepada masyarakat yang dilaksanakan di UNIZAR.</p>
+            </div>
+          </div>
+          <Card flat style={{ padding: '24px 28px' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                gap: '16px',
+                height: '220px',
+                borderBottom: '1px solid var(--line)',
+                paddingBottom: '8px',
+              }}
+              role="img"
+              aria-label="Grafik batang jumlah pengabdian per tahun"
+            >
+              {(() => {
+                const max = Math.max(...PKM_PER_TAHUN.map((d) => d.jumlah))
+                return PKM_PER_TAHUN.map((d) => {
+                  const h = Math.round((d.jumlah / max) * 180)
+                  return (
+                    <div
+                      key={d.tahun}
+                      style={{
+                        flex: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                        gap: '8px',
+                        height: '100%',
+                      }}
+                    >
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--em-700)' }}>
+                        {d.jumlah}
+                      </span>
+                      <div
+                        style={{
+                          width: '100%',
+                          maxWidth: '56px',
+                          height: `${h}px`,
+                          borderRadius: '10px 10px 4px 4px',
+                          background: 'linear-gradient(180deg, var(--em-700) 0%, #0d6b4c 100%)',
+                          minHeight: '8px',
+                        }}
+                        title={`${d.tahun}: ${d.jumlah} kegiatan`}
+                      />
+                      <span style={{ fontSize: '13px', color: 'var(--muted)' }}>{d.tahun}</span>
+                    </div>
+                  )
+                })
+              })()}
+            </div>
+          </Card>
+        </div>
+      </section>
 
       {/* === Program & Desa Binaan === */}
       <section className="sec" id="pengabdian--program" data-t="Program & Desa Binaan">
@@ -133,130 +175,42 @@ export default function Pengabdian() {
               style={{ height: '100%', minHeight: '320px' }}
             />
           </div>
+
         </div>
       </section>
 
       {/* === Kepakaran & Kolaborasi === */}
       <section className="sec" id="pengabdian--kepakaran" data-t="Kepakaran & Kolaborasi">
         <div className="wrap">
-          <div className="sec-h">
+          <div
+            className="band"
+            style={{
+              marginBottom: '22px',
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '20px',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
             <div>
-              <span className="eyebrow">Kolaborasi</span>
-              <h2>Ajukan kolaborasi dengan pakar UNIZAR</h2>
+              <span className="eyebrow" style={{ color: 'var(--gold)' }}>Kemitraan</span>
+              <h2>Ajukan kolaborasi</h2>
               <p>
                 Untuk pemerintah desa dan daerah, sekolah, komunitas, UMKM, dan industri.
                 Permintaan dicocokkan dengan pakar dalam 7 hari kerja.
               </p>
             </div>
-          </div>
-
-          <form
-            className="card"
-            onSubmit={handleSubmit}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-              gap: '14px',
-            }}
-          >
-            <div className="field" style={{ display: 'grid', gap: '6px' }}>
-              <label htmlFor="k-org">Nama lembaga / komunitas</label>
-              <input
-                id="k-org"
-                required
-                value={org}
-                onChange={(e) => setOrg(e.target.value)}
-                style={{
-                  padding: '10px 12px',
-                  border: '1px solid #DCE6E0',
-                  borderRadius: '14px',
-                  fontSize: '15px',
-                  background: '#fff',
-                  color: '#13231c',
-                }}
-              />
-            </div>
-
-            <div className="field" style={{ display: 'grid', gap: '6px' }}>
-              <label htmlFor="k-kab">Kabupaten / kota</label>
-              <select
-                id="k-kab"
-                value={kab}
-                onChange={(e) => setKab(e.target.value)}
-                style={{
-                  padding: '10px 12px',
-                  border: '1px solid #DCE6E0',
-                  borderRadius: '14px',
-                  fontSize: '15px',
-                  background: '#fff',
-                  color: '#13231c',
-                }}
-              >
-                {KABUPATEN_OPTIONS.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="field" style={{ gridColumn: '1 / -1', display: 'grid', gap: '6px' }}>
-              <label htmlFor="k-need">Kebutuhan atau permasalahan</label>
-              <textarea
-                id="k-need"
-                rows={3}
-                required
-                value={need}
-                onChange={(e) => setNeed(e.target.value)}
-                style={{
-                  padding: '10px 12px',
-                  border: '1px solid #DCE6E0',
-                  borderRadius: '14px',
-                  fontSize: '15px',
-                  background: '#fff',
-                  color: '#13231c',
-                  fontFamily: 'inherit',
-                  resize: 'vertical',
-                }}
-              />
-            </div>
-
-            <div className="field" style={{ display: 'grid', gap: '6px' }}>
-              <label htmlFor="k-cp">Narahubung</label>
-              <input
-                id="k-cp"
-                placeholder="email atau WhatsApp"
-                value={cp}
-                onChange={(e) => setCp(e.target.value)}
-                style={{
-                  padding: '10px 12px',
-                  border: '1px solid #DCE6E0',
-                  borderRadius: '14px',
-                  fontSize: '15px',
-                  background: '#fff',
-                  color: '#13231c',
-                }}
-              />
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'flex-end',
-                gap: '12px',
-                flexWrap: 'wrap',
-              }}
-            >
-              <Button variant="dark" asButton type="submit">
-                Kirim permintaan
+            <div className="btn-row">
+              <Button variant="pri" href="#">
+                Ajukan kolaborasi{' '}
+                <ExternalLink style={{ width: 16, height: 16 }} aria-hidden="true" />
               </Button>
-              {msg && (
-                <span className="form-msg" aria-live="polite" style={{ marginTop: 0 }}>
-                  {msg}
-                </span>
-              )}
+              <Button variant="ghost" href="#">
+                Panduan kolaborasi
+              </Button>
             </div>
-          </form>
+          </div>
         </div>
       </section>
 
