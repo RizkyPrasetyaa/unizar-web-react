@@ -23,7 +23,7 @@ export default function Fakultas() {
     <div className="page animate-fade">
       <PageHero
         title="Fakultas & Program Studi"
-        description="Tujuh fakultas dengan tiga belas program studi sarjana dan profesi."
+        description="Tujuh fakultas dengan dua belas program studi sarjana dan profesi."
         crumbs={[{ label: 'Beranda', to: '/beranda' }, { label: 'Fakultas' }]}
         photoCaption="Foto: gedung kuliah"
       />

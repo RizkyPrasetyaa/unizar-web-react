@@ -13,7 +13,7 @@ export const NAV_LEFT = [
         { title: 'Tentang UNIZAR', desc: 'Sambutan rektor, visi, misi, dan keunggulan', to: '/profil#tentang' },
         { title: 'Sejarah', desc: 'Perjalanan sejak 1981', to: '/profil#sejarah' },
         { title: 'Pimpinan & Struktur', desc: 'Rektor, wakil rektor, dan struktur organisasi', to: '/profil#struktur' },
-        { title: 'UNIZAR dalam Angka', desc: 'Fakta ringkas yang selalu mutakhir', to: '/profil/angka' },
+        { title: 'UNIZAR dalam Angka', desc: 'Fakta ringkas yang selalu mutakhir', to: '/profil#angka' },
         { title: 'UNIZAR untuk SDGs', desc: 'Lima SDGs yang kami tekuni', to: '/profil/sdgs' },
       ],
       feat: { caption: 'Foto: Kampus UNIZAR', to: '/profil#tentang' },
@@ -25,7 +25,7 @@ export const NAV_LEFT = [
     labelEn: 'Faculties',
     to: '/fakultas',
     mega: {
-      intro: 'Tujuh fakultas, tiga belas program studi',
+      intro: 'Tujuh fakultas, dua belas program studi',
       links: [
         { title: 'Kedokteran', desc: 'Pendidikan Dokter · Profesi Dokter', to: '/fakultas/kedokteran' },
         { title: 'Teknik', desc: 'Teknik Sipil · Ilmu Komputer', to: '/fakultas#ft' },

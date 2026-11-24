@@ -29,7 +29,7 @@ export default function StatsSection() {
               Fakta lengkap &amp; sumber data
             </b>
             <span className="block mt-2">
-              <a href={toHref('/profil/angka')} className="font-bold text-sm">
+              <a href={toHref('/profil#angka')} className="font-bold text-sm">
                 UNIZAR dalam Angka →
               </a>
             </span>

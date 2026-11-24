@@ -78,7 +78,7 @@ export const PRODI_LINKS = {
 export const CAMPUS_STATS = [
   { value: '1981', label: 'Berdiri di Mataram', labelEn: 'Founded in Mataram' },
   { value: '7', label: 'Fakultas', labelEn: 'Faculties' },
-  { value: '13', label: 'Program studi', labelEn: 'Study programmes' },
+  { value: '12', label: 'Program studi', labelEn: 'Study programmes' },
 ]
 
 // Tombol aksi per kartu fokus (dipakai footer popup detail):
