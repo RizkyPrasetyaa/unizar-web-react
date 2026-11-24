@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import PageHero from '../components/layout/PageHero.jsx'
 import Subnav from '../components/layout/Subnav.jsx'
 import Card from '../components/ui/Card.jsx'
@@ -10,22 +10,58 @@ import {
   Lock,
   ChevronDown,
   FileText,
+  X,
 } from 'lucide-react'
 
 // === PPEPP cycle ===
 const PPEPP_STEPS = [
-  { letter: 'P', label: 'Penetapan', small: 'Jan–Feb · revisi standar', bg: '#053B2C' },
-  { letter: 'P', label: 'Pelaksanaan', small: 'Mar–Des · seluruh unit', bg: '#0A6B4F' },
-  { letter: 'E', label: 'Evaluasi', small: 'Apr & Agu–Sep · monev dan AMI', bg: '#8A6A10' },
-  { letter: 'P', label: 'Pengendalian', small: 'Okt–Nov · RTM dan RTL', bg: '#8E1B20' },
-  { letter: 'P', label: 'Peningkatan', small: 'Des · standar naik', bg: '#064E3B' },
+  {
+    letter: 'P',
+    label: 'Penetapan',
+    small: 'Jan–Feb · revisi standar',
+    bg: '#053B2C',
+    detail:
+      'Menetapkan dan merevisi standar SPMI berdasarkan evaluasi tahun sebelumnya, regulasi, dan masukan pemangku kepentingan.',
+    kegiatan: ['Revisi dokumen standar', 'Sosialisasi standar baru', 'Penetapan SK standar'],
+  },
+  {
+    letter: 'P',
+    label: 'Pelaksanaan',
+    small: 'Mar–Des · seluruh unit',
+    bg: '#0A6B4F',
+    detail:
+      'Seluruh unit kerja menjalankan kegiatan akademik dan non-akademik sesuai standar yang telah ditetapkan.',
+    kegiatan: ['Implementasi di fakultas & prodi', 'Monitoring rutin', 'Pendampingan unit'],
+  },
+  {
+    letter: 'E',
+    label: 'Evaluasi',
+    small: 'Apr & Agu–Sep · monev dan AMI',
+    bg: '#8A6A10',
+    detail:
+      'Evaluasi pelaksanaan standar melalui monev internal dan Audit Mutu Internal (AMI) untuk mengukur capaian.',
+    kegiatan: ['Monev tengah tahun', 'AMI', 'Analisis temuan'],
+  },
+  {
+    letter: 'P',
+    label: 'Pengendalian',
+    small: 'Okt–Nov · RTM dan RTL',
+    bg: '#8E1B20',
+    detail:
+      'Rapat Tinjauan Manajemen (RTM) memutuskan tindakan korektif dan Rencana Tindak Lanjut (RTL) atas temuan evaluasi.',
+    kegiatan: ['RTM tingkat universitas', 'Penyusunan RTL', 'Penugasan penanggung jawab'],
+  },
+  {
+    letter: 'P',
+    label: 'Peningkatan',
+    small: 'Des · standar naik',
+    bg: '#064E3B',
+    detail:
+      'Standar dinaikkan berdasarkan hasil pengendalian agar mutu terus meningkat secara berkelanjutan.',
+    kegiatan: ['Rekomendasi peningkatan', 'Target tahun berikutnya', 'Penyusunan kalender mutu baru'],
+  },
 ]
 
-const MUTU_STATS = [
-  { eyebrow: 'AMI 2025', title: '[n] temuan', desc: '[n]% sudah ditindaklanjuti' },
-  { eyebrow: 'RTM 2025', title: '[n] keputusan', desc: 'Dilaksanakan [tanggal]' },
-  { eyebrow: 'Survei 2025', title: '[n]% puas', desc: 'Dari [n] responden' },
-]
 
 // === Dokumen SPMI ===
 const DOKUMEN_MUTU = [
@@ -216,7 +252,85 @@ const INSTITUSI_AKR = [
   { from: 2023, to: 2028, jenis: 'Akreditasi institusi', lembaga: 'BAN-PT', status: '[peringkat]' },
 ]
 
+
+function PpeppDrawer({ step, onClose }) {
+  const closeRef = useRef(null)
+
+  useEffect(() => {
+    if (!step) return
+    closeRef.current?.focus()
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [step, onClose])
+
+  if (!step) return null
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div
+        className="pd"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${step.letter} · ${step.label}`}
+      >
+        <div className="pd-head" style={{ background: step.bg }}>
+          <span className="eyebrow" style={{ color: '#f2c230' }}>
+            Siklus PPEPP
+          </span>
+          <h3>
+            {step.letter} · {step.label}
+          </h3>
+          <button
+            ref={closeRef}
+            type="button"
+            className="pd-close"
+            onClick={onClose}
+            aria-label="Tutup detail PPEPP"
+          >
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <p className="pd-bio">{step.detail}</p>
+          <p style={{ marginTop: '10px', color: 'var(--muted)', fontSize: '14px' }}>
+            {step.small}
+          </p>
+          <div className="pd-sec" style={{ marginTop: '18px' }}>
+            <h4>Kegiatan</h4>
+            <ul className="clean" style={{ display: 'grid', gap: '8px', marginTop: '8px' }}>
+              {(step.kegiatan || []).map((k) => (
+                <li
+                  key={k}
+                  style={{
+                    padding: '12px 14px',
+                    background: '#f1f7f3',
+                    borderRadius: '10px',
+                    fontWeight: 600,
+                    fontSize: '14px',
+                  }}
+                >
+                  {k}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
 export default function PenjaminanMutu() {
+  const [ppeppDetail, setPpeppDetail] = useState(null)
+
   // === Arsip form state ===
   const [akrProdi, setAkrProdi] = useState(PRODI_AKR[0].name)
   const [akrYear, setAkrYear] = useState(2015)
@@ -277,8 +391,12 @@ export default function PenjaminanMutu() {
             }}
           >
             {PPEPP_STEPS.map((s, i) => (
-              <div
+              <button
                 key={i}
+                type="button"
+                onClick={() => setPpeppDetail(s)}
+                aria-haspopup="dialog"
+                aria-label={`Detail ${s.label}`}
                 style={{
                   background: s.bg,
                   color: '#fff',
@@ -286,22 +404,15 @@ export default function PenjaminanMutu() {
                   padding: '18px 20px',
                   display: 'grid',
                   gap: '4px',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  border: '2px solid transparent',
                 }}
               >
                 <b style={{ fontSize: '28px', lineHeight: 1 }}>{s.letter}</b>
                 <span style={{ fontWeight: 800, fontSize: '16px' }}>{s.label}</span>
                 <small style={{ color: '#DCEFE5', fontSize: '13px' }}>{s.small}</small>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid g3" style={{ marginTop: '22px' }}>
-            {MUTU_STATS.map((s) => (
-              <Card key={s.eyebrow} flat>
-                <span className="eyebrow">{s.eyebrow}</span>
-                <h3 style={{ fontSize: '22px' }}>{s.title}</h3>
-                <p>{s.desc}</p>
-              </Card>
+              </button>
             ))}
           </div>
         </div>
@@ -847,6 +958,7 @@ export default function PenjaminanMutu() {
           </div>
         </div>
       </section>
+      <PpeppDrawer step={ppeppDetail} onClose={() => setPpeppDetail(null)} />
     </div>
   )
 }
