@@ -360,7 +360,7 @@ const TIMELINE = [
 
 const STATS = [
   { value: "7", label: "Fakultas" },
-  { value: "13", label: "Program studi" },
+  { value: "12", label: "Program studi" },
   { value: "[n]", label: "Mahasiswa aktif" },
   { value: "[n]", label: "Dosen tetap" },
   { value: "[n]", label: "Alumni" },
