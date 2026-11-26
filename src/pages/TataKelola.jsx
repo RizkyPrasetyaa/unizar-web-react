@@ -571,6 +571,34 @@ export default function TataKelola() {
 
   const openDoc = (key) => setActiveDoc(DOC_POPUPS[key] || null)
   const closeDoc = () => setActiveDoc(null)
+  const openPpidDoc = (d, categoryLabel) => {
+    if (d.locked) {
+      setShowLogin(true)
+      return
+    }
+    if (DOC_POPUPS[d.id]) {
+      setActiveDoc(DOC_POPUPS[d.id])
+      return
+    }
+    setActiveDoc({
+      eyebrow: `PPID · ${categoryLabel}`,
+      title: d.title,
+      docTitle: d.title,
+      meta: [
+        ['Kategori', categoryLabel],
+        ['Keterangan', d.small],
+        ['Nomor', 'SK [nomor]'],
+        ['Tanggal penetapan', '[tanggal]'],
+        ['Status', 'Berlaku'],
+        ['Akses', 'Publik'],
+      ],
+      riwayat: [
+        { label: '[v terbaru]', note: 'Berlaku sejak [tanggal]' },
+        { label: '[v sebelumnya]', note: 'Diganti setelah evaluasi dan RTM' },
+      ],
+      downloadHref: `/download/${d.id.replace(/^doc:/, '')}.pdf`,
+    })
+  }
 
   return (
     <div className="page animate-fade">
@@ -847,16 +875,46 @@ export default function TataKelola() {
                   <ul className="clean">
                     {t.docs.map((d) => (
                       <li key={d.id} className="doc">
-                        <div>
+                        <div style={{ display: 'grid', gap: '2px' }}>
                           <b>{d.title}</b>
-                          <small>{d.small}</small>
+                          <small style={{ color: 'var(--muted)', fontSize: '13px' }}>{d.small}</small>
                         </div>
                         {d.locked ? (
-                          <SmartLink to="#" className="lock">
+                          <button
+                            type="button"
+                            className="lock"
+                            onClick={() => openPpidDoc(d, t.label)}
+                            style={{
+                              background: 'transparent',
+                              border: 0,
+                              padding: 0,
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              fontWeight: 700,
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                            }}
+                          >
                             <Lock style={{ width: 14, height: 14 }} aria-hidden="true" /> {d.akses}
-                          </SmartLink>
+                          </button>
                         ) : (
-                          <SmartLink to="#">{d.akses}</SmartLink>
+                          <button
+                            type="button"
+                            onClick={() => openPpidDoc(d, t.label)}
+                            style={{
+                              background: 'transparent',
+                              border: 0,
+                              padding: 0,
+                              color: '#0a6b4f',
+                              fontWeight: 700,
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {d.akses}
+                          </button>
                         )}
                       </li>
                     ))}
@@ -869,26 +927,42 @@ export default function TataKelola() {
               <h3>Ajukan permohonan informasi</h3>
               <ol
                 className="clean steps"
-                style={{ gridTemplateColumns: 'minmax(0,1fr)', gap: '8px' }}
+                style={{ gridTemplateColumns: 'minmax(0,1fr)', gap: '10px' }}
               >
                 <li style={{ padding: '12px 14px' }}>
-                  <b>Ajukan</b>
-                  <p>Isi formulir daring</p>
+                  <div style={{ display: 'grid', gap: '2px' }}>
+                    <b>Ajukan</b>
+                    <p style={{ margin: 0, color: 'var(--muted)', fontSize: '14px' }}>
+                      Isi formulir daring
+                    </p>
+                  </div>
                 </li>
                 <li style={{ padding: '12px 14px' }}>
-                  <b>Registrasi</b>
-                  <p>Nomor permohonan dikirim ke email</p>
+                  <div style={{ display: 'grid', gap: '2px' }}>
+                    <b>Registrasi</b>
+                    <p style={{ margin: 0, color: 'var(--muted)', fontSize: '14px' }}>
+                      Nomor permohonan dikirim ke email
+                    </p>
+                  </div>
                 </li>
                 <li style={{ padding: '12px 14px' }}>
-                  <b>Jawaban</b>
-                  <p>Paling lambat 10 hari kerja</p>
+                  <div style={{ display: 'grid', gap: '2px' }}>
+                    <b>Jawaban</b>
+                    <p style={{ margin: 0, color: 'var(--muted)', fontSize: '14px' }}>
+                      Paling lambat 10 hari kerja
+                    </p>
+                  </div>
                 </li>
                 <li style={{ padding: '12px 14px' }}>
-                  <b>Keberatan</b>
-                  <p>Bila tidak puas, ajukan ke atasan PPID</p>
+                  <div style={{ display: 'grid', gap: '2px' }}>
+                    <b>Keberatan</b>
+                    <p style={{ margin: 0, color: 'var(--muted)', fontSize: '14px' }}>
+                      Bila tidak puas, ajukan ke atasan PPID
+                    </p>
+                  </div>
                 </li>
               </ol>
-              <div className="btn-row">
+              <div className="btn-row" style={{ marginTop: '16px' }}>
                 <Button variant="dark" href="#">
                   Ajukan permohonan
                 </Button>

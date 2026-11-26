@@ -558,7 +558,8 @@
     border-radius: 16px;
     padding: 18px 22px 22px;
   }
-  .vm-tabs .tabs-l {
+  .vm-tabs .tabs-l,
+  .tabs-l {
     display: inline-flex;
     flex-wrap: wrap;
     gap: 4px;
@@ -568,7 +569,8 @@
     margin-bottom: 18px;
     border-bottom: 0;
   }
-  .vm-tabs .tabs-l button {
+  .vm-tabs .tabs-l button,
+  .tabs-l button {
     border: 1px solid transparent;
     background: transparent;
     padding: 9px 16px;
@@ -580,7 +582,8 @@
     font-size: 14px;
     font-family: inherit;
   }
-  .vm-tabs .tabs-l button[aria-selected="true"] {
+  .vm-tabs .tabs-l button[aria-selected="true"],
+  .tabs-l button[aria-selected="true"] {
     background: #fff;
     color: #13231c;
     border-color: #dce6e0;
