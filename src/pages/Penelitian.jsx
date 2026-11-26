@@ -96,6 +96,36 @@ const PANDUAN_HIBAH = {
   ],
 }
 
+const PEDOMAN_PENELITIAN = {
+  title: 'Pedoman Penelitian UNIZAR',
+  eyebrow: 'Pusdatin · Publik',
+  keterangan: 'LPPM · pedoman penelitian',
+  nomor: 'SK [nomor]',
+  tanggal: '[tanggal]',
+  versi: '[v]',
+  status: 'Berlaku',
+  akses: 'Publik',
+  riwayat: [
+    { versi: '[v terbaru]', desc: 'Berlaku sejak [tanggal]' },
+    { versi: '[v sebelumnya]', desc: 'Diganti setelah evaluasi dan RTM' },
+  ],
+}
+
+const KODE_ETIK_PENELITIAN = {
+  title: 'Kode Etik Penelitian UNIZAR',
+  eyebrow: 'Pusdatin · Publik',
+  keterangan: 'LPPM · kode etik penelitian',
+  nomor: 'SK [nomor]',
+  tanggal: '[tanggal]',
+  versi: '[v]',
+  status: 'Berlaku',
+  akses: 'Publik',
+  riwayat: [
+    { versi: '[v terbaru]', desc: 'Berlaku sejak [tanggal]' },
+    { versi: '[v sebelumnya]', desc: 'Diganti setelah evaluasi dan RTM' },
+  ],
+}
+
 function DocDrawer({ doc, onClose }) {
   const closeRef = useRef(null)
   const [copied, setCopied] = useState(false)
@@ -696,24 +726,22 @@ export default function Penelitian() {
                   background: '#f1f7f3',
                   borderRadius: '14px',
                   padding: '18px 20px',
-                  display: 'grid',
-                  gap: '6px',
+                  gap: '12px',
                   counterIncrement: 'step',
                 }}
               >
-                <b style={{ color: 'var(--em-800)', fontSize: '16px' }}>
-                  <span style={{ color: 'var(--gold-ink)', marginRight: '6px' }}>{i + 1}.</span>
-                  {s.title}
-                </b>
-                <p style={{ color: 'var(--muted)', fontSize: '14px' }}>{s.desc}</p>
+                <div style={{ display: 'grid', gap: '6px' }}>
+                  <b style={{ color: 'var(--em-800)', fontSize: '16px' }}>{s.title}</b>
+                  <p style={{ color: 'var(--muted)', fontSize: '14px', margin: 0 }}>{s.desc}</p>
+                </div>
               </li>
             ))}
           </ol>
           <div className="btn-row" style={{ marginTop: '18px' }}>
-            <Button variant="line" href="#">
+            <Button variant="line" asButton onClick={() => setDocDetail(PEDOMAN_PENELITIAN)}>
               Pedoman penelitian
             </Button>
-            <Button variant="line" href="#">
+            <Button variant="line" asButton onClick={() => setDocDetail(KODE_ETIK_PENELITIAN)}>
               Kode etik penelitian
             </Button>
           </div>
