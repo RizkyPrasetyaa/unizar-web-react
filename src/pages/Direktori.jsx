@@ -172,14 +172,14 @@ const UNIT_CHIPS = [
 ];
 
 const DOSEN_ITEMS = [
-  { id: "dosen-1", name: "[Nama dosen]", jabatan: "Guru Besar", keahlian: "hukum agraria", fakultas: "Hukum" },
-  { id: "dosen-2", name: "[Nama dosen]", jabatan: "Lektor Kepala", keahlian: "ergonomi", fakultas: "Teknik" },
-  { id: "dosen-3", name: "[Nama dosen]", jabatan: "Lektor Kepala", keahlian: "agribisnis", fakultas: "Pertanian" },
-  { id: "dosen-4", name: "[Nama dosen]", jabatan: "Lektor", keahlian: "akuntansi", fakultas: "Ekonomi & Bisnis" },
-  { id: "dosen-5", name: "[Nama dosen]", jabatan: "Lektor", keahlian: "teknik sipil", fakultas: "Teknik" },
-  { id: "dosen-6", name: "[Nama dosen]", jabatan: "Lektor", keahlian: "biologi", fakultas: "MIPA" },
-  { id: "dosen-7", name: "[Nama dosen]", jabatan: "Asisten Ahli", keahlian: "ekonomi syariah", fakultas: "Agama Islam" },
-  { id: "dosen-8", name: "[Nama dosen]", jabatan: "Asisten Ahli", keahlian: "ilmu komputer", fakultas: "Teknik" },
+  { id: "dosen-1", name: "[Nama dosen]", jabatan: "Guru Besar", keilmuan: "hukum agraria", fakultas: "Hukum" },
+  { id: "dosen-2", name: "[Nama dosen]", jabatan: "Lektor Kepala", keilmuan: "ergonomi", fakultas: "Teknik" },
+  { id: "dosen-3", name: "[Nama dosen]", jabatan: "Lektor Kepala", keilmuan: "agribisnis", fakultas: "Pertanian" },
+  { id: "dosen-4", name: "[Nama dosen]", jabatan: "Lektor", keilmuan: "akuntansi", fakultas: "Ekonomi & Bisnis" },
+  { id: "dosen-5", name: "[Nama dosen]", jabatan: "Lektor", keilmuan: "teknik sipil", fakultas: "Teknik" },
+  { id: "dosen-6", name: "[Nama dosen]", jabatan: "Lektor", keilmuan: "biologi", fakultas: "MIPA" },
+  { id: "dosen-7", name: "[Nama dosen]", jabatan: "Asisten Ahli", keilmuan: "ekonomi syariah", fakultas: "Agama Islam" },
+  { id: "dosen-8", name: "[Nama dosen]", jabatan: "Asisten Ahli", keilmuan: "ilmu komputer", fakultas: "Teknik" },
 ];
 
 // Ringkasan jumlah resmi (placeholder); daftar di bawah adalah sampel untuk filter
@@ -189,6 +189,23 @@ const TENDIK_STATS = [
   { label: "Laboran/teknisi", value: "52" },
   { label: "Pranata TI", value: "18" },
   { label: "Lainnya", value: "54" },
+];
+
+// Sampel nama tendik per kategori (placeholder — ganti data resmi)
+const TENDIK_ITEMS = [
+  { id: "tendik-1", name: "[Nama tendik]", kategori: "Administrasi", unit: "Biro Akademik", jabatan: "Staff administrasi", email: "[email]@unizar.ac.id" },
+  { id: "tendik-2", name: "[Nama tendik]", kategori: "Administrasi", unit: "Biro Keuangan", jabatan: "Staff keuangan", email: "[email]@unizar.ac.id" },
+  { id: "tendik-3", name: "[Nama tendik]", kategori: "Administrasi", unit: "Biro SDM", jabatan: "Staff kepegawaian", email: "[email]@unizar.ac.id" },
+  { id: "tendik-4", name: "[Nama tendik]", kategori: "Administrasi", unit: "Fakultas Teknik", jabatan: "Staff administrasi", email: "[email]@unizar.ac.id" },
+  { id: "tendik-5", name: "[Nama tendik]", kategori: "Pustakawan", unit: "Perpustakaan", jabatan: "Pustakawan", email: "[email]@unizar.ac.id" },
+  { id: "tendik-6", name: "[Nama tendik]", kategori: "Pustakawan", unit: "Perpustakaan", jabatan: "Pustakawan madya", email: "[email]@unizar.ac.id" },
+  { id: "tendik-7", name: "[Nama tendik]", kategori: "Laboran/teknisi", unit: "Lab Kedokteran", jabatan: "Laboran", email: "[email]@unizar.ac.id" },
+  { id: "tendik-8", name: "[Nama tendik]", kategori: "Laboran/teknisi", unit: "Lab Teknik", jabatan: "Teknisi lab", email: "[email]@unizar.ac.id" },
+  { id: "tendik-9", name: "[Nama tendik]", kategori: "Laboran/teknisi", unit: "Lab MIPA", jabatan: "Laboran", email: "[email]@unizar.ac.id" },
+  { id: "tendik-10", name: "[Nama tendik]", kategori: "Pranata TI", unit: "UPT TIK", jabatan: "Pranata komputer", email: "[email]@unizar.ac.id" },
+  { id: "tendik-11", name: "[Nama tendik]", kategori: "Pranata TI", unit: "UPT TIK", jabatan: "Network engineer", email: "[email]@unizar.ac.id" },
+  { id: "tendik-12", name: "[Nama tendik]", kategori: "Lainnya", unit: "Biro Umum", jabatan: "Pengemudi", email: "[email]@unizar.ac.id" },
+  { id: "tendik-13", name: "[Nama tendik]", kategori: "Lainnya", unit: "Biro Umum", jabatan: "Petugas keamanan", email: "[email]@unizar.ac.id" },
 ];
 
 const FAKULTAS_OPTIONS = [
@@ -464,6 +481,16 @@ function DosenDrawer({ dosen, onClose }) {
             </ul>
           </div>
           <div className="pd-sec">
+            <h4>Mata kuliah</h4>
+            <ul className="clean">
+              {matkul.map((m, i) => (
+                <li key={i} className="pd-row">
+                  {m}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="pd-sec">
             <h4>Bersedia untuk</h4>
             <ul className="clean">
               {bersedia.map((b, i) => (
@@ -479,6 +506,83 @@ function DosenDrawer({ dosen, onClose }) {
   );
 }
 
+function TendikDrawer({ tendik, onClose }) {
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    if (!tendik) return;
+    closeRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [tendik, onClose]);
+
+  if (!tendik) return null;
+
+  return (
+    <>
+      <div className="pd-backdrop" onClick={onClose} aria-hidden="true" />
+      <div
+        className="pd"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Profil tendik ${tendik.name}`}
+      >
+        <div className="pd-head">
+          <span className="eyebrow">Dosen &amp; tendik</span>
+          <h3>{tendik.name}</h3>
+          <button
+            ref={closeRef}
+            type="button"
+            className="pd-close"
+            onClick={onClose}
+            aria-label="Tutup profil tendik"
+          >
+            <X size={18} strokeWidth={2.2} />
+          </button>
+        </div>
+        <div className="pd-body">
+          <PhotoSlot
+            caption="Foto: foto profil"
+            aria-label="Tempat foto: foto profil tendik"
+            style={{ height: "210px" }}
+          />
+          <dl className="pd-meta">
+            <div>
+              <dt>Kategori</dt>
+              <dd>{tendik.kategori}</dd>
+            </div>
+            <div>
+              <dt>Jabatan</dt>
+              <dd>{tendik.jabatan}</dd>
+            </div>
+            <div>
+              <dt>Unit kerja</dt>
+              <dd>{tendik.unit}</dd>
+            </div>
+            <div>
+              <dt>Email</dt>
+              <dd>{tendik.email}</dd>
+            </div>
+          </dl>
+          <div className="btn-row" style={{ marginTop: "18px" }}>
+            <Button variant="dark" href={`mailto:${tendik.email}`}>
+              Hubungi
+            </Button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+
 export default function Direktori() {
   const [unitQuery, setUnitQuery] = useState("");
   const [unitKind, setUnitKind] = useState("all");
@@ -488,6 +592,9 @@ export default function Direktori() {
   const [dosenQuery, setDosenQuery] = useState("");
   const [dosenFakultas, setDosenFakultas] = useState("Semua fakultas");
   const [dosenDetail, setDosenDetail] = useState(null);
+
+  const [tendikKategori, setTendikKategori] = useState(null);
+  const [tendikDetail, setTendikDetail] = useState(null);
 const filteredUnits = useMemo(() => {
     const q = unitQuery.trim().toLowerCase();
     return UNIT_ITEMS.filter((u) => {
@@ -508,12 +615,17 @@ const filteredUnits = useMemo(() => {
         !q ||
         d.name.toLowerCase().includes(q) ||
         d.jabatan.toLowerCase().includes(q) ||
-        d.keahlian.toLowerCase().includes(q);
+        d.keilmuan.toLowerCase().includes(q);
       const matchFak =
         dosenFakultas === "Semua fakultas" || d.fakultas === dosenFakultas;
       return matchText && matchFak;
     });
   }, [dosenQuery, dosenFakultas]);
+
+  const filteredTendik = useMemo(() => {
+    if (!tendikKategori) return [];
+    return TENDIK_ITEMS.filter((t) => t.kategori === tendikKategori);
+  }, [tendikKategori]);
 return (
     <div className="page animate-fade">
       <PageHero
@@ -623,7 +735,7 @@ return (
               <span className="eyebrow">Dosen &amp; tendik</span>
               <h2>Cari dosen dan tenaga kependidikan</h2>
               <p>
-                Profil publik memuat jabatan, bidang keahlian, dan unit kerja.
+                Profil publik memuat jabatan, bidang keilmuan, dan unit kerja.
                 Data pribadi tidak ditampilkan.
               </p>
             </div>
@@ -634,7 +746,7 @@ return (
             <div style={{ marginBottom: "16px" }}>
               <span className="eyebrow">Dosen</span>
               <h3 style={{ fontSize: "20px", marginTop: "4px" }}>
-                Dosen
+                Dosen &amp; kepakaran
               </h3>
             </div>
 
@@ -691,7 +803,7 @@ return (
                     <div>
                       <b style={{ fontSize: "14.5px" }}>{d.name}</b>
                       <p style={{ fontSize: "13px" }}>
-                        {d.jabatan} · {d.keahlian}
+                        {d.jabatan} · {d.keilmuan}
                       </p>
                     </div>
                   </button>
@@ -714,7 +826,7 @@ return (
                 Tenaga kependidikan
               </h3>
               <p className="muted" style={{ marginTop: "4px" }}>
-                Ringkasan jumlah tendik per kategori  jabatan.
+                Ringkasan jumlah tendik per kategori jabatan.
               </p>
             </div>
 
@@ -726,31 +838,116 @@ return (
                 gap: "12px",
               }}
             >
-              {TENDIK_STATS.map((t) => (
-                <Card
-                  key={t.label}
-                  flat
-                  style={{ textAlign: "left", padding: "18px 20px" }}
-                >
-                  <span
-                    className="eyebrow"
-                    style={{ display: "block", marginBottom: "10px" }}
-                  >
-                    {t.label}
-                  </span>
-                  <b
+              {TENDIK_STATS.map((t) => {
+                const active = tendikKategori === t.label;
+                return (
+                  <button
+                    key={t.label}
+                    type="button"
+                    onClick={() =>
+                      setTendikKategori(active ? null : t.label)
+                    }
+                    aria-pressed={active}
                     style={{
-                      fontSize: "32px",
-                      lineHeight: 1.1,
-                      color: "var(--em-700)",
-                      
+                      textAlign: "left",
+                      padding: "18px 20px",
+                      borderRadius: "14px",
+                      border: active
+                        ? "2px solid var(--em-700)"
+                        : "1px solid var(--line)",
+                      background: active ? "#f1f7f3" : "#fff",
+                      cursor: "pointer",
+                      boxShadow: active
+                        ? "0 0 0 3px rgba(10,107,79,0.15)"
+                        : "none",
                     }}
                   >
-                    {t.value}
-                  </b>
-                </Card>
-              ))}
+                    <span
+                      className="eyebrow"
+                      style={{ display: "block", marginBottom: "10px" }}
+                    >
+                      {t.label}
+                    </span>
+                    <b
+                      style={{
+                        fontSize: "32px",
+                        lineHeight: 1.1,
+                        color: "var(--em-700)",
+                      }}
+                    >
+                      {t.value}
+                    </b>
+                  </button>
+                );
+              })}
             </div>
+
+            {tendikKategori && (
+              <div style={{ marginTop: "20px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "12px",
+                    marginBottom: "12px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <h4 style={{ margin: 0, fontSize: "17px" }}>
+                    {tendikKategori}{" "}
+                    <span style={{ color: "var(--muted)", fontWeight: 500 }}>
+                      ({filteredTendik.length} nama sampel)
+                    </span>
+                  </h4>
+                  <button
+                    type="button"
+                    onClick={() => setTendikKategori(null)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "var(--em-700)",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Tutup daftar
+                  </button>
+                </div>
+                <div className="grid g2" style={{ gap: "12px" }}>
+                  {filteredTendik.length === 0 ? (
+                    <p className="muted">Belum ada data untuk kategori ini.</p>
+                  ) : (
+                    filteredTendik.map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        className="card"
+                        style={{
+                          textAlign: "left",
+                          cursor: "pointer",
+                          width: "100%",
+                          border: "1px solid var(--line)",
+                          background: "#fff",
+                          padding: "16px 18px",
+                        }}
+                        onClick={() => setTendikDetail(t)}
+                        aria-haspopup="dialog"
+                        aria-label={`Profil ${t.name}`}
+                      >
+                        <b style={{ display: "block", marginBottom: "4px" }}>
+                          {t.name}
+                        </b>
+                        <span style={{ color: "var(--muted)", fontSize: "14px" }}>
+                          {t.jabatan} · {t.unit}
+                        </span>
+                      </button>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -820,6 +1017,7 @@ return (
       <UnitDrawer unit={unitDetail} onClose={() => setUnitDetail(null)} />
       <WebsiteDrawer unit={webUnit} onClose={() => setWebUnit(null)} />
       <DosenDrawer dosen={dosenDetail} onClose={() => setDosenDetail(null)} />
+      <TendikDrawer tendik={tendikDetail} onClose={() => setTendikDetail(null)} />
     </div>
   );
 }
