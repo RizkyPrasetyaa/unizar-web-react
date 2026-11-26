@@ -151,11 +151,62 @@ const DOC_POPUPS = {
     ],
     description: '[Tugas dan fungsi unit sesuai Statuta dan OTK.]',
     listTitle: 'Layanan utama',
-    listItems: [
-      '[Layanan 1]',
-      '[Layanan 2]',
-      '[Layanan 3]',
+    listItems: ['[Layanan 1]', '[Layanan 2]', '[Layanan 3]'],
+  },
+  /* ─── Pengawasan Internal ─── */
+  spi: {
+    type: 'unit',
+    eyebrow: 'Direktori · Badan',
+    title: 'Satuan Pengawasan Internal',
+    photoCaption: 'Foto: kantor Satuan Pengawasan Internal',
+    photoVariant: 'default',
+    meta: [
+      ['Email', '[email]'],
+      ['Lokasi', '[lokasi]'],
+      ['Jam layanan', 'Senin–Jumat, 08.00–16.00 WITA'],
+      ['Kepala unit', '[Nama]'],
     ],
+    description: '[Tugas dan fungsi unit sesuai Statuta dan OTK.]',
+    listTitle: 'Layanan utama',
+    listItems: ['[Layanan 1]', '[Layanan 2]', '[Layanan 3]'],
+  },
+  'pedoman-risiko': {
+    type: 'dokumen',
+    eyebrow: 'Pusdatin · Publik',
+    title: 'Pedoman Tata Kelola Berbasis Risiko',
+    docTitle: 'Pedoman Tata Kelola Berbasis Risiko',
+    meta: [
+      ['Keterangan', 'Rektor · SK [nomor] · SNI ISO 31000:2018'],
+      ['Nomor', 'SK [nomor]'],
+      ['Tanggal penetapan', '[tanggal]'],
+      ['Versi', '[V]'],
+      ['Status', 'Berlaku'],
+      ['Akses', 'Publik'],
+    ],
+    riwayat: [
+      { label: '[v terbaru]', note: 'Berlaku sejak [tanggal]' },
+      { label: '[v sebelumnya]', note: 'Diganti setelah evaluasi dan RTM' },
+    ],
+    downloadHref: '/download/pedoman-tata-kelola-berbasis-risiko.pdf',
+  },
+  'wbk-wbbm': {
+    type: 'dokumen',
+    eyebrow: 'Pusdatin · Publik',
+    title: 'Program Zona Integritas WBK/WBBM',
+    docTitle: 'Program Zona Integritas WBK/WBBM',
+    meta: [
+      ['Keterangan', 'Rencana dan capaian'],
+      ['Nomor', 'SK [nomor]'],
+      ['Tanggal penetapan', '[tanggal]'],
+      ['Versi', '[V]'],
+      ['Status', 'Berlaku'],
+      ['Akses', 'Publik'],
+    ],
+    riwayat: [
+      { label: '[v terbaru]', note: 'Berlaku sejak [tanggal]' },
+      { label: '[v sebelumnya]', note: 'Diganti setelah evaluasi dan RTM' },
+    ],
+    downloadHref: '/download/program-zona-integritas-wbk-wbbm.pdf',
   },
 }
 
@@ -365,8 +416,12 @@ function LoginPopup({ onClose }) {
                   outline: 'none',
                   transition: 'border-color 0.15s',
                 }}
-                onFocus={(e) => { e.target.style.borderColor = '#0a6b4f' }}
-                onBlur={(e) => { e.target.style.borderColor = 'var(--line)' }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#0a6b4f'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'var(--line)'
+                }}
               />
             </div>
             <div>
@@ -392,8 +447,12 @@ function LoginPopup({ onClose }) {
                   outline: 'none',
                   transition: 'border-color 0.15s',
                 }}
-                onFocus={(e) => { e.target.style.borderColor = '#0a6b4f' }}
-                onBlur={(e) => { e.target.style.borderColor = 'var(--line)' }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#0a6b4f'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'var(--line)'
+                }}
               />
             </div>
           </div>
@@ -412,7 +471,9 @@ function LoginPopup({ onClose }) {
 
           <p style={{ color: 'var(--muted)', fontSize: '13px', textAlign: 'center' }}>
             Lupa kata sandi?{' '}
-            <a href="#" style={{ fontWeight: 700 }}>Hubungi administrator</a>
+            <a href="#" style={{ fontWeight: 700 }}>
+              Hubungi administrator
+            </a>
           </p>
         </div>
       </aside>
@@ -420,7 +481,7 @@ function LoginPopup({ onClose }) {
   )
 }
 
-/* ─── DocPopup — popup detail dokumen (laporan tahunan / ikhtisar) ─── */
+/* ─── DocPopup — popup detail dokumen / unit ─── */
 function DocPopup({ data, onClose }) {
   const closeRef = useRef(null)
 
@@ -490,7 +551,6 @@ function DocPopup({ data, onClose }) {
             </>
           ) : (
             <>
-              {/* Layout: doc preview + metadata side by side */}
               <div
                 style={{
                   display: 'grid',
@@ -512,7 +572,6 @@ function DocPopup({ data, onClose }) {
                 </div>
               </div>
 
-              {/* Riwayat versi */}
               {data.riwayat && data.riwayat.length > 0 && (
                 <div className="pop-list">
                   <b>Riwayat versi</b>
@@ -530,7 +589,19 @@ function DocPopup({ data, onClose }) {
           )}
         </div>
 
-        {!isUnit && (
+        {isUnit ? (
+          <footer className="pop-ft">
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <a
+                href={`mailto:${(data.meta.find((m) => m[0] === 'Email') || ['', '#'])[1]}`}
+                className="btn btn-dark"
+                style={{ flex: 1, justifyContent: 'center' }}
+              >
+                Hubungi unit
+              </a>
+            </div>
+          </footer>
+        ) : (
           <footer className="pop-ft">
             <div style={{ display: 'flex', gap: '10px' }}>
               <a
@@ -708,9 +779,7 @@ export default function TataKelola() {
             <div>
               <span className="eyebrow">JDIH UNIZAR</span>
               <p style={{ marginTop: '4px' }}>
-                <b style={{ color: 'var(--ink)' }}>
-                  Jaringan Dokumentasi dan Informasi Hukum.
-                </b>{' '}
+                <b style={{ color: 'var(--ink)' }}>Jaringan Dokumentasi dan Informasi Hukum.</b>{' '}
                 Statuta, peraturan rektor, keputusan, dan produk hukum lain dikelola di website
                 JDIH.
               </p>
@@ -807,13 +876,21 @@ export default function TataKelola() {
           </div>
 
           <div className="grid g3">
-            <Card to="#">
+            <Card
+              className="card-link"
+              style={{ cursor: 'pointer' }}
+              onClick={() => openDoc('spi')}
+            >
               <Pill>SPI</Pill>
               <h3>Satuan Pengawasan Internal</h3>
               <p>Audit internal non-akademik, konsultasi, dan pendampingan unit kerja.</p>
               <span className="more">Selengkapnya →</span>
             </Card>
-            <Card to="#">
+            <Card
+              className="card-link"
+              style={{ cursor: 'pointer' }}
+              onClick={() => openDoc('pedoman-risiko')}
+            >
               <Pill>Pedoman</Pill>
               <h3>Manajemen risiko</h3>
               <p>
@@ -822,7 +899,11 @@ export default function TataKelola() {
               </p>
               <span className="more">Selengkapnya →</span>
             </Card>
-            <Card to="#">
+            <Card
+              className="card-link"
+              style={{ cursor: 'pointer' }}
+              onClick={() => openDoc('wbk-wbbm')}
+            >
               <Pill>WBK/WBBM</Pill>
               <h3>Zona integritas</h3>
               <p>
@@ -866,12 +947,7 @@ export default function TataKelola() {
               </div>
 
               {PPID_TABS.map((t, i) => (
-                <div
-                  key={t.key}
-                  role="tabpanel"
-                  hidden={i !== tab}
-                  style={{ marginTop: '12px' }}
-                >
+                <div key={t.key} role="tabpanel" hidden={i !== tab} style={{ marginTop: '12px' }}>
                   <ul className="clean">
                     {t.docs.map((d) => (
                       <li key={d.id} className="doc">
@@ -978,10 +1054,7 @@ export default function TataKelola() {
         </div>
       </section>
 
-      {/* === Popup dokumen === */}
       {activeDoc && <DocPopup data={activeDoc} onClose={closeDoc} />}
-
-      {/* === Popup login untuk dokumen lengkap === */}
       {showLogin && <LoginPopup onClose={() => setShowLogin(false)} />}
     </div>
   )
